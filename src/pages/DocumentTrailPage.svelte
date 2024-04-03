@@ -58,6 +58,14 @@
 <Page>
   <Breadcrumb items={breadCrumbItems} />
   <br>
+  <h4 class="text-gray-400 text-start">
+    Category : 
+    {#if _document}
+      {_document.category}
+    {:else}
+      Loading...
+    {/if}
+  </h4>
   <Heading tag="h2" class="text-left">
     {#if _document}
       {_document.name}
