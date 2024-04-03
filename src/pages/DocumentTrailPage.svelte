@@ -72,9 +72,9 @@
     {:else}
       Loading...
     {/if}
-    <Button on:click={() => (addItem = true)} class="float-right"
-      >Add trail</Button
-    >
+    <Button on:click={() => (addItem = true)} class="float-right">
+      Add trail
+    </Button>
   </Heading>
   <Hr />
   <div class="mb-4">
