@@ -1,7 +1,7 @@
 <script>
   import { Button, Modal, Label, Input, Spinner, Alert } from "flowbite-svelte";
   import { createEventDispatcher } from "svelte";
-  import RecipientService from "../services/RecipientService";
+  import RecipientService from "../../services/RecipientService";
   import {
     ExclamationCircleSolid,
     InfoCircleSolid,

@@ -1,15 +1,14 @@
 <script>
   import { Heading, Button, Spinner, Alert } from "flowbite-svelte";
-  import Page from "../components/Page.svelte";
-  import RecipientsTable from "../components/RecipientsTable.svelte";
-  import RecipientsForm from "../components/RecipientsForm.svelte";
-  import ConfirmModal from "../components/ConfirmModal.svelte";
-  import RecipientService from "../services/RecipientService";
+  import Page from "../Page.svelte";
+  import SemestersTable from "./SemestersTable.svelte";
+  import SemestersForm from "./SemestersForm.svelte";
+  import ConfirmModal from "../ConfirmModal.svelte";
+  import SemesterService from "../../services/SemesterService";
   import { ExclamationCircleSolid } from "flowbite-svelte-icons";
-  import Breadcrumb from "../components/Breadcrumb.svelte";
-  import { onMount } from "svelte";
+  import Breadcrumb from "../Breadcrumb.svelte";
 
-  let service = new RecipientService();
+  let service = new SemesterService();
   let hasUpdate = Date.now();
   let addItem = false;
   let deleteItem = false;
@@ -17,8 +16,8 @@
   let asyncDelete = null;
   let breadCrumbItems = [
     {
-      href: "#/recipients",
-      label: "Recipients",
+      href: "#/scheduler",
+      label: "Scheduler",
     },
   ];
 
@@ -40,17 +39,13 @@
   const handleEdit = (item) => {
     editItem = item;
   };
-
-  onMount(async () => {
-
-  });
 </script>
 
 <Page>
   <Breadcrumb items={breadCrumbItems} />
-  <br>
+  <br />
   <Heading tag="h2" class="text-left">
-    All recipients
+    Select Semester
     <Button on:click={() => (addItem = true)} class="float-right"
       >Add new</Button
     >
@@ -61,12 +56,12 @@
       {#await asyncDelete}
         <p>
           <Spinner />
-          Deleting recipient...
+          Deleting document...
         </p>
       {:then}
         <Alert color="green" class="m-0" dismissable>
           <ExclamationCircleSolid slot="icon" class="w-4 h-4" />
-          Successfully deleted the recipient
+          Successfully deleted the semester
         </Alert>
       {:catch error}
         <Alert color="red" class="m-0" dismissable>
@@ -76,14 +71,14 @@
       {/await}
     {/if}
   </div>
-  <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left px-5">
-    <RecipientsTable
+  <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left">
+    <SemestersTable
       {hasUpdate}
       on:edit={({ detail: item }) => handleEdit(item)}
       on:delete={({ detail: item }) => confirmDelete(item)}
     />
   </div>
-  <RecipientsForm
+  <SemestersForm
     open={addItem || editItem}
     item={editItem ? editItem : null}
     on:update={() => (hasUpdate = Date.now())}
@@ -95,7 +90,7 @@
   <ConfirmModal
     on:continue={handleDelete}
     on:cancel={() => (deleteItem = false)}
-    message="Delete this recipient now?"
+    message="Delete this semester now?"
     open={deleteItem}
   />
 </Page>

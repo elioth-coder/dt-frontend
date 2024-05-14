@@ -1,14 +1,14 @@
 <script>
   import { Heading, Button, Spinner, Alert } from "flowbite-svelte";
-  import Page from "../components/Page.svelte";
-  import DocumentsTable from "../components/DocumentsTable.svelte";
-  import DocumentsForm from "../components/DocumentsForm.svelte";
-  import ConfirmModal from "../components/ConfirmModal.svelte";
-  import DocumentService from "../services/DocumentService";
+  import Page from "../Page.svelte";
+  import LocationsTable from "./LocationsTable.svelte";
+  import LocationsForm from "./LocationsForm.svelte";
+  import ConfirmModal from "../ConfirmModal.svelte";
+  import LocationService from "../../services/LocationService";
   import { ExclamationCircleSolid } from "flowbite-svelte-icons";
-  import Breadcrumb from "../components/Breadcrumb.svelte";
+  import Breadcrumb from "../Breadcrumb.svelte";
 
-  let service = new DocumentService();
+  let service = new LocationService();
   let hasUpdate = Date.now();
   let addItem = false;
   let deleteItem = false;
@@ -16,8 +16,12 @@
   let asyncDelete = null;
   let breadCrumbItems = [
     {
-      href: '#/documents',
-      label: 'Documents'
+      href: "#/records",
+      label: "Records",
+    },
+    {
+      href: '#/records/locations',
+      label: 'Locations'
     }
   ];
 
@@ -28,6 +32,7 @@
   const handleDelete = async () => {
     // @ts-ignore
     let { id } = deleteItem;
+    console.log(id);
     asyncDelete = service.delete(id);
 
     try {
@@ -45,7 +50,7 @@
   <Breadcrumb items={breadCrumbItems} />
   <br>
   <Heading tag="h2" class="text-left">
-    All documents
+    All locations
     <Button on:click={() => (addItem = true)} class="float-right"
       >Add new</Button
     >
@@ -56,12 +61,12 @@
       {#await asyncDelete}
         <p>
           <Spinner />
-          Deleting document...
+          Deleting location...
         </p>
       {:then}
         <Alert color="green" class="m-0" dismissable>
           <ExclamationCircleSolid slot="icon" class="w-4 h-4" />
-          Successfully deleted the document
+          Successfully deleted the location
         </Alert>
       {:catch error}
         <Alert color="red" class="m-0" dismissable>
@@ -71,14 +76,14 @@
       {/await}
     {/if}
   </div>
-  <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left px-5">
-    <DocumentsTable
+  <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left">
+    <LocationsTable
       {hasUpdate}
       on:edit={({ detail: item }) => handleEdit(item)}
       on:delete={({ detail: item }) => confirmDelete(item)}
     />
   </div>
-  <DocumentsForm
+  <LocationsForm
     open={addItem || editItem}
     item={(editItem) ? editItem : null}
     on:update={() => (hasUpdate = Date.now())}
@@ -90,7 +95,7 @@
   <ConfirmModal
     on:continue={handleDelete}
     on:cancel={() => (deleteItem = false)}
-    message="Delete this document now?"
+    message="Delete this location now?"
     open={deleteItem}
   />
 </Page>

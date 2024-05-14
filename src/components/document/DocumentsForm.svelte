@@ -1,37 +1,20 @@
 <script>
-  import {
-    Button,
-    Modal,
-    Label,
-    Input,
-    Spinner,
-    Alert,
-  } from "flowbite-svelte";
+  import { Button, Modal, Label, Input, Spinner, Alert } from "flowbite-svelte";
   import { createEventDispatcher } from "svelte";
-  import LocationService from "../services/LocationService";
-  import { ExclamationCircleSolid, InfoCircleSolid } from "flowbite-svelte-icons";
+  import DocumentService from "../../services/DocumentService";
+  import {
+    ExclamationCircleSolid,
+    InfoCircleSolid,
+  } from "flowbite-svelte-icons";
   export let open;
   export let item = null;
 
-  let { HOST_URL } = CONFIG;
   const dispatch = createEventDispatcher();
-  let photoSrc = "";
   let processing = false;
   let message = null;
-  let service = new LocationService();
-
-  const handlePhotoChange = (e) => {
-    let files = e.target.files;
-
-    if (files.length) {
-      photoSrc = URL.createObjectURL(files[0]);
-    } else {
-      photoSrc = "";
-    }
-  };
+  let service = new DocumentService();
 
   const handleClose = () => {
-    photoSrc = "";
     message = null;
     dispatch("cancel");
   };
@@ -42,17 +25,17 @@
     let formData = new FormData(form);
 
     try {
-      if(formData.get('id')) {
+      if (formData.get("id")) {
         await service.update(formData);
         message = {
           type: "success",
-          text: "Successfully updated location",
+          text: "Successfully updated document",
         };
       } else {
         await service.add(formData);
         message = {
           type: "success",
-          text: "Successfully added location",
+          text: "Successfully added document",
         };
       }
 
@@ -71,21 +54,15 @@
     }
   };
 
-  $: item, (() => {
-    if(item) {
-      photoSrc = `${HOST_URL}/uploads/${item.photo}`;
-    }
-  })()
-
   const closeAlert = () => {
     message = null;
   };
 </script>
 
 <Modal
-  bind:open={open}
-  size="xs" 
-  title="LOCATION"
+  bind:open
+  size="xs"
+  title="DOCUMENT"
   placement="top-center"
   dismissable={false}
   autoclose={false}
@@ -94,42 +71,36 @@
 >
   <form
     on:submit|preventDefault={handleSubmit}
-    class="flex flex-col space-y-6 text-left"
+    class="flex flex-col text-left"
     action="#"
   >
     {#if item}
       <input type="hidden" name="id" value={item.id} />
     {/if}
     <input type="submit" id="submit" class="hidden" />
-    {#if photoSrc}
-      <!-- svelte-ignore a11y-img-redundant-alt -->
-      <img
-        class="mx-auto h-32"
-        src={photoSrc}
-        alt="Location photo"
-      />
-    {/if}
-    <Label class="space-y-2">
-      <span>Photo</span>
-      <Input
-        disabled={processing}
-        type="file"
-        name="photo"
-        id="photo"
-        on:change={handlePhotoChange}
-      />
-    </Label>
-    <Label class="space-y-2">
+    <Label class="space-y-2 mb-2">
       <span>Name</span>
       <Input
         disabled={processing}
         type="text"
         name="name"
-        value={item?.name ?? ''}
-        placeholder="Enter location name"
+        value={item?.name ?? ""}
+        placeholder="Enter document name"
         required
       />
     </Label>
+    <Label class="space-y-2">
+      <span>Category</span>
+      <Input
+        disabled={processing}
+        type="text"
+        name="category"
+        value={item?.category ?? ""}
+        placeholder="Enter document category"
+        required
+      />
+    </Label>
+    <br>
     <div>
       <Button
         disabled={processing}

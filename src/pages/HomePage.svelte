@@ -8,12 +8,7 @@
   import DocumentService from "../services/DocumentService";
 
   let locationCount = 0 , recipientCount = 0, documentCount = 0;
-  let breadCrumbItems = [
-    {
-      href: '#/',
-      label: 'Dashboard'
-    }
-  ];
+  let breadCrumbItems = [];
 
   onMount(async () => {
     let locationService  = new LocationService();

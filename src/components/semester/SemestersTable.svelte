@@ -9,19 +9,19 @@
     TableHeadCell,
     TableSearch,
   } from "flowbite-svelte";
-  import DocumentService from "../services/DocumentService";
+  import SemesterService from "../../services/SemesterService";
   import { TrashBinSolid, PenSolid, OrdoredListSolid } from "flowbite-svelte-icons";
   import { createEventDispatcher } from "svelte";
   export let hasUpdate;
 
   const dispatch = createEventDispatcher();
-  let service = new DocumentService();
+  let service = new SemesterService();
   let searchTerm = "";
   let items = [];
   let asyncItems;
 
   $: filteredItems = items.filter((item) => {
-    return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+    return item.academic_year.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
   });
 
   $: hasUpdate,
@@ -36,13 +36,13 @@
 </script>
 
 <TableSearch
-  placeholder="Search by name"
+  placeholder="Search by academic year"
   hoverable={true}
   bind:inputValue={searchTerm}
 >
   <TableHead>
-    <TableHeadCell>Name</TableHeadCell>
-    <TableHeadCell>Category</TableHeadCell>
+    <TableHeadCell>Semester</TableHeadCell>
+    <TableHeadCell class="text-center">Academic Year</TableHeadCell>
     <TableHeadCell class="text-center">Action</TableHeadCell>
   </TableHead>
   <TableBody>
@@ -63,13 +63,13 @@
     {#if filteredItems}
       {#each filteredItems as item}
         <TableBodyRow>
-          <TableBodyCell>{item.name}</TableBodyCell>
-          <TableBodyCell>{item.category}</TableBodyCell>
+          <TableBodyCell>{item.semester} Semester</TableBodyCell>
+          <TableBodyCell class="text-center">A.Y. {item.academic_year}</TableBodyCell>
           <TableBodyCell class="text-center">
             <Button
-              href="#/documents/{item.id}"
+              href="#/scheduler/{item.id}"
               class="!p-2 bg-yellow-500"
-              title="Track"
+              title="Schedule teachers"
             >
               <OrdoredListSolid class="w-5 h-5" />
             </Button>
@@ -91,7 +91,7 @@
         </TableBodyRow>
       {:else}
         <TableBodyRow>
-          <TableBodyCell colspan={4} class="text-center">
+          <TableBodyCell colspan={3} class="text-center">
             No items found.
           </TableBodyCell>
         </TableBodyRow>

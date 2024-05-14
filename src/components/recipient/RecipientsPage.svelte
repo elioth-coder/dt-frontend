@@ -1,14 +1,15 @@
 <script>
   import { Heading, Button, Spinner, Alert } from "flowbite-svelte";
-  import Page from "../components/Page.svelte";
-  import LocationsTable from "../components/LocationsTable.svelte";
-  import LocationsForm from "../components/LocationsForm.svelte";
-  import ConfirmModal from "../components/ConfirmModal.svelte";
-  import LocationService from "../services/LocationService";
+  import Page from "../Page.svelte";
+  import RecipientsTable from "./RecipientsTable.svelte";
+  import RecipientsForm from "./RecipientsForm.svelte";
+  import ConfirmModal from "../ConfirmModal.svelte";
+  import RecipientService from "../../services/RecipientService";
   import { ExclamationCircleSolid } from "flowbite-svelte-icons";
-  import Breadcrumb from "../components/Breadcrumb.svelte";
+  import Breadcrumb from "../Breadcrumb.svelte";
+  import { onMount } from "svelte";
 
-  let service = new LocationService();
+  let service = new RecipientService();
   let hasUpdate = Date.now();
   let addItem = false;
   let deleteItem = false;
@@ -16,9 +17,13 @@
   let asyncDelete = null;
   let breadCrumbItems = [
     {
-      href: '#/locations',
-      label: 'Locations'
-    }
+      href: "#/records",
+      label: "Records",
+    },
+    {
+      href: "#/records/recipients",
+      label: "Recipients",
+    },
   ];
 
   const confirmDelete = (item) => {
@@ -28,25 +33,28 @@
   const handleDelete = async () => {
     // @ts-ignore
     let { id } = deleteItem;
-    console.log(id);
     asyncDelete = service.delete(id);
 
     try {
       await asyncDelete;
       hasUpdate = Date.now();
-    } catch(e) {}
+    } catch (e) {}
   };
 
   const handleEdit = (item) => {
     editItem = item;
-  }
+  };
+
+  onMount(async () => {
+
+  });
 </script>
 
 <Page>
   <Breadcrumb items={breadCrumbItems} />
   <br>
   <Heading tag="h2" class="text-left">
-    All locations
+    All recipients
     <Button on:click={() => (addItem = true)} class="float-right"
       >Add new</Button
     >
@@ -57,12 +65,12 @@
       {#await asyncDelete}
         <p>
           <Spinner />
-          Deleting location...
+          Deleting recipient...
         </p>
       {:then}
         <Alert color="green" class="m-0" dismissable>
           <ExclamationCircleSolid slot="icon" class="w-4 h-4" />
-          Successfully deleted the location
+          Successfully deleted the recipient
         </Alert>
       {:catch error}
         <Alert color="red" class="m-0" dismissable>
@@ -72,16 +80,16 @@
       {/await}
     {/if}
   </div>
-  <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left px-5">
-    <LocationsTable
+  <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left">
+    <RecipientsTable
       {hasUpdate}
       on:edit={({ detail: item }) => handleEdit(item)}
       on:delete={({ detail: item }) => confirmDelete(item)}
     />
   </div>
-  <LocationsForm
+  <RecipientsForm
     open={addItem || editItem}
-    item={(editItem) ? editItem : null}
+    item={editItem ? editItem : null}
     on:update={() => (hasUpdate = Date.now())}
     on:cancel={() => {
       addItem = false;
@@ -91,7 +99,7 @@
   <ConfirmModal
     on:continue={handleDelete}
     on:cancel={() => (deleteItem = false)}
-    message="Delete this location now?"
+    message="Delete this recipient now?"
     open={deleteItem}
   />
 </Page>

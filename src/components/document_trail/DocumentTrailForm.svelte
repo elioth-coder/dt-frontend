@@ -5,10 +5,10 @@
     ExclamationCircleSolid,
     InfoCircleSolid,
   } from "flowbite-svelte-icons";
-  import DropdownSearch from "./DropdownSearch.svelte";
-  import DocumentTrailService from "../services/DocumentTrailService";
-  import LocationService from "../services/LocationService";
-  import RecipientService from "../services/RecipientService";
+  import DropdownSearch from "../DropdownSearch.svelte";
+  import DocumentTrailService from "../../services/DocumentTrailService";
+  import LocationService from "../../services/LocationService";
+  import RecipientService from "../../services/RecipientService";
   export let open;
   export let item = null;
   export let _document;
@@ -119,27 +119,32 @@
     {/if}
     <input type="hidden" name="document_id" value={_document.id} />
     <input type="submit" id="submit" class="hidden" />
-    <Label class="space-y-3">
-      <span>Location</span>
-      <DropdownSearch
-        required={true}
-        value={location_id ?? ""}
-        name="location_id"
-        placeholder="Select location"
-        options={location_options.length ? location_options : []}
-      />
-    </Label>
-    <br>
-    <Label class="space-y-3">
-      <span>Recipient</span>
-      <DropdownSearch
-        required={true}
-        value={recipient_id ?? ""}
-        name="recipient_id"
-        placeholder="Select recipient"
-        options={recipient_options.length ? recipient_options : []}
-      />
-    </Label>
+    <section class="flex">
+      <div class="w-full me-1">
+        <Label class="space-y-3">
+          <span>Location</span>
+          <DropdownSearch
+            required={true}
+            value={location_id ?? ""}
+            name="location_id"
+            placeholder="Select location"
+            options={location_options.length ? location_options : []}
+          />
+        </Label>    
+      </div>
+      <div class="w-full ms-1">
+        <Label class="space-y-3">
+          <span>Recipient</span>
+          <DropdownSearch
+            required={true}
+            value={recipient_id ?? ""}
+            name="recipient_id"
+            placeholder="Select recipient"
+            options={recipient_options.length ? recipient_options : []}
+          />
+        </Label>    
+      </div>
+    </section>
     <br>
     <Label class="space-y-3">
       <span>Remarks</span>

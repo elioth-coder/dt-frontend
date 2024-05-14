@@ -1,14 +1,14 @@
 <script>
   import { Heading, Button, Spinner, Alert, Hr } from "flowbite-svelte";
-  import Page from "../components/Page.svelte";
-  import ConfirmModal from "../components/ConfirmModal.svelte";
-  import DocumentService from "../services/DocumentService";
-  import DocumentTrailService from "../services/DocumentTrailService";
+  import Page from "../Page.svelte";
+  import ConfirmModal from "../ConfirmModal.svelte";
+  import DocumentService from "../../services/DocumentService";
+  import DocumentTrailService from "../../services/DocumentTrailService";
   import { ExclamationCircleSolid } from "flowbite-svelte-icons";
-  import DocumentTrailTable from "../components/DocumentTrailTable.svelte";
+  import DocumentTrailTable from "./DocumentTrailTable.svelte";
   import { onMount } from "svelte";
-  import DocumentTrailForm from "../components/DocumentTrailForm.svelte";
-  import Breadcrumb from "../components/Breadcrumb.svelte";
+  import DocumentTrailForm from "./DocumentTrailForm.svelte";
+  import Breadcrumb from "../Breadcrumb.svelte";
   export let params = {};
 
   let document_id = params.id;
@@ -98,13 +98,7 @@
     {/if}
   </div>
   {#if _document}
-    <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left px-5">
-      <!-- <DocumentTrailTimeline 
-        {hasUpdate}
-        {_document} 
-        on:edit={({ detail: item }) => handleEdit(item)}
-        on:delete={({ detail: item }) => confirmDelete(item)}
-      /> -->
+    <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left">
       <DocumentTrailTable
         {hasUpdate}
         {_document} 

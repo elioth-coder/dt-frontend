@@ -1,6 +1,5 @@
 <script>
   import {
-    Avatar,
     Button,
     Spinner,
     TableBody,
@@ -10,20 +9,19 @@
     TableHeadCell,
     TableSearch,
   } from "flowbite-svelte";
-  import LocationService from "../services/LocationService";
-  import { TrashBinSolid, PenSolid } from "flowbite-svelte-icons";
+  import SubmissionService from "../../services/SubmissionService";
+  import { TrashBinSolid, PenSolid, OrdoredListSolid } from "flowbite-svelte-icons";
   import { createEventDispatcher } from "svelte";
   export let hasUpdate;
 
   const dispatch = createEventDispatcher();
-  let { HOST_URL } = CONFIG;
-  let service = new LocationService();
+  let service = new SubmissionService();
   let searchTerm = "";
   let items = [];
   let asyncItems;
 
   $: filteredItems = items.filter((item) => {
-    return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+    return item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
   });
 
   $: hasUpdate,
@@ -38,13 +36,13 @@
 </script>
 
 <TableSearch
-  placeholder="Search by name"
+  placeholder="Search by title"
   hoverable={true}
   bind:inputValue={searchTerm}
 >
   <TableHead>
-    <TableHeadCell class="text-center">Photo</TableHeadCell>
-    <TableHeadCell>Name</TableHeadCell>
+    <TableHeadCell>Title</TableHeadCell>
+    <TableHeadCell>Deadline</TableHeadCell>
     <TableHeadCell class="text-center">Action</TableHeadCell>
   </TableHead>
   <TableBody>
@@ -65,17 +63,16 @@
     {#if filteredItems}
       {#each filteredItems as item}
         <TableBodyRow>
-          <TableBodyCell>
-            {#if item.photo}
-              <Avatar
-                src={`${HOST_URL}/uploads/${item.photo}`}
-                size="md"
-                class="mx-auto"
-              />
-            {/if}
-          </TableBodyCell>
-          <TableBodyCell>{item.name}</TableBodyCell>
+          <TableBodyCell>{item.title}</TableBodyCell>
+          <TableBodyCell>{item.deadline}</TableBodyCell>
           <TableBodyCell class="text-center">
+            <Button
+              href="#/submissions/{item.id}"
+              class="!p-2 bg-yellow-500"
+              title="Status"
+            >
+              <OrdoredListSolid class="w-5 h-5" />
+            </Button>
             <Button
               on:click={() => dispatch("edit", item)}
               class="!p-2 bg-blue-500"
@@ -94,7 +91,7 @@
         </TableBodyRow>
       {:else}
         <TableBodyRow>
-          <TableBodyCell colspan={3} class="text-center">
+          <TableBodyCell colspan={4} class="text-center">
             No items found.
           </TableBodyCell>
         </TableBodyRow>

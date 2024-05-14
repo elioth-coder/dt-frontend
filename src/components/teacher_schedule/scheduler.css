@@ -1,0 +1,1950 @@
+:root {
+  --block-count: 28;
+  --block-height: 20px;
+  --block-width: 100px;
+  --side-width: 200px;
+}
+
+.time-block-header {
+  width: var(--side-width);
+}
+
+.day-block-header {
+  width: var(--block-width);
+}
+
+.time-block {
+  height: var(--block-height);
+}
+
+.day-block {
+  position: absolute;
+  width: var(--block-width);
+  margin-top: -1px;
+}
+
+.schedules_time {
+  background-color: white;
+  width: 200px;
+  height: calc(var(--block-count) * var(--block-height));
+  font-family: "Courier New", Courier, monospace;
+}
+
+.schedules_day {
+  width: 700px;
+  height: calc(var(--block-count) * var(--block-height));
+  position: relative;
+}
+
+.monday {
+  left: calc(var(--block-width) * 0);
+}
+.tuesday {
+  left: calc(var(--block-width) * 1);
+}
+.wednesday {
+  left: calc(var(--block-width) * 2);
+}
+.thursday {
+  left: calc(var(--block-width) * 3);
+}
+.friday {
+  left: calc(var(--block-width) * 4);
+}
+.saturday {
+  left: calc(var(--block-width) * 5);
+}
+.sunday {
+  left: calc(var(--block-width) * 6);
+}
+
+/* start */
+.start-08-00am_end-08-30am {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-08-00am_end-09-00am {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-08-00am_end-09-30am {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-08-00am_end-10-00am {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-08-00am_end-10-30am {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-08-00am_end-11-00am {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-08-00am_end-11-30am {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-08-00am_end-12-00nn {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-08-00am_end-12-30pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-08-00am_end-01-00pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-08-00am_end-01-30pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-08-00am_end-02-00pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-08-00am_end-02-30pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-08-00am_end-03-00pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-08-00am_end-03-30pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-08-00am_end-04-00pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-08-00am_end-04-30pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-08-00am_end-05-00pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 18);
+}
+
+.start-08-00am_end-05-30pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 19);
+}
+
+.start-08-00am_end-06-00pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 20);
+}
+
+.start-08-00am_end-06-30pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 21);
+}
+
+.start-08-00am_end-07-00pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 22);
+}
+
+.start-08-00am_end-07-30pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 23);
+}
+
+.start-08-00am_end-08-00pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 24);
+}
+
+.start-08-00am_end-08-30pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 25);
+}
+
+.start-08-00am_end-09-00pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 26);
+}
+
+.start-08-00am_end-09-30pm {
+  top: calc(var(--block-height) * 0);
+  height: calc(var(--block-height) * 27);
+}
+
+.start-08-30am_end-09-00am {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-08-30am_end-09-30am {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-08-30am_end-10-00am {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-08-30am_end-10-30am {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-08-30am_end-11-00am {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-08-30am_end-11-30am {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-08-30am_end-12-00nn {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-08-30am_end-12-30pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-08-30am_end-01-00pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-08-30am_end-01-30pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-08-30am_end-02-00pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-08-30am_end-02-30pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-08-30am_end-03-00pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-08-30am_end-03-30pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-08-30am_end-04-00pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-08-30am_end-04-30pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-08-30am_end-05-00pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-08-30am_end-05-30pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 18);
+}
+
+.start-08-30am_end-06-00pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 19);
+}
+
+.start-08-30am_end-06-30pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 20);
+}
+
+.start-08-30am_end-07-00pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 21);
+}
+
+.start-08-30am_end-07-30pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 22);
+}
+
+.start-08-30am_end-08-00pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 23);
+}
+
+.start-08-30am_end-08-30pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 24);
+}
+
+.start-08-30am_end-09-00pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 25);
+}
+
+.start-08-30am_end-09-30pm {
+  top: calc(var(--block-height) * 1);
+  height: calc(var(--block-height) * 26);
+}
+
+.start-09-00am_end-09-30am {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-09-00am_end-10-00am {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-09-00am_end-10-30am {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-09-00am_end-11-00am {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-09-00am_end-11-30am {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-09-00am_end-12-00nn {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-09-00am_end-12-30pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-09-00am_end-01-00pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-09-00am_end-01-30pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-09-00am_end-02-00pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-09-00am_end-02-30pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-09-00am_end-03-00pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-09-00am_end-03-30pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-09-00am_end-04-00pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-09-00am_end-04-30pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-09-00am_end-05-00pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-09-00am_end-05-30pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-09-00am_end-06-00pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 18);
+}
+
+.start-09-00am_end-06-30pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 19);
+}
+
+.start-09-00am_end-07-00pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 20);
+}
+
+.start-09-00am_end-07-30pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 21);
+}
+
+.start-09-00am_end-08-00pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 22);
+}
+
+.start-09-00am_end-08-30pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 23);
+}
+
+.start-09-00am_end-09-00pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 24);
+}
+
+.start-09-00am_end-09-30pm {
+  top: calc(var(--block-height) * 2);
+  height: calc(var(--block-height) * 25);
+}
+
+.start-09-30am_end-10-00am {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-09-30am_end-10-30am {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-09-30am_end-11-00am {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-09-30am_end-11-30am {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-09-30am_end-12-00nn {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-09-30am_end-12-30pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-09-30am_end-01-00pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-09-30am_end-01-30pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-09-30am_end-02-00pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-09-30am_end-02-30pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-09-30am_end-03-00pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-09-30am_end-03-30pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-09-30am_end-04-00pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-09-30am_end-04-30pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-09-30am_end-05-00pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-09-30am_end-05-30pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-09-30am_end-06-00pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-09-30am_end-06-30pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 18);
+}
+
+.start-09-30am_end-07-00pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 19);
+}
+
+.start-09-30am_end-07-30pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 20);
+}
+
+.start-09-30am_end-08-00pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 21);
+}
+
+.start-09-30am_end-08-30pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 22);
+}
+
+.start-09-30am_end-09-00pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 23);
+}
+
+.start-09-30am_end-09-30pm {
+  top: calc(var(--block-height) * 3);
+  height: calc(var(--block-height) * 24);
+}
+
+.start-10-00am_end-10-30am {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-10-00am_end-11-00am {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-10-00am_end-11-30am {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-10-00am_end-12-00nn {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-10-00am_end-12-30pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-10-00am_end-01-00pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-10-00am_end-01-30pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-10-00am_end-02-00pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-10-00am_end-02-30pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-10-00am_end-03-00pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-10-00am_end-03-30pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-10-00am_end-04-00pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-10-00am_end-04-30pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-10-00am_end-05-00pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-10-00am_end-05-30pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-10-00am_end-06-00pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-10-00am_end-06-30pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-10-00am_end-07-00pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 18);
+}
+
+.start-10-00am_end-07-30pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 19);
+}
+
+.start-10-00am_end-08-00pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 20);
+}
+
+.start-10-00am_end-08-30pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 21);
+}
+
+.start-10-00am_end-09-00pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 22);
+}
+
+.start-10-00am_end-09-30pm {
+  top: calc(var(--block-height) * 4);
+  height: calc(var(--block-height) * 23);
+}
+
+.start-10-30am_end-11-00am {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-10-30am_end-11-30am {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-10-30am_end-12-00nn {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-10-30am_end-12-30pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-10-30am_end-01-00pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-10-30am_end-01-30pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-10-30am_end-02-00pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-10-30am_end-02-30pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-10-30am_end-03-00pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-10-30am_end-03-30pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-10-30am_end-04-00pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-10-30am_end-04-30pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-10-30am_end-05-00pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-10-30am_end-05-30pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-10-30am_end-06-00pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-10-30am_end-06-30pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-10-30am_end-07-00pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-10-30am_end-07-30pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 18);
+}
+
+.start-10-30am_end-08-00pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 19);
+}
+
+.start-10-30am_end-08-30pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 20);
+}
+
+.start-10-30am_end-09-00pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 21);
+}
+
+.start-10-30am_end-09-30pm {
+  top: calc(var(--block-height) * 5);
+  height: calc(var(--block-height) * 22);
+}
+
+.start-11-00am_end-11-30am {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-11-00am_end-12-00nn {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-11-00am_end-12-30pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-11-00am_end-01-00pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-11-00am_end-01-30pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-11-00am_end-02-00pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-11-00am_end-02-30pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-11-00am_end-03-00pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-11-00am_end-03-30pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-11-00am_end-04-00pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-11-00am_end-04-30pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-11-00am_end-05-00pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-11-00am_end-05-30pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-11-00am_end-06-00pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-11-00am_end-06-30pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-11-00am_end-07-00pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-11-00am_end-07-30pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-11-00am_end-08-00pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 18);
+}
+
+.start-11-00am_end-08-30pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 19);
+}
+
+.start-11-00am_end-09-00pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 20);
+}
+
+.start-11-00am_end-09-30pm {
+  top: calc(var(--block-height) * 6);
+  height: calc(var(--block-height) * 21);
+}
+
+.start-11-30am_end-12-00nn {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-11-30am_end-12-30pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-11-30am_end-01-00pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-11-30am_end-01-30pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-11-30am_end-02-00pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-11-30am_end-02-30pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-11-30am_end-03-00pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-11-30am_end-03-30pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-11-30am_end-04-00pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-11-30am_end-04-30pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-11-30am_end-05-00pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-11-30am_end-05-30pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-11-30am_end-06-00pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-11-30am_end-06-30pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-11-30am_end-07-00pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-11-30am_end-07-30pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-11-30am_end-08-00pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-11-30am_end-08-30pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 18);
+}
+
+.start-11-30am_end-09-00pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 19);
+}
+
+.start-11-30am_end-09-30pm {
+  top: calc(var(--block-height) * 7);
+  height: calc(var(--block-height) * 20);
+}
+
+.start-12-00nn_end-12-30pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-12-00nn_end-01-00pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-12-00nn_end-01-30pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-12-00nn_end-02-00pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-12-00nn_end-02-30pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-12-00nn_end-03-00pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-12-00nn_end-03-30pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-12-00nn_end-04-00pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-12-00nn_end-04-30pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-12-00nn_end-05-00pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-12-00nn_end-05-30pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-12-00nn_end-06-00pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-12-00nn_end-06-30pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-12-00nn_end-07-00pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-12-00nn_end-07-30pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-12-00nn_end-08-00pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-12-00nn_end-08-30pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-12-00nn_end-09-00pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 18);
+}
+
+.start-12-00nn_end-09-30pm {
+  top: calc(var(--block-height) * 8);
+  height: calc(var(--block-height) * 19);
+}
+
+.start-12-30pm_end-01-00pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-12-30pm_end-01-30pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-12-30pm_end-02-00pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-12-30pm_end-02-30pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-12-30pm_end-03-00pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-12-30pm_end-03-30pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-12-30pm_end-04-00pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-12-30pm_end-04-30pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-12-30pm_end-05-00pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-12-30pm_end-05-30pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-12-30pm_end-06-00pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-12-30pm_end-06-30pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-12-30pm_end-07-00pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-12-30pm_end-07-30pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-12-30pm_end-08-00pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-12-30pm_end-08-30pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-12-30pm_end-09-00pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-12-30pm_end-09-30pm {
+  top: calc(var(--block-height) * 9);
+  height: calc(var(--block-height) * 18);
+}
+
+.start-01-00pm_end-01-30pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-01-00pm_end-02-00pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-01-00pm_end-02-30pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-01-00pm_end-03-00pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-01-00pm_end-03-30pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-01-00pm_end-04-00pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-01-00pm_end-04-30pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-01-00pm_end-05-00pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-01-00pm_end-05-30pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-01-00pm_end-06-00pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-01-00pm_end-06-30pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-01-00pm_end-07-00pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-01-00pm_end-07-30pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-01-00pm_end-08-00pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-01-00pm_end-08-30pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-01-00pm_end-09-00pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-01-00pm_end-09-30pm {
+  top: calc(var(--block-height) * 10);
+  height: calc(var(--block-height) * 17);
+}
+
+.start-01-30pm_end-02-00pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-01-30pm_end-02-30pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-01-30pm_end-03-00pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-01-30pm_end-03-30pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-01-30pm_end-04-00pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-01-30pm_end-04-30pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-01-30pm_end-05-00pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-01-30pm_end-05-30pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-01-30pm_end-06-00pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-01-30pm_end-06-30pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-01-30pm_end-07-00pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-01-30pm_end-07-30pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-01-30pm_end-08-00pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-01-30pm_end-08-30pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-01-30pm_end-09-00pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-01-30pm_end-09-30pm {
+  top: calc(var(--block-height) * 11);
+  height: calc(var(--block-height) * 16);
+}
+
+.start-02-00pm_end-02-30pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-02-00pm_end-03-00pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-02-00pm_end-03-30pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-02-00pm_end-04-00pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-02-00pm_end-04-30pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-02-00pm_end-05-00pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-02-00pm_end-05-30pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-02-00pm_end-06-00pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-02-00pm_end-06-30pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-02-00pm_end-07-00pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-02-00pm_end-07-30pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-02-00pm_end-08-00pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-02-00pm_end-08-30pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-02-00pm_end-09-00pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-02-00pm_end-09-30pm {
+  top: calc(var(--block-height) * 12);
+  height: calc(var(--block-height) * 15);
+}
+
+.start-02-30pm_end-03-00pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-02-30pm_end-03-30pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-02-30pm_end-04-00pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-02-30pm_end-04-30pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-02-30pm_end-05-00pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-02-30pm_end-05-30pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-02-30pm_end-06-00pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-02-30pm_end-06-30pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-02-30pm_end-07-00pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-02-30pm_end-07-30pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-02-30pm_end-08-00pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-02-30pm_end-08-30pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-02-30pm_end-09-00pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-02-30pm_end-09-30pm {
+  top: calc(var(--block-height) * 13);
+  height: calc(var(--block-height) * 14);
+}
+
+.start-03-00pm_end-03-30pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-03-00pm_end-04-00pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-03-00pm_end-04-30pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-03-00pm_end-05-00pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-03-00pm_end-05-30pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-03-00pm_end-06-00pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-03-00pm_end-06-30pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-03-00pm_end-07-00pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-03-00pm_end-07-30pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-03-00pm_end-08-00pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-03-00pm_end-08-30pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-03-00pm_end-09-00pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-03-00pm_end-09-30pm {
+  top: calc(var(--block-height) * 14);
+  height: calc(var(--block-height) * 13);
+}
+
+.start-03-30pm_end-04-00pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-03-30pm_end-04-30pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-03-30pm_end-05-00pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-03-30pm_end-05-30pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-03-30pm_end-06-00pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-03-30pm_end-06-30pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-03-30pm_end-07-00pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-03-30pm_end-07-30pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-03-30pm_end-08-00pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-03-30pm_end-08-30pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-03-30pm_end-09-00pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-03-30pm_end-09-30pm {
+  top: calc(var(--block-height) * 15);
+  height: calc(var(--block-height) * 12);
+}
+
+.start-04-00pm_end-04-30pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-04-00pm_end-05-00pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-04-00pm_end-05-30pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-04-00pm_end-06-00pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-04-00pm_end-06-30pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-04-00pm_end-07-00pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-04-00pm_end-07-30pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-04-00pm_end-08-00pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-04-00pm_end-08-30pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-04-00pm_end-09-00pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-04-00pm_end-09-30pm {
+  top: calc(var(--block-height) * 16);
+  height: calc(var(--block-height) * 11);
+}
+
+.start-04-30pm_end-05-00pm {
+  top: calc(var(--block-height) * 17);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-04-30pm_end-05-30pm {
+  top: calc(var(--block-height) * 17);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-04-30pm_end-06-00pm {
+  top: calc(var(--block-height) * 17);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-04-30pm_end-06-30pm {
+  top: calc(var(--block-height) * 17);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-04-30pm_end-07-00pm {
+  top: calc(var(--block-height) * 17);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-04-30pm_end-07-30pm {
+  top: calc(var(--block-height) * 17);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-04-30pm_end-08-00pm {
+  top: calc(var(--block-height) * 17);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-04-30pm_end-08-30pm {
+  top: calc(var(--block-height) * 17);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-04-30pm_end-09-00pm {
+  top: calc(var(--block-height) * 17);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-04-30pm_end-09-30pm {
+  top: calc(var(--block-height) * 17);
+  height: calc(var(--block-height) * 10);
+}
+
+.start-05-00pm_end-05-30pm {
+  top: calc(var(--block-height) * 18);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-05-00pm_end-06-00pm {
+  top: calc(var(--block-height) * 18);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-05-00pm_end-06-30pm {
+  top: calc(var(--block-height) * 18);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-05-00pm_end-07-00pm {
+  top: calc(var(--block-height) * 18);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-05-00pm_end-07-30pm {
+  top: calc(var(--block-height) * 18);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-05-00pm_end-08-00pm {
+  top: calc(var(--block-height) * 18);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-05-00pm_end-08-30pm {
+  top: calc(var(--block-height) * 18);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-05-00pm_end-09-00pm {
+  top: calc(var(--block-height) * 18);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-05-00pm_end-09-30pm {
+  top: calc(var(--block-height) * 18);
+  height: calc(var(--block-height) * 9);
+}
+
+.start-05-30pm_end-06-00pm {
+  top: calc(var(--block-height) * 19);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-05-30pm_end-06-30pm {
+  top: calc(var(--block-height) * 19);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-05-30pm_end-07-00pm {
+  top: calc(var(--block-height) * 19);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-05-30pm_end-07-30pm {
+  top: calc(var(--block-height) * 19);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-05-30pm_end-08-00pm {
+  top: calc(var(--block-height) * 19);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-05-30pm_end-08-30pm {
+  top: calc(var(--block-height) * 19);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-05-30pm_end-09-00pm {
+  top: calc(var(--block-height) * 19);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-05-30pm_end-09-30pm {
+  top: calc(var(--block-height) * 19);
+  height: calc(var(--block-height) * 8);
+}
+
+.start-06-00pm_end-06-30pm {
+  top: calc(var(--block-height) * 20);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-06-00pm_end-07-00pm {
+  top: calc(var(--block-height) * 20);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-06-00pm_end-07-30pm {
+  top: calc(var(--block-height) * 20);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-06-00pm_end-08-00pm {
+  top: calc(var(--block-height) * 20);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-06-00pm_end-08-30pm {
+  top: calc(var(--block-height) * 20);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-06-00pm_end-09-00pm {
+  top: calc(var(--block-height) * 20);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-06-00pm_end-09-30pm {
+  top: calc(var(--block-height) * 20);
+  height: calc(var(--block-height) * 7);
+}
+
+.start-06-30pm_end-07-00pm {
+  top: calc(var(--block-height) * 21);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-06-30pm_end-07-30pm {
+  top: calc(var(--block-height) * 21);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-06-30pm_end-08-00pm {
+  top: calc(var(--block-height) * 21);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-06-30pm_end-08-30pm {
+  top: calc(var(--block-height) * 21);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-06-30pm_end-09-00pm {
+  top: calc(var(--block-height) * 21);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-06-30pm_end-09-30pm {
+  top: calc(var(--block-height) * 21);
+  height: calc(var(--block-height) * 6);
+}
+
+.start-07-00pm_end-07-30pm {
+  top: calc(var(--block-height) * 22);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-07-00pm_end-08-00pm {
+  top: calc(var(--block-height) * 22);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-07-00pm_end-08-30pm {
+  top: calc(var(--block-height) * 22);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-07-00pm_end-09-00pm {
+  top: calc(var(--block-height) * 22);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-07-00pm_end-09-30pm {
+  top: calc(var(--block-height) * 22);
+  height: calc(var(--block-height) * 5);
+}
+
+.start-07-30pm_end-08-00pm {
+  top: calc(var(--block-height) * 23);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-07-30pm_end-08-30pm {
+  top: calc(var(--block-height) * 23);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-07-30pm_end-09-00pm {
+  top: calc(var(--block-height) * 23);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-07-30pm_end-09-30pm {
+  top: calc(var(--block-height) * 23);
+  height: calc(var(--block-height) * 4);
+}
+
+.start-08-00pm_end-08-30pm {
+  top: calc(var(--block-height) * 24);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-08-00pm_end-09-00pm {
+  top: calc(var(--block-height) * 24);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-08-00pm_end-09-30pm {
+  top: calc(var(--block-height) * 24);
+  height: calc(var(--block-height) * 3);
+}
+
+.start-08-30pm_end-09-00pm {
+  top: calc(var(--block-height) * 25);
+  height: calc(var(--block-height) * 1);
+}
+
+.start-08-30pm_end-09-30pm {
+  top: calc(var(--block-height) * 25);
+  height: calc(var(--block-height) * 2);
+}
+
+.start-09-00pm_end-09-30pm {
+  top: calc(var(--block-height) * 26);
+  height: calc(var(--block-height) * 1);
+}

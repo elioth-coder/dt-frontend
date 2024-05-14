@@ -7,11 +7,12 @@
     SidebarWrapper,
   } from "flowbite-svelte";
   import {
-    PieChartSolid,
     ArrowRightToBracketSolid,
     FileCloneSolid,
-    MapLocationOutline,
-    UserAddSolid,
+    RectangleListSolid,
+    ArrowUpRightFromSquareSolid,
+    HomeSolid,
+    CalendarMonthSolid,
   } from "flowbite-svelte-icons";
   import { replace } from "svelte-spa-router";
   import UserService from "../services/UserService";
@@ -26,10 +27,11 @@
   }
 
   const items = [
-    { label: 'Dashboard', 'icon': PieChartSolid, href: '#/' },
-    { label: 'Locations', 'icon': MapLocationOutline, href: '#/locations' },
-    { label: 'Recipients', 'icon': UserAddSolid, href: '#/recipients' },
-    { label: 'Documents', 'icon': FileCloneSolid, href: '#/documents' },
+    { label: 'Home', 'icon': HomeSolid, href: '#/' },
+    { label: 'Document Tracker', 'icon': FileCloneSolid, href: '#/documents' },
+    { label: 'Submitted Files', 'icon': ArrowUpRightFromSquareSolid, href: '#/submissions' },
+    { label: 'Scheduler', 'icon': CalendarMonthSolid, href: '#/scheduler' },
+    { label: 'Basic Records', 'icon': RectangleListSolid, href: '#/records' },
   ];
 </script>
 

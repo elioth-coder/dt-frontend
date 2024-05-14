@@ -10,7 +10,7 @@
       TableHeadCell,
       TableSearch,
     } from "flowbite-svelte";
-    import RecipientService from "../services/RecipientService";
+    import RecipientService from "../../services/RecipientService";
     import { TrashBinSolid, PenSolid } from "flowbite-svelte-icons";
     import { createEventDispatcher } from "svelte";
     export let hasUpdate;
