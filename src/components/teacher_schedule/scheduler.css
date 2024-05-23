@@ -17,6 +17,10 @@
   height: var(--block-height);
 }
 
+.lines {
+  height: var(--block-height);
+}
+
 .day-block {
   position: absolute;
   width: var(--block-width);

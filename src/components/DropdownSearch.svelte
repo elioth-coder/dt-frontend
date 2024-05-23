@@ -44,9 +44,9 @@
     focused = true;
   }
 
-  onMount(() => {
+  $: {
     setInputBoxValue(value);
-  });
+  }
 </script>
 
 <div class="relative w-100">
