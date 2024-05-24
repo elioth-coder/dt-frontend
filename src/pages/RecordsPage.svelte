@@ -36,7 +36,7 @@
   <Breadcrumb items={breadCrumbItems} />
   <br />
   <Heading tag="h2" class="text-left">
-    All records
+    All Records
   </Heading>
   <Hr />
   <div class="flex flex-row flex-wrap">
@@ -67,7 +67,7 @@
         {recipientCount}
       </h5>
       <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
-        Recipients
+        Personnels
       </p>
     </Card>
     <Card href="#/documents" class="text-center m-2 w-52">

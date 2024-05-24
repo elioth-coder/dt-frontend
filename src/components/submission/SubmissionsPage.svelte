@@ -45,7 +45,7 @@
   <Breadcrumb items={breadCrumbItems} />
   <br />
   <Heading tag="h2" class="text-left">
-    All submissions
+    All Submissions
     <Button on:click={() => (addItem = true)} class="float-right"
       >Add new</Button
     >

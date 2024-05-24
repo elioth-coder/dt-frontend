@@ -36,6 +36,8 @@
   const updateItems = async () => {
     asyncItems = service.getTrail(_document.id);
     items = await asyncItems;
+
+    console.log(items);
   };
 </script>
 
@@ -44,10 +46,10 @@
   hoverable={true}
 >
   <TableHead>
-    <TableHeadCell class="text-center"></TableHeadCell>
     <TableHeadCell>Location</TableHeadCell>
-    <TableHeadCell class="text-center">Recipient</TableHeadCell>
-    <TableHeadCell>Date/Remarks</TableHeadCell>
+    <TableHeadCell class="text-center">Received</TableHeadCell>
+    <TableHeadCell>Action Needed</TableHeadCell>
+    <TableHeadCell>Status</TableHeadCell>
     <TableHeadCell class="text-center">Action</TableHeadCell>
   </TableHead>
   <TableBody>
@@ -60,22 +62,13 @@
       </TableBodyRow>
     {:catch error}
       <TableBodyRow>
-        <TableBodyCell colspan={5} class="text-center text-red-600">
+        <TableBodyCell colspan={7} class="text-center text-red-600">
           {error.message}
         </TableBodyCell>
       </TableBodyRow>
     {/await}
       {#each items as item}
         <TableBodyRow>
-          <TableBodyCell class="text-center">
-            {#if item.location.photo}
-              <Avatar
-                src={`${HOST_URL}/uploads/${item.location.photo}`}
-                size="md"
-                class="mx-auto"
-              />
-            {/if}
-          </TableBodyCell>
           <TableBodyCell>
             {item.location.name}
           </TableBodyCell>
@@ -85,11 +78,17 @@
               class="inline"
               src={`${HOST_URL}/uploads/${item.recipient.photo ? item.recipient.photo : "profile.png"}`}
             />
-            <Tooltip type="light">{item.recipient.name}</Tooltip>
+            <Tooltip type="light">
+              {item.recipient.name}
+              <P size="xs">{format(new Date(item.dt_created), "MMMM do, yyyy 'at' hh:mm a")}</P>
+              {#if item.remarks}{item.remarks}{/if}  
+            </Tooltip>
           </TableBodyCell>
           <TableBodyCell>
-            <P size="xs">{format(new Date(item.dt_created), "MMMM do, yyyy 'at' hh:mm a")}</P>
-            {#if item.remarks}{item.remarks}{/if}
+            {item.action_needed}
+          </TableBodyCell>
+          <TableBodyCell>
+            {item.status}
           </TableBodyCell>
           <TableBodyCell class="text-center">
             <Button
@@ -106,11 +105,11 @@
             >
               <TrashBinSolid class="w-5 h-5" />
             </Button>
-          </TableBodyCell>
+          </TableBodyCell>          
         </TableBodyRow>
       {:else}
         <TableBodyRow>
-          <TableBodyCell colspan={5} class="text-center">
+          <TableBodyCell colspan={7} class="text-center">
             No items found.
           </TableBodyCell>
         </TableBodyRow>

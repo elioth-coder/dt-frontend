@@ -20,7 +20,7 @@
 
 <div class="container mx-auto flex">
   <div class="sidebar border-e">
-    <Heading tag="h3" class="text-center py-3 mx-1 mb-3 bg-primary-800 text-white">NEUSTSystem</Heading>
+    <Heading tag="h3" class="text-center py-3 mx-1 mb-3 bg-primary-800 text-white">NEUST SYSTEM</Heading>
     <Sidebar />
   </div>
   <div class="content text-center w-full p-5">

@@ -1,5 +1,5 @@
 <script>
-  import { Button, Modal, Label, Textarea, Spinner, Alert } from "flowbite-svelte";
+  import { Button, Modal, Label, Textarea, Spinner, Alert, Input } from "flowbite-svelte";
   import { createEventDispatcher, onMount } from "svelte";
   import {
     ExclamationCircleSolid,
@@ -17,7 +17,7 @@
   let location_options = [];
   let recipient_options = [];
   let message = null;
-  let id, location_id, recipient_id, remarks, document_id;
+  let id, location_id, recipient_id, remarks, document_id, status, action_needed;
 
   const dispatch = createEventDispatcher();
   let service = new DocumentTrailService();
@@ -72,8 +72,10 @@
     recipient_id = item.recipient.id;
     remarks  = item.remarks;
     document_id = item.document_id;
+    status = item.status;
+    action_needed = item.action_needed;
 
-    console.log({item});
+    console.log(item);
   }
 
   onMount(async () => {
@@ -134,12 +136,12 @@
       </div>
       <div class="w-full ms-1">
         <Label class="space-y-3">
-          <span>Recipient</span>
+          <span>Received by</span>
           <DropdownSearch
             required={true}
             value={recipient_id ?? ""}
             name="recipient_id"
-            placeholder="Select recipient"
+            placeholder="Select personnel"
             options={recipient_options.length ? recipient_options : []}
           />
         </Label>    
@@ -155,6 +157,31 @@
         rows={4} 
       />
     </Label>
+    <br>
+    <section class="flex">
+      <div class="w-full me-1">
+        <Label class="space-y-3">
+          <span>Action needed</span>
+          <Input 
+            type="text" 
+            value={action_needed ?? ""}
+            name="action_needed"
+            placeholder="--action needed--"
+          />
+        </Label>    
+      </div>
+      <div class="w-full ms-1">
+        <Label class="space-y-3">
+          <span>Status</span>
+          <Input 
+            type="text" 
+            value={status ?? ""}
+            name="status"
+            placeholder="--status--"
+          />
+        </Label>    
+      </div>
+    </section>
     <br>
     <div>
       <Button

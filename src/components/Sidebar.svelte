@@ -28,7 +28,7 @@
 
   const items = [
     { label: 'Home', 'icon': HomeSolid, href: '#/' },
-    { label: 'Document Tracker', 'icon': FileCloneSolid, href: '#/documents' },
+    { label: 'Document Trail', 'icon': FileCloneSolid, href: '#/documents' },
     { label: 'Submitted Files', 'icon': ArrowUpRightFromSquareSolid, href: '#/submissions' },
     { label: 'Scheduler', 'icon': CalendarMonthSolid, href: '#/scheduler' },
     { label: 'Basic Records', 'icon': RectangleListSolid, href: '#/records' },
