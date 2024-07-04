@@ -65,6 +65,7 @@
     let teachers = formData.getAll('teachers');
 
     console.log(teachers);
+    console.log(formData.get('title'));
 
     if (!teachers.length && !formData.get("id")) {
       processing = false;
@@ -75,6 +76,7 @@
       if (formData.get("id")) {
         let semesterFormData = new FormData();
         semesterFormData.set("id", formData.get("id"));
+        semesterFormData.set("title", formData.get("title"));
         semesterFormData.set("semester", formData.get("semester"));
         semesterFormData.set("academic_year", formData.get("academic_year"));
         // @ts-ignore
@@ -109,6 +111,7 @@
         };
       } else {
         let semesterFormData = new FormData();
+        semesterFormData.set("title", formData.get("title"));
         semesterFormData.set("semester", formData.get("semester"));
         semesterFormData.set("academic_year", formData.get("academic_year"));
         let semester = await semesterService.add(semesterFormData);
@@ -194,6 +197,16 @@
       <input type="hidden" name="id" value={item.id} />
     {/if}
     <input type="submit" id="submit" class="hidden" />
+    <Label class="space-y-2 mb-2">
+      <span>Title</span>
+      <Input
+        disabled={processing}
+        name="title" 
+        value={item?.title ?? ""}
+        placeholder="Enter a title for this semester"
+        required
+      />
+    </Label>
     <Label class="space-y-2 mb-2">
       <span>Assigned teachers</span>
       <MultiSelect

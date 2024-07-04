@@ -15,14 +15,19 @@
   export let hasUpdate;
 
   const dispatch = createEventDispatcher();
-  let { HOST_URL } = CONFIG;
   let service = new SubjectService();
   let searchTerm = "";
   let items = [];
   let asyncItems;
 
   $: filteredItems = items.filter((item) => {
-    return item.code.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+    return (
+      item.code.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+      item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+      item.program.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+      item.year_level.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+      item.semester.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+    );
   });
 
   $: hasUpdate,
@@ -68,7 +73,7 @@
       {#each filteredItems as item}
         <TableBodyRow>
           <TableBodyCell>{item.code}</TableBodyCell>
-          <TableBodyCell>{item.title}</TableBodyCell>
+          <TableBodyCell class="max-w-80 text-ellipsis overflow-hidden" title={item.title}>{item.title}</TableBodyCell>
           <TableBodyCell class="text-center">{item.program}</TableBodyCell>
           <TableBodyCell class="text-center">{item.year_level}</TableBodyCell>
           <TableBodyCell class="text-center">{item.semester}</TableBodyCell>

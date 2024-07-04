@@ -5,7 +5,7 @@
   import { onMount } from "svelte";
   import RecipientService from "../services/RecipientService";
   import LocationService from "../services/LocationService";
-  import DocumentService from "../services/DocumentService";
+  import DocumentTrailService from "../services/DocumentTrailService";
   import SubjectService from "../services/SubjectService";
 
   let locationCount = 0,
@@ -23,12 +23,12 @@
     let locationService = new LocationService();
     let subjectService = new SubjectService();
     let recipientService = new RecipientService();
-    let documentService = new DocumentService();
+    let documentTrailService = new DocumentTrailService();
 
     locationCount = await locationService.count();
     subjectCount = await subjectService.count();
     recipientCount = await recipientService.count();
-    documentCount = await documentService.count();
+    documentCount = await documentTrailService.count();
   });
 </script>
 
@@ -70,7 +70,7 @@
         Personnels
       </p>
     </Card>
-    <Card href="#/documents" class="text-center m-2 w-52">
+    <Card href="#/document_trail" class="text-center m-2 w-52">
       <h5
         class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
       >

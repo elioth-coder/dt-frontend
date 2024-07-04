@@ -5,22 +5,22 @@
   import { onMount } from "svelte";
   import RecipientService from "../services/RecipientService";
   import LocationService from "../services/LocationService";
-  import DocumentService from "../services/DocumentService";
+  import DocumentTrailService from "../services/DocumentTrailService";
   import SubjectService from "../services/SubjectService";
 
-  let locationCount = 0 , recipientCount = 0, documentCount = 0, subjectCount = 0;
+  let locationCount = 0 , recipientCount = 0, documentTrailCount = 0, subjectCount = 0;
   let breadCrumbItems = [];
 
   onMount(async () => {
     let locationService  = new LocationService();
     let recipientService = new RecipientService();
     let subjectService = new SubjectService();
-    let documentService  = new DocumentService();
+    let documentTrailService  = new DocumentTrailService();
 
     locationCount  = await locationService.count();
     recipientCount = await recipientService.count();
     subjectCount = await subjectService.count();
-    documentCount  = await documentService.count();
+    documentTrailCount  = await documentTrailService.count();
   });
 </script>
 
@@ -61,9 +61,9 @@
         Personnels
       </p>
     </Card>
-    <Card href="#/records/documents" class="text-center m-2 w-52">
+    <Card href="#/records/document_trail" class="text-center m-2 w-52">
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {documentCount}
+        {documentTrailCount}
       </h5>
       <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight">
         Documents

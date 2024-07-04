@@ -41,6 +41,7 @@
   bind:inputValue={searchTerm}
 >
   <TableHead>
+    <TableHeadCell>Title</TableHeadCell>
     <TableHeadCell>Semester</TableHeadCell>
     <TableHeadCell class="text-center">Academic Year</TableHeadCell>
     <TableHeadCell class="text-center">Action</TableHeadCell>
@@ -48,14 +49,14 @@
   <TableBody>
     {#await asyncItems}
       <TableBodyRow>
-        <TableBodyCell colspan={3} class="text-center">
+        <TableBodyCell colspan={4} class="text-center">
           <Spinner size={4} class="me-1" />
           Fetching items...
         </TableBodyCell>
       </TableBodyRow>
     {:catch error}
       <TableBodyRow>
-        <TableBodyCell colspan={3} class="text-center text-red-600">
+        <TableBodyCell colspan={4} class="text-center text-red-600">
           {error.message}
         </TableBodyCell>
       </TableBodyRow>
@@ -63,6 +64,7 @@
     {#if filteredItems}
       {#each filteredItems as item}
         <TableBodyRow>
+          <TableBodyCell>{item.title}</TableBodyCell>
           <TableBodyCell>{item.semester} Semester</TableBodyCell>
           <TableBodyCell class="text-center">A.Y. {item.academic_year}</TableBodyCell>
           <TableBodyCell class="text-center">

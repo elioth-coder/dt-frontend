@@ -36,19 +36,23 @@
     processing = true;
     let form = e.target;
     let formData = new FormData(form);
+    formData.set('name', [
+      formData.get('first_name'),
+      formData.get('last_name'),
+    ].join(' '))
 
     try {
       if (formData.get("id")) {
         await service.update(formData);
         message = {
           type: "success",
-          text: "Successfully updated recipient",
+          text: "Successfully updated personnel",
         };
       } else {
         await service.add(formData);
         message = {
           type: "success",
-          text: "Successfully added recipient",
+          text: "Successfully added personnel",
         };
       }
 
@@ -82,7 +86,7 @@
 <Modal
   bind:open
   size="xs"
-  title="RECIPIENT"
+  title="PERSONNEL"
   placement="top-center"
   dismissable={false}
   autoclose={false}
@@ -100,7 +104,7 @@
     <input type="submit" id="submit" class="hidden" />
     {#if photoSrc}
       <!-- svelte-ignore a11y-img-redundant-alt -->
-      <img class="mx-auto h-32" src={photoSrc} alt="Recipient photo" />
+      <img class="mx-auto h-32" src={photoSrc} alt="Personnel photo" />
     {/if}
     <Label class="space-y-2">
       <span>Photo</span>
@@ -113,13 +117,24 @@
       />
     </Label>
     <Label class="space-y-2">
-      <span>Name</span>
+      <span>First name</span>
       <Input
         disabled={processing}
         type="text"
-        name="name"
-        value={item?.name ?? ""}
-        placeholder="Enter recipient name"
+        name="first_name"
+        value={item?.first_name ?? ""}
+        placeholder="Enter first name"
+        required
+      />
+    </Label>
+    <Label class="space-y-2">
+      <span>Last name</span>
+      <Input
+        disabled={processing}
+        type="text"
+        name="last_name"
+        value={item?.last_name ?? ""}
+        placeholder="Enter last name"
         required
       />
     </Label>
@@ -130,7 +145,7 @@
         type="text"
         name="role"
         value={item?.role ?? ""}
-        placeholder="Enter recipient role"
+        placeholder="Enter personnel role"
         required
       />
     </Label>

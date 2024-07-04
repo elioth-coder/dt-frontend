@@ -22,7 +22,7 @@
     },
     {
       href: "#/records/recipients",
-      label: "Recipients",
+      label: "Personnels",
     },
   ];
 
@@ -54,7 +54,7 @@
   <Breadcrumb items={breadCrumbItems} />
   <br>
   <Heading tag="h2" class="text-left">
-    All recipients
+    All personnels
     <Button on:click={() => (addItem = true)} class="float-right"
       >Add new</Button
     >
@@ -65,12 +65,12 @@
       {#await asyncDelete}
         <p>
           <Spinner />
-          Deleting recipient...
+          Deleting personnel...
         </p>
       {:then}
         <Alert color="green" class="m-0" dismissable>
           <ExclamationCircleSolid slot="icon" class="w-4 h-4" />
-          Successfully deleted the recipient
+          Successfully deleted the personnel
         </Alert>
       {:catch error}
         <Alert color="red" class="m-0" dismissable>

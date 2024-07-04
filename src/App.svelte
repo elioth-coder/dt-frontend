@@ -2,7 +2,6 @@
   import Router from 'svelte-spa-router';
   import LoginPage from './pages/LoginPage.svelte';
   import HomePage from './pages/HomePage.svelte';
-  import DocumentsPage from './components/document/DocumentsPage.svelte';
   import DocumentTrailPage from './components/document_trail/DocumentTrailPage.svelte';
   import SubmissionsPage from './components/submission/SubmissionsPage.svelte';
   import SubmissionStatusPage from './components/submission_status/SubmissionStatusPage.svelte';
@@ -25,8 +24,7 @@
     '/records/subjects': SubjectsPage,
     '/submissions': SubmissionsPage,
     '/submissions/:id': SubmissionStatusPage,
-    '/documents': DocumentsPage,
-    '/documents/:id': DocumentTrailPage,
+    '/document_trail': DocumentTrailPage,
     '/': HomePage,
   }
 </script>

@@ -1,31 +1,19 @@
 <script>
-  import { Button, Modal, Label, Textarea, Spinner, Alert, Input } from "flowbite-svelte";
+  // @ts-nocheck
+
+  import { Button, Label, Spinner, Alert, Textarea, Input } from "flowbite-svelte";
   import { createEventDispatcher, onMount } from "svelte";
   import {
     ExclamationCircleSolid,
     InfoCircleSolid,
   } from "flowbite-svelte-icons";
-  import DropdownSearch from "../DropdownSearch.svelte";
   import DocumentTrailService from "../../services/DocumentTrailService";
-  import LocationService from "../../services/LocationService";
-  import RecipientService from "../../services/RecipientService";
-  export let open;
   export let item = null;
-  export let _document;
-
-  let processing = false;
-  let location_options = [];
-  let recipient_options = [];
-  let message = null;
-  let id, location_id, recipient_id, remarks, document_id, status, action_needed;
 
   const dispatch = createEventDispatcher();
-  let service = new DocumentTrailService();
-
-  const handleClose = () => {
-    message = null;
-    dispatch("cancel");
-  };
+  let documentTrailService = new DocumentTrailService();
+  let processing = false;
+  let message = null;
 
   const handleSubmit = async (e) => {
     processing = true;
@@ -34,23 +22,25 @@
 
     try {
       if (formData.get("id")) {
-        await service.update(formData);
+        await documentTrailService.update(formData);
+
         message = {
           type: "success",
-          text: "Successfully updated the trail",
+          text: "Successfully updated doument",
         };
       } else {
-        await service.add(formData);
+        await documentTrailService.add(formData);
+
         message = {
           type: "success",
-          text: "Successfully added a trail",
+          text: "Successfully forwarded doument",
         };
       }
 
       setTimeout(() => {
         processing = false;
-        dispatch("cancel");
         dispatch("update");
+        dispatch("cancel");
         message = null;
       }, 1000);
     } catch (e) {
@@ -66,125 +56,163 @@
     message = null;
   };
 
-  $: if(Boolean(item)) {
-    id = item.id;
-    location_id = item.location.id;
-    recipient_id = item.recipient.id;
-    remarks  = item.remarks;
-    document_id = item.document_id;
-    status = item.status;
-    action_needed = item.action_needed;
+  let id, type, purpose, name, program, quantity, action_needeed, office, date_forwarded, date_returned, status, remarks;
 
-    console.log(item);
+  $: if (Boolean(item)) {
+    id = item.id;
+    type = item.type;
+    purpose = item.purpose;
+    name = item.name;
+    program = item.program;
+    quantity = item.quantity;
+    action_needeed = item.action_needeed;
+    office = item.office;
+    date_forwarded = item.date_forwarded;
+    date_returned = item.date_returned;
+    status = item.status;
+    remark = item.remarks;
+
+    console.log({item});
+  } else {
+    id = "";
+    type = "";
+    name = "";
+    program = "";
+    quantity = "";
+    action_needeed = "";
+    office = "";
+    date_forwarded = "";
+    date_returned = "";
+    status = "";
+    remarks = "";
   }
 
   onMount(async () => {
-    let locationService = new LocationService();
-    let locations = await locationService.getAll();
 
-    if (locations.length) {
-      location_options = locations.map((location) => ({
-        value: location.id,
-        text: location.name,
-      }));
-    }
-
-    let recipientService = new RecipientService();
-    let recipients = await recipientService.getAll();
-
-    if (recipients.length) {
-      recipient_options = recipients.map((recipient) => ({
-        value: recipient.id,
-        text: recipient.name,
-      }));
-    }
   });
 </script>
 
-<Modal
-  bind:open
-  size="xs"
-  title="DOCUMENT TRAIL"
-  placement="top-center"
-  dismissable={false}
-  autoclose={false}
-  class="w-full"
-  on:close={() => dispatch("cancel")}
+<form
+  on:submit|preventDefault={handleSubmit}
+  class="flex flex-col text-left"
+  action="#"
 >
-  <form
-    on:submit|preventDefault={handleSubmit}
-    class="flex flex-col text-left"
-    action="#"
-  >
-    {#if item}
-      <input type="hidden" name="id" value={item.id} />
-    {/if}
-    <input type="hidden" name="document_id" value={_document.id} />
-    <input type="submit" id="submit" class="hidden" />
-    <section class="flex">
-      <div class="w-full me-1">
-        <Label class="space-y-3">
-          <span>Location</span>
-          <DropdownSearch
-            required={true}
-            value={location_id ?? ""}
-            name="location_id"
-            placeholder="Select location"
-            options={location_options.length ? location_options : []}
-          />
-        </Label>    
-      </div>
-      <div class="w-full ms-1">
-        <Label class="space-y-3">
-          <span>Received by</span>
-          <DropdownSearch
-            required={true}
-            value={recipient_id ?? ""}
-            name="recipient_id"
-            placeholder="Select personnel"
-            options={recipient_options.length ? recipient_options : []}
-          />
-        </Label>    
-      </div>
-    </section>
-    <br>
-    <Label class="space-y-3">
-      <span>Remarks</span>
-      <Textarea 
-        value={remarks ?? ""}
-        name="remarks" 
-        placeholder="Type remarks" 
-        rows={4} 
-      />
-    </Label>
-    <br>
-    <section class="flex">
-      <div class="w-full me-1">
-        <Label class="space-y-3">
-          <span>Action needed</span>
-          <Input 
-            type="text" 
-            value={action_needed ?? ""}
-            name="action_needed"
-            placeholder="--action needed--"
-          />
-        </Label>    
-      </div>
-      <div class="w-full ms-1">
-        <Label class="space-y-3">
-          <span>Status</span>
-          <Input 
-            type="text" 
-            value={status ?? ""}
-            name="status"
-            placeholder="--status--"
-          />
-        </Label>    
-      </div>
-    </section>
-    <br>
-    <div>
+  {#if item}
+    <input type="hidden" name="id" value={item.id} />
+  {/if}
+  <input type="submit" id="submit" class="hidden" />
+  <section class="grid grid-cols-2 gap-4">
+    <div class="w-full">
+      <Label class="space-y-2">
+        <span>Type</span>
+        <Input
+          name="type"
+          value={type ?? ""}
+          placeholder="-- type --"
+          required
+        />
+      </Label>
+    </div>
+    <div class="w-full">
+      <Label class="space-y-2">
+        <span>Purpose</span>
+        <Input
+          name="purpose"
+          value={type ?? ""}
+          placeholder="-- purpose --"
+        />
+      </Label>
+    </div>
+    <div class="w-full col-span-2">
+      <Label class="space-y-2">
+        <span>Document Name</span>
+        <Input
+          name="name"
+          value={type ?? ""}
+          placeholder="-- document name --"
+          required
+        />
+      </Label>
+    </div>
+    <div class="w-full">
+      <Label class="space-y-2">
+        <span>Program</span>
+        <Input
+          name="program"
+          value={type ?? ""}
+          placeholder="-- program --"
+        />
+      </Label>
+    </div>
+    <div class="w-full">
+      <Label class="space-y-2">
+        <span>Qty</span>
+        <Input
+          name="quantity"
+          type="number"
+          value={type ?? ""}
+          placeholder="-- quantity --"
+          required
+        />
+      </Label>
+    </div>
+    <div class="w-full">
+      <Label class="space-y-2">
+        <span>Action Needed</span>
+        <Input
+          name="action_needed"
+          value={type ?? ""}
+          placeholder="-- action needed --"
+          required
+        />
+      </Label>
+    </div>
+    <div class="w-full">
+      <Label class="space-y-2">
+        <span>Office</span>
+        <Input
+          name="office"
+          value={type ?? ""}
+          placeholder="-- office --"
+        />
+      </Label>
+    </div>
+    <div class="w-full">
+      <Label class="space-y-2">
+        <span>Date Forwarded</span>
+        <Input
+          name="date_forwarded"
+          type="date"
+          value={type ?? ""}
+          placeholder="-- date forwarded --"
+          required
+        />
+      </Label>
+    </div>
+    <div class="w-full">
+      <Label class="space-y-2">
+        <span>Status</span>
+        <Input
+          name="status"
+          value={type ?? ""}
+          placeholder="-- status --"
+        />
+      </Label>
+    </div>
+    <div class="w-full col-span-2">
+      <Label class="space-y-2">
+        <span>Remarks</span>
+        <Textarea
+          name="remarks"
+          value={type ?? ""}
+          placeholder="-- remarks --"
+          rows={4}
+        />
+      </Label>
+    </div>
+    <div class="pt-7 col-span-2 grid grid-cols-2 gap-2">
       <Button
+        class="w-full"
         disabled={processing}
         on:click={() => document.getElementById("submit").click()}
       >
@@ -193,25 +221,33 @@
         {/if}
         Submit
       </Button>
-      <Button disabled={processing} color="alternative" on:click={handleClose}
-        >Cancel</Button
+      <Button
+        class="w-full"
+        disabled={processing}
+        color="red"
+        on:click={() => dispatch('cancel')}
       >
+        {#if processing}
+          <Spinner size={4} class="mr-2" />
+        {/if}
+        Cancel
+      </Button>
     </div>
-  </form>
-  {#if message}
-    <div class="absolute max-w-md w-full top-full mt-5 -ml-5">
-      {#if message.type == "error"}
-        <Alert color="red" class="m-0" dismissable on:close={closeAlert}>
-          <ExclamationCircleSolid slot="icon" class="w-4 h-4" />
-          {message.text}
-        </Alert>
-      {/if}
-      {#if message.type == "success"}
-        <Alert color="green" class="m-0" dismissable on:close={closeAlert}>
-          <InfoCircleSolid slot="icon" class="w-4 h-4" />
-          {message.text}
-        </Alert>
-      {/if}
-    </div>
-  {/if}
-</Modal>
+  </section>
+</form>
+{#if message}
+  <div class="absolute max-w-md w-full top-full mt-5 -ml-5">
+    {#if message.type == "error"}
+      <Alert color="red" class="m-0" dismissable on:close={closeAlert}>
+        <ExclamationCircleSolid slot="icon" class="w-4 h-4" />
+        {message.text}
+      </Alert>
+    {/if}
+    {#if message.type == "success"}
+      <Alert color="green" class="m-0" dismissable on:close={closeAlert}>
+        <InfoCircleSolid slot="icon" class="w-4 h-4" />
+        {message.text}
+      </Alert>
+    {/if}
+  </div>
+{/if}

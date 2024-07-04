@@ -8,7 +8,7 @@
     Input,
     Select,
   } from "flowbite-svelte";
-  import { createEventDispatcher, onMount } from "svelte";
+  import { afterUpdate, createEventDispatcher, onMount } from "svelte";
   import {
     ExclamationCircleSolid,
     InfoCircleSolid,
@@ -19,7 +19,10 @@
 
   let processing = false;
   let message = null;
-  let id, code, title, year_level, semester, program;
+
+  let lec_selected, lab_selected;
+
+  $: hours_week = (lec_selected + lab_selected) + '';
 
   let year_levels = [
     { value: '1', name: '1st year'},
@@ -89,21 +92,13 @@
     message = null;
   };
 
- // @ts-ignore
-   $: if (Boolean(item)) {
+  afterUpdate(() => {
     // @ts-ignore
-    id = item.id;
-    // @ts-ignore
-    code = item.code;
-    // @ts-ignore
-    title = item.title;
-    // @ts-ignore
-    year_level = item.year_level;
-    // @ts-ignore
-    semester = item.semester;
-    // @ts-ignore
-    program = item.program;
-  }
+    lec_selected = parseInt(item?.lec ?? "");
+    lab_selected = parseInt(item?.lab ?? "");
+
+    console.log(item);
+  });
 
   onMount(async () => {
 
@@ -138,7 +133,7 @@
             type="text"
             name="code"
             value={item?.code ?? ""}
-            placeholder="Enter subject code"
+            placeholder="-- code --"
             required
           />
         </Label>  
@@ -151,7 +146,7 @@
             name="semester"
             items={semesters}
             value={item?.semester ?? ""}
-            placeholder="Select semester"
+            placeholder="-- semester --"
             required
           />
         </Label>  
@@ -164,7 +159,7 @@
         type="text"
         name="title"
         value={item?.title ?? ""}
-        placeholder="Enter subject title"
+        placeholder="-- title --"
         required
       />
     </Label>
@@ -177,7 +172,7 @@
             name="year_level"
             items={year_levels}
             value={item?.year_level ?? ""}
-            placeholder="Select year level"
+            placeholder="-- year level --"
             required
           />
         </Label>  
@@ -190,7 +185,123 @@
             name="program"
             items={programs}
             value={item?.program ?? ""}
-            placeholder="Select program course"
+            placeholder="-- program course --"
+            required
+          />
+        </Label>  
+      </div>
+    </section>
+    <section class="flex">
+      <div class="w-full me-1">
+        <Label class="space-y-2">
+          <span>Major</span>
+          <Select
+            disabled={processing}
+            name="major"
+            items={[
+                'ENGLISH',
+                'ELEMENTARY EDUCATION',
+                'SERVICE MANAGEMENT',
+                'WEB SYSTEMS TECHNOLOGY'
+              ].map(major => ({ value:major, name:major}))
+            }
+            placeholder="-- major --"
+            required
+          />
+        </Label>
+      </div>
+      <div class="w-full ms-1">
+        <Label class="space-y-2">
+          <span>Pre-requisites</span>
+          <Input
+            disabled={processing}
+            type="text"
+            name="pre_req"
+            value={item?.pre_req ?? ""}
+            placeholder="-- pre-requisites --"
+            required
+          />
+        </Label>
+      </div>
+    </section>
+    <section class="flex">
+      <div class="w-full me-1">
+        <Label class="space-y-2">
+          <span>Units</span>
+          <Select
+            disabled={processing}
+            name="units"
+            value={parseInt(item.units ?? "")}
+            items={[
+              {value: 1, name: 1},
+              {value: 2, name: 2},
+              {value: 3, name: 3},
+              {value: 4, name: 4},
+              {value: 5, name: 5},
+              {value: 6, name: 6},
+              {value: 7, name: 7},
+              {value: 8, name: 8},
+              {value: 9, name: 9},
+              {value: 10, name: 10},
+            ]}
+            placeholder="-- units --"
+            required
+          />
+        </Label>  
+      </div>
+      <div class="w-full mx-1">
+        <Label class="space-y-2">
+          <span>Hrs/week</span>
+          <Input name="hours_week"
+            placeholder="-- hrs/week --"
+            bind:value={hours_week}
+          />
+        </Label>  
+      </div>
+      <div class="w-full mx-1">
+        <Label class="space-y-2">
+          <span>Lec</span>
+          <Select
+            disabled={processing}
+            name="lec"
+            bind:value={lec_selected}
+            items={[
+              {value: 1, name: 1},
+              {value: 2, name: 2},
+              {value: 3, name: 3},
+              {value: 4, name: 4},
+              {value: 5, name: 5},
+              {value: 6, name: 6},
+              {value: 7, name: 7},
+              {value: 8, name: 8},
+              {value: 9, name: 9},
+              {value: 10, name: 10},
+            ]}
+            placeholder="-- lec --"
+            required
+          />
+        </Label>  
+      </div>
+      <div class="w-full ms-1">
+        <Label class="space-y-2">
+          <span>Lab</span>
+          <Select
+            disabled={processing}
+            name="lab"
+            bind:value={lab_selected}
+            items={[
+              {value: 1, name: 1},
+              {value: 2, name: 2},
+              {value: 3, name: 3},
+              {value: 4, name: 4},
+              {value: 5, name: 5},
+              {value: 6, name: 6},
+              {value: 7, name: 7},
+              {value: 8, name: 8},
+              {value: 9, name: 9},
+              {value: 10, name: 10},
+            ]}
+            placeholder="-- lab --"
             required
           />
         </Label>  

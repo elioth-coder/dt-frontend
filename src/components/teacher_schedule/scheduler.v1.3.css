@@ -1,8 +1,9 @@
 :root {
+  --day-count: 6;
   --block-count: 28;
   --block-height: 20px;
-  --block-width: 100px;
-  --side-width: 200px;
+  --block-width: 120px;
+  --side-width: 180px;
 }
 
 .time-block-header {
@@ -21,6 +22,10 @@
   height: var(--block-height);
 }
 
+.vertical-lines {
+  width: var(--block-width);
+}
+
 .day-block {
   position: absolute;
   width: var(--block-width);
@@ -29,13 +34,13 @@
 
 .schedules_time {
   background-color: white;
-  width: 200px;
+  width: var(--side-width);
   height: calc(var(--block-count) * var(--block-height));
   font-family: "Courier New", Courier, monospace;
 }
 
 .schedules_day {
-  width: 700px;
+  width: calc(var(--day-count) * var(--block-width));
   height: calc(var(--block-count) * var(--block-height));
   position: relative;
 }

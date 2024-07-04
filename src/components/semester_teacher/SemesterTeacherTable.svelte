@@ -12,7 +12,6 @@
   } from "flowbite-svelte";
   import {
   CalendarEditSolid,
-    PenSolid,
     TrashBinSolid,
   } from "flowbite-svelte-icons";
   import { createEventDispatcher } from "svelte";

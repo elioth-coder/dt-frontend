@@ -4,7 +4,6 @@
     Button,
     Spinner,
     Alert,
-    Hr,
     Table,
     TableBodyRow,
     TableBodyCell,
@@ -21,9 +20,7 @@
   import {
     ExclamationCircleSolid,
     InfoCircleSolid,
-    PenSolid,
     PrinterOutline,
-    TrashBinSolid,
   } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
   import Breadcrumb from "../Breadcrumb.svelte";
@@ -32,9 +29,8 @@
   import TeacherScheduleForm from "./TeacherScheduleForm.svelte";
   import ScheduleService from "../../services/ScheduleService";
   import SubjectService from "../../services/SubjectService";
-  import { hr } from "date-fns/locale";
   import { sineIn } from "svelte/easing";
-  import { uniqBy, uniqWith } from "lodash-es";
+  import { uniqBy } from "lodash-es";
   export let params = {};
 
   let { HOST_URL } = CONFIG;
@@ -47,7 +43,6 @@
   let scheduleService = new ScheduleService();
   let subjectService = new SubjectService();
   let hasUpdate = Date.now();
-  let addItem = false;
   let deleteItem = false;
   let editItem = false;
   let asyncDelete = null;
@@ -99,6 +94,25 @@
     "09:00PM - 09:30PM",
   ];
 
+  const generateSections = async () => {
+    let programs = await subjectService.getPrograms();
+    programs = programs.map((item) => item.program);
+
+    let letters = ["A", "B", "C"];
+    let blocks = [];
+
+    for (let i = 0; i < programs.length; i++) {
+      for (let j = 1; j <= 4; j++) {
+        for (let k = 0; k < letters.length; k++) {
+          blocks.push(`${programs[i]} - ${j}${letters[k]}`);
+        }
+      }
+    }
+    let options = blocks.map((block) => ({ name: block, value: block }));
+
+    return options;
+  };
+
   const confirmDelete = (item) => {
     deleteItem = item;
   };
@@ -120,30 +134,31 @@
     editItem = item;
   };
 
+  let subjects = [];
+  let sections = [];
+
   onMount(async () => {
     semester = await semesterService.get(semester_id);
     teacher = await teacherService.get(teacher_id);
     recipient = await recipientService.get(teacher.personnel_id);
-    console.log({ recipient });
     teacher.recipient = { ...recipient };
+    subjects = await subjectService.getAll();
+    sections = await generateSections();
 
-    updateItems();
+    updateSchedules();
   });
 
   $: hasUpdate,
     (() => {
-      updateItems();
+      updateSchedules();
     })();
 
   const resetSchedulePreview = () => {
-    occupiedSchedules = [];
     newSchedule = null;
-
-    console.log("reset");
   };
 
-  let asyncItems;
-  let items;
+  let asyncSchedules;
+  let ownSchedules = [];
 
   const getSchedules = async (teacher_id, semester_id) => {
     let formData = new FormData();
@@ -163,12 +178,10 @@
     return schedulesWithSubject;
   };
 
-  const updateItems = async () => {
+  const updateSchedules = async () => {
     if (teacher_id && semester_id) {
-      asyncItems = getSchedules(teacher_id, semester_id);
-      items = await asyncItems;
-
-      console.log({ items });
+      asyncSchedules = getSchedules(teacher_id, semester_id);
+      ownSchedules = await asyncSchedules;
     }
   };
 
@@ -224,7 +237,7 @@
   };
 
   $: occupiedSchedules = uniqBy(
-    [...sectionSchedules, ...roomSchedules],
+    [...sectionSchedules, ...roomSchedules, ...ownSchedules],
     (schedule) => schedule.id
   );
 
@@ -308,17 +321,20 @@
             class="mb-4 dark:text-white"
           />
         </div>
-
-        <TeacherScheduleForm
-          {teacher_id}
-          {semester_id}
-          item={editItem ?? null}
-          on:update={() => (hasUpdate = Date.now())}
-          on:cancel={handleCancel}
-          on:set-schedule={handleSetSchedule}
-          on:change-section={handleSectionChange}
-          on:change-room={handleRoomChange}
-        />
+        {#if subjects.length && sections.length}
+          <TeacherScheduleForm
+            {teacher_id}
+            {semester_id}
+            {subjects}
+            {sections}
+            item={editItem ?? null}
+            on:update={() => (hasUpdate = Date.now())}
+            on:cancel={handleCancel}
+            on:set-schedule={handleSetSchedule}
+            on:change-section={handleSectionChange}
+            on:change-room={handleRoomChange}
+          />
+        {/if}
       </Drawer>
       <br />
       <div class="schedules-container w-full text-left">
@@ -326,11 +342,11 @@
           <section
             class="time-block-header text-center float-start box-border border"
           >
-            <h5>TIME/DAY</h5>
+            <h5>TIME</h5>
           </section>
-          {#each ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"] as day}
+          {#each ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"] as day}
             <section
-              class="day-block-header text-center float-start border box-border"
+              class="day-block-header text-center float-start border box-border border-l-0"
             >
               <h5>{day}</h5>
             </section>
@@ -351,16 +367,33 @@
         >
           {#each shedules_time as time}
             <section
-              class="lines w-full text-center box-border border border-t-0"
-            ></section>
+              class="lines w-full text-center box-border border border-t-0 border-l-0 relative"
+            >
+              {#each [1, 2, 3, 4, 5, 6] as _}
+                {#if _ == 1}
+                  <div
+                    class="vertical-lines box-border h-full float-left border border-y-0 border-l-0"
+                  ></div>
+                {:else if _ == 6}
+                  <div
+                    style="margin-left: -1px;"
+                    class="vertical-lines box-border h-full float-left"
+                  ></div>
+                {:else}
+                  <div
+                    class="vertical-lines box-border border border-y-0 border-l-0 h-full float-left"
+                  ></div>
+                {/if}
+              {/each}
+            </section>
           {/each}
-          {#await asyncItems}
+          {#await asyncSchedules}
             <h1 class="text-center w-full absolute top-32">
               Loading schedules...
             </h1>
           {:then}
-            {#if items}
-              {#each items as item}
+            {#if ownSchedules && hideDrawer==true}
+              {#each ownSchedules as item}
                 {@const day_of_week = item.day_of_week.toLowerCase()}
                 {@const start_time = item.start_time
                   .toLowerCase()
@@ -408,12 +441,12 @@
                     >
                   </section>
                 </Popover>
+              {:else}
+                <h1 class="text-center">No schedules found.</h1>
               {/each}
-            {:else}
-              <h1 class="text-center">No schedules found.</h1>
             {/if}
           {/await}
-          {#if occupiedSchedules && occupiedSchedules?.length}
+          {#if occupiedSchedules && occupiedSchedules?.length && hideDrawer==false}
             {#each occupiedSchedules as item}
               {@const day_of_week = item.day_of_week.toLowerCase()}
               {@const start_time = item.start_time
@@ -446,7 +479,6 @@
                 <span>Time: {item.start_time} - {item.end_time}</span><br />
                 <span>Section: {item.section}</span><br />
                 <span>Room: {item.room}</span>
-                <hr class="my-2" />
               </Popover>
             {/each}
           {/if}
@@ -470,21 +502,21 @@
         </div>
       </div>
       <br />
-      <div class="flex flex-col">
+      <div class="flex flex-col max-w-4xl">
         <Table striped={true} border={true}>
           <TableHead>
             <TableHeadCell>ROOM NO.</TableHeadCell>
-            <TableHeadCell>DAY OF WEEK</TableHeadCell>
-            <TableHeadCell class="text-center">TIME</TableHeadCell>
-            <TableHeadCell class="text-center">SECTION</TableHeadCell>
-            <TableHeadCell class="text-center">SUBJECT</TableHeadCell>
+            <TableHeadCell>SECTION</TableHeadCell>
+            <TableHeadCell>SUBJECT</TableHeadCell>
+            <TableHeadCell>TIME</TableHeadCell>
+            <TableHeadCell>DAY</TableHeadCell>
             <TableHeadCell class="text-center">ACTION</TableHeadCell>
           </TableHead>
-          {#await asyncItems}
+          {#await asyncSchedules}
             <TableBodyRow>
               <TableBodyCell colspan={6} class="text-center">
                 <Spinner size={4} class="me-1" />
-                Fetching items...
+                Fetching schedules...
               </TableBodyCell>
             </TableBodyRow>
           {:catch error}
@@ -494,33 +526,33 @@
               </TableBodyCell>
             </TableBodyRow>
           {/await}
-          {#if items}
-            {#each items as item}
+          {#if ownSchedules}
+            {#each ownSchedules as schedule}
               <TableBodyRow>
-                <TableBodyCell>{item.room}</TableBodyCell>
-                <TableBodyCell>{item.day_of_week}</TableBodyCell>
-                <TableBodyCell class="text-center">
-                  {item.start_time} - {item.end_time}
-                </TableBodyCell>
-                <TableBodyCell class="text-center">
-                  {item.section}
+                <TableBodyCell>{schedule.room}</TableBodyCell>
+                <TableBodyCell>
+                  {schedule.section}
                 </TableBodyCell>
                 <TableBodyCell>
-                  {item.subject.code} - {item.subject.title}
+                  {schedule.subject.code}
                 </TableBodyCell>
                 <TableBodyCell>
+                  {schedule.start_time} - {schedule.end_time}
+                </TableBodyCell>
+                <TableBodyCell>{schedule.day_of_week}</TableBodyCell>
+                <TableBodyCell class="text-center">
                   <Button
-                    on:click={() => handleEdit(item)}
+                    on:click={() => handleEdit(schedule)}
                     size="xs"
                     color="dark"
-                    outline
-                  >Edit</Button>
+                    outline>Edit</Button
+                  >
                   <Button
-                    on:click={() => confirmDelete(item)}
+                    on:click={() => confirmDelete(schedule)}
                     size="xs"
                     color="red"
-                    outline
-                  >Delete</Button>
+                    outline>Delete</Button
+                  >
                 </TableBodyCell>
               </TableBodyRow>
             {:else}
@@ -552,5 +584,5 @@
 </Page>
 
 <style>
-  @import "./scheduler.css";
+  @import "./scheduler.v1.3.css";
 </style>

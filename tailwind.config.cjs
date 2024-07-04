@@ -1,6 +1,10 @@
 const config = {
   content: ['./src/**/*.{html,js,svelte,ts}', './node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}'],
-
+  safelist: [
+    {
+      pattern: /bg-.+-.+/,
+    }
+  ],
   plugins: [require('flowbite/plugin')],
 
   darkMode: 'class',
