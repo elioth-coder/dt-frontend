@@ -570,7 +570,7 @@
               </TableBodyRow>
             {:else}
               <TableBodyRow>
-                <TableBodyCell colspan={5} class="text-center">
+                <TableBodyCell colspan={6} class="text-center">
                   No schedules found.
                 </TableBodyCell>
               </TableBodyRow>
@@ -579,7 +579,7 @@
         </Table>
       </div>
       {#if hideDrawer}
-        <section class="w-full text-right my-3">
+        <section class="w-full text-center my-3">
           <Button icon={true}>
             <PrinterOutline size="lg" />
             Print Schedule
