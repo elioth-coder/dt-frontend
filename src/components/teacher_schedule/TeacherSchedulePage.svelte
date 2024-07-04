@@ -149,9 +149,19 @@
   });
 
   $: hasUpdate,
-    (() => {
-      updateSchedules();
+    (async () => {
+      await updateSchedules();
+      await updateOccupiedSchedules();
     })();
+
+  const updateOccupiedSchedules = async () => {
+    occupiedSchedules = uniqBy(
+      [...ownSchedules, ...sectionSchedules, ...roomSchedules],
+      (schedule) => schedule.id
+    );   
+    
+    console.log({sectionSchedules,roomSchedules,ownSchedules,occupiedSchedules});
+  }
 
   const resetSchedulePreview = () => {
     newSchedule = null;
@@ -236,10 +246,13 @@
     newSchedule = schedule;
   };
 
-  $: occupiedSchedules = uniqBy(
-    [...sectionSchedules, ...roomSchedules, ...ownSchedules],
-    (schedule) => schedule.id
-  );
+  let occupiedSchedules = [];
+  $: {
+    occupiedSchedules = uniqBy(
+      [...ownSchedules, ...sectionSchedules, ...roomSchedules],
+      (schedule) => schedule.id
+    );
+  }
 
   const handleCancel = () => {
     editItem = false;
@@ -446,7 +459,7 @@
               {/each}
             {/if}
           {/await}
-          {#if occupiedSchedules && occupiedSchedules?.length && hideDrawer==false}
+          {#if occupiedSchedules && hideDrawer==false}
             {#each occupiedSchedules as item}
               {@const day_of_week = item.day_of_week.toLowerCase()}
               {@const start_time = item.start_time
