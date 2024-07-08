@@ -66,20 +66,21 @@ bind:inputValue={searchTerm}
 <TableHead>
   <TableHeadCell class="text-center">Photo</TableHeadCell>
   <TableHeadCell>Name</TableHeadCell>
-  <TableHeadCell>Role</TableHeadCell>
+  <TableHeadCell>Employment Status</TableHeadCell>
+  <TableHeadCell>Field of Specialization</TableHeadCell>
   <TableHeadCell class="text-center">Action</TableHeadCell>
 </TableHead>
 <TableBody>
   {#await asyncItems}
     <TableBodyRow>
-      <TableBodyCell colspan={4} class="text-center">
+      <TableBodyCell colspan={5} class="text-center">
         <Spinner size={4} class="me-1" />
         Fetching items...
       </TableBodyCell>
     </TableBodyRow>
   {:catch error}
     <TableBodyRow>
-      <TableBodyCell colspan={3} class="text-center text-red-600">
+      <TableBodyCell colspan={5} class="text-center text-red-600">
         {error.message}
       </TableBodyCell>
     </TableBodyRow>
@@ -97,7 +98,8 @@ bind:inputValue={searchTerm}
           {/if}
         </TableBodyCell>
         <TableBodyCell>{item.name}</TableBodyCell>
-        <TableBodyCell>{item.role}</TableBodyCell>
+        <TableBodyCell>{item.employment_status}</TableBodyCell>
+        <TableBodyCell>{item.field_specialization}</TableBodyCell>
         <TableBodyCell class="text-center">
           <Button 
             href="#/scheduler/{semester.id}/{item.assigned_id}"
@@ -117,7 +119,7 @@ bind:inputValue={searchTerm}
       </TableBodyRow>
     {:else}
       <TableBodyRow>
-        <TableBodyCell colspan={4} class="text-center">
+        <TableBodyCell colspan={5} class="text-center">
           No items found.
         </TableBodyCell>
       </TableBodyRow>

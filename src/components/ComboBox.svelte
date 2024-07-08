@@ -64,7 +64,10 @@
   }
 
   function onBlur(event) {
-    setTimeout(() => (isOpen = false), 250);
+    setTimeout(() => { 
+      isOpen = false; 
+      query = selectedItem?.name ?? "";
+    }, 250);
   }
 
   function selectItem(item) {

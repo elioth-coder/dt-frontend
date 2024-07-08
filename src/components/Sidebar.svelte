@@ -13,6 +13,7 @@
     ArrowUpRightFromSquareSolid,
     HomeSolid,
     CalendarMonthSolid,
+    PenNibSolid,
   } from "flowbite-svelte-icons";
   import { replace } from "svelte-spa-router";
   import UserService from "../services/UserService";
@@ -31,6 +32,7 @@
     { label: 'Document Trail', 'icon': FileCloneSolid, href: '#/document_trail' },
     { label: 'Submitted Files', 'icon': ArrowUpRightFromSquareSolid, href: '#/submissions' },
     { label: 'Scheduler', 'icon': CalendarMonthSolid, href: '#/scheduler' },
+    { label: 'Signatories', 'icon': PenNibSolid, href: '#/signatories' },
     { label: 'Basic Records', 'icon': RectangleListSolid, href: '#/records' },
   ];
 </script>

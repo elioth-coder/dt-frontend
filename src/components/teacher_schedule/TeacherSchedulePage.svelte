@@ -64,7 +64,7 @@
     },
   ];
 
-  let shedules_time = [
+  let schedule_times = [
     "08:00AM - 08:30AM",
     "08:30AM - 09:00AM",
     "09:00AM - 09:30AM",
@@ -160,7 +160,6 @@
       (schedule) => schedule.id
     );   
     
-    console.log({sectionSchedules,roomSchedules,ownSchedules,occupiedSchedules});
   }
 
   const resetSchedulePreview = () => {
@@ -266,6 +265,14 @@
     duration: 200,
     easing: sineIn,
   };
+
+  let columns = 'ABCDEFG';
+  let rows = [];
+  let headers = ['TIME', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+
+  for(let i=1; i<=28; i++) {
+    rows.push(i);
+  }
 </script>
 
 <Page>
@@ -351,55 +358,24 @@
       </Drawer>
       <br />
       <div class="schedules-container w-full text-left">
-        <div style="width: 900px;" class="overflow-visible">
-          <section
-            class="time-block-header text-center float-start box-border border"
-          >
-            <h5>TIME</h5>
-          </section>
-          {#each ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"] as day}
-            <section
-              class="day-block-header text-center float-start border box-border border-l-0"
-            >
-              <h5>{day}</h5>
-            </section>
+        <div class="w-full overflow-visible relative">
+          {#each columns as column}
+            {#each rows as row}
+              <div class="cell float-left"></div>
+            {/each}
           {/each}
-        </div>
-        <div class="clear-both"></div>
-        <div class="schedules_time box-border float-left">
-          {#each shedules_time as time}
-            <section
-              class="time-block w-full text-center box-border border border-t-0 text-sm"
-            >
-              {time}
-            </section>
-          {/each}
-        </div>
-        <div
-          class="schedules_day box-border float-left overflow-visible relative"
-        >
-          {#each shedules_time as time}
-            <section
-              class="lines w-full text-center box-border border border-t-0 border-l-0 relative"
-            >
-              {#each [1, 2, 3, 4, 5, 6] as _}
-                {#if _ == 1}
-                  <div
-                    class="vertical-lines box-border h-full float-left border border-y-0 border-l-0"
-                  ></div>
-                {:else if _ == 6}
-                  <div
-                    style="margin-left: -1px;"
-                    class="vertical-lines box-border h-full float-left"
-                  ></div>
-                {:else}
-                  <div
-                    class="vertical-lines box-border border border-y-0 border-l-0 h-full float-left"
-                  ></div>
-                {/if}
-              {/each}
-            </section>
-          {/each}
+          <div class="header-row w-full absolute top-0 left-0 right-0">
+            {#each headers as header}
+              <div class="cell pt-1 capitalize float-left text-center leading-none">{header.toLowerCase()}</div>
+            {/each}
+          </div>
+          <div class="time-column h-fit cell-width absolute top-0 left-0">
+            <div class="cell-height w-full"></div>
+            {#each schedule_times as time}
+              <div class="text-xs cell-height pt-1 box-border w-full text-center leading-none m-0 p-0">{time}</div>
+            {/each}
+          </div>
+          
           {#await asyncSchedules}
             <h1 class="text-center w-full absolute top-32">
               Loading schedules...
@@ -419,13 +395,14 @@
                 {@const trigger_id =
                   item.subject.code.replace(" ", "_").replace("-", "_") +
                   "_" +
-                  item.id}
-                <div
-                  id={trigger_id}
-                  class="cursor-pointer flex flex-col items-center justify-center day-block border {day_of_week} start-{start_time}_end-{end_time} bg-{item.color}-500"
+                  item.id}                
+                <div id={trigger_id}
+                  style="margin-top: 25px;"
+                  class="absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{item.color}-500"
                 >
                   <p>{item.subject.code}</p>
-                  <p>{item.section}</p>
+                  <p>{item.section.split(' - ').join(' ')}</p>
+                  <p>({item.room})</p>
                 </div>
                 <Popover
                   trigger="click"
@@ -476,10 +453,12 @@
                 item.id}
               <div
                 id={trigger_id}
-                class="cursor-pointer flex flex-col items-center justify-center day-block border {day_of_week} start-{start_time}_end-{end_time} opacity-75 bg-slate-400 border-red-600 border-8"
+                style="margin-top: 25px;"
+                class="absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} opacity-75 bg-slate-400 !border-red-600 !border-8"
               >
-                <p>{item.room}</p>
-                <p>{item.section}</p>
+                  <p>{item.subject.code}</p>
+                  <p>{item.section.split(' - ').join(' ')}</p>
+                  <p>({item.room})</p>
               </div>
               <Popover
                 trigger="click"
@@ -507,7 +486,8 @@
               .replace(" ", "")
               .replace(":", "-")}
             <div
-              class="cursor-pointer flex flex-col items-center justify-center day-block border {day_of_week} start-{start_time}_end-{end_time} bg-{color}-400 border-green-600 border-8"
+              style="margin-top: 25px;"
+              class="absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{color}-400 !border-green-600 !border-8"
             >
               <Heading tag="h6" class="text-center">NEW</Heading>
             </div>
@@ -580,7 +560,7 @@
       </div>
       {#if hideDrawer}
         <section class="w-full text-center my-3">
-          <Button icon={true}>
+          <Button icon={true} tag="a" target="_blank" href={`#/scheduler/print/${semester_id}/${teacher_id}`}>
             <PrinterOutline size="lg" />
             Print Schedule
           </Button>
@@ -597,5 +577,5 @@
 </Page>
 
 <style>
-  @import "./scheduler.v1.3.css";
+  @import "./scheduler.v1.8.css";
 </style>

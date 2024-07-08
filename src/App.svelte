@@ -12,12 +12,16 @@
   import RecordsPage from './pages/RecordsPage.svelte';
   import SubjectsPage from './components/subject/SubjectsPage.svelte';
   import TeacherSchedulePage from './components/teacher_schedule/TeacherSchedulePage.svelte';
+  import TeacherSchedulePrintPage from './components/teacher_schedule/TeacherSchedulePrintPage.svelte';
+  import SignatoriesPage from './components/signatories/SignatoriesPage.svelte';
 
   const routes = {
     '/login': LoginPage,
+    '/signatories': SignatoriesPage,
     '/scheduler': SemestersPage,
     '/scheduler/:id': SemesterTeacherPage,
     '/scheduler/:id/:teacher_id': TeacherSchedulePage,
+    '/scheduler/print/:id/:teacher_id': TeacherSchedulePrintPage,
     '/records': RecordsPage,
     '/records/locations': LocationsPage,
     '/records/recipients': RecipientsPage,

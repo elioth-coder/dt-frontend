@@ -1,70 +1,71 @@
-:root {
-  --day-count: 6;
-  --block-count: 28;
-  --block-height: 20px;
-  --block-width: 120px;
-  --side-width: 180px;
+.schedules-container {
+  --block-height: 25px;
+  --block-width: 14.2857%;
 }
 
-.time-block-header {
-  width: var(--side-width);
+.colspan-1 {
+  width: calc(var(--block-width) * 1);
 }
 
-.day-block-header {
+.colspan-2 {
+  width: calc(var(--block-width) * 2);
+}
+
+.colspan-3 {
+  width: calc(var(--block-width) * 3);
+}
+
+.colspan-4 {
+  width: calc(var(--block-width) * 4);
+}
+
+.colspan-5 {
+  width: calc(var(--block-width) * 5);
+}
+
+.colspan-6 {
+  width: calc(var(--block-width) * 6);
+}
+
+.colspan-7 {
+  width: calc(var(--block-width) * 7);
+}
+
+.cell-width {
   width: var(--block-width);
 }
 
-.time-block {
+.cell-height {
   height: var(--block-height);
 }
 
-.lines {
+.cell {
+  box-sizing: border-box;
+  width: var(--block-width);
   height: var(--block-height);
+  border: 1px inset #000;
 }
 
-.vertical-lines {
-  width: var(--block-width);
-}
-
-.day-block {
-  position: absolute;
-  width: var(--block-width);
-  margin-top: -1px;
-}
-
-.schedules_time {
-  background-color: white;
-  width: var(--side-width);
-  height: calc(var(--block-count) * var(--block-height));
-  font-family: "Courier New", Courier, monospace;
-}
-
-.schedules_day {
-  width: calc(var(--day-count) * var(--block-width));
-  height: calc(var(--block-count) * var(--block-height));
-  position: relative;
-}
-
-.monday {
+.time {
   left: calc(var(--block-width) * 0);
 }
-.tuesday {
+.monday {
   left: calc(var(--block-width) * 1);
 }
-.wednesday {
+.tuesday {
   left: calc(var(--block-width) * 2);
 }
-.thursday {
+.wednesday {
   left: calc(var(--block-width) * 3);
 }
-.friday {
+.thursday {
   left: calc(var(--block-width) * 4);
 }
-.saturday {
+.friday {
   left: calc(var(--block-width) * 5);
 }
-.sunday {
-  left: calc(var(--block-width) * 6);
+.saturday {
+  left: calc((var(--block-width) * 6) - 6px);
 }
 
 /* start */

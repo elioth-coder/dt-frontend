@@ -6,6 +6,7 @@
     ExclamationCircleSolid,
     InfoCircleSolid,
   } from "flowbite-svelte-icons";
+  import ComboBox from "../ComboBox.svelte";
   export let open;
   export let item = null;
 
@@ -81,6 +82,12 @@
   const closeAlert = () => {
     message = null;
   };
+
+  let colleges = [
+    { value: 'CICT', name: 'CICT - COLLEGE OF INFORMATION AND COMMUNICATIONS TECHNOLOGY' },
+    { value: 'CMBT', name: 'CMBT - COLLEGE OF MANAGEMENT AND BUSINESS TECHNOLOGY' },
+    { value: 'COED', name: 'COED - COLLEGE OF EDUCATION' },
+  ]; 
 </script>
 
 <Modal
@@ -117,35 +124,58 @@
       />
     </Label>
     <Label class="space-y-2">
-      <span>First name</span>
+      <span>College/Department</span>
+      <ComboBox 
+        name="college" 
+        value={item?.college ?? ""}
+        items={colleges} 
+        placeholder="-- college --"
+        required={true} 
+      />
+    </Label>
+    <div class="flex gap-1">
+      <Label class="space-y-1">
+        <span>First name</span>
+        <Input
+          disabled={processing}
+          type="text"
+          name="first_name"
+          value={item?.first_name ?? ""}
+          placeholder="Enter first name"
+          required
+        />
+      </Label>
+      <Label class="space-y-1">
+        <span>Last name</span>
+        <Input
+          disabled={processing}
+          type="text"
+          name="last_name"
+          value={item?.last_name ?? ""}
+          placeholder="Enter last name"
+          required
+        />
+      </Label>
+    </div>
+    <Label class="space-y-1">
+      <span>Employment Status</span>
       <Input
         disabled={processing}
         type="text"
-        name="first_name"
-        value={item?.first_name ?? ""}
-        placeholder="Enter first name"
+        name="employment_status"
+        value={item?.employment_status ?? ""}
+        placeholder="Enter employment status"
         required
       />
     </Label>
-    <Label class="space-y-2">
-      <span>Last name</span>
+    <Label class="space-y-1">
+      <span>Field of Specialization</span>
       <Input
         disabled={processing}
         type="text"
-        name="last_name"
-        value={item?.last_name ?? ""}
-        placeholder="Enter last name"
-        required
-      />
-    </Label>
-    <Label class="space-y-2">
-      <span>Role</span>
-      <Input
-        disabled={processing}
-        type="text"
-        name="role"
-        value={item?.role ?? ""}
-        placeholder="Enter personnel role"
+        name="field_specialization"
+        value={item?.field_specialization ?? ""}
+        placeholder="Enter field of specialization"
         required
       />
     </Label>
