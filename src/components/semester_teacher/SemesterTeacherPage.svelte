@@ -25,7 +25,7 @@
     },
     {
       href: "#/scheduler/" + semester_id,
-      label: "Semester",
+      label: "Faculty Program",
     },
   ];
 

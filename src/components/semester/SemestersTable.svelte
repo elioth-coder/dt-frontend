@@ -10,7 +10,7 @@
     TableSearch,
   } from "flowbite-svelte";
   import SemesterService from "../../services/SemesterService";
-  import { TrashBinSolid, PenSolid, OrdoredListSolid } from "flowbite-svelte-icons";
+  import { TrashBinSolid, PenSolid, UsersGroupSolid, } from "flowbite-svelte-icons";
   import { createEventDispatcher } from "svelte";
   export let hasUpdate;
 
@@ -70,10 +70,17 @@
           <TableBodyCell class="text-center">
             <Button
               href="#/scheduler/{item.id}"
-              class="!p-2 bg-yellow-500"
-              title="Schedule teachers"
+              class="!p-2 bg-blue-500"
+              title="Faculty Program"
             >
-              <OrdoredListSolid class="w-5 h-5" />
+              <UsersGroupSolid class="w-5 h-5" />
+            </Button>
+            <Button
+              href="#/scheduler/student_program/{item.id}"
+              class="!p-2 bg-green-500"
+              title="Student Program"
+            >
+              <UsersGroupSolid class="w-5 h-5" />
             </Button>
             <Button
               on:click={() => dispatch("edit", item)}

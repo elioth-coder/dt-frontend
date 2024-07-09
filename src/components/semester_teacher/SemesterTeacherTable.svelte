@@ -12,6 +12,7 @@
   } from "flowbite-svelte";
   import {
   CalendarEditSolid,
+    PrinterSolid,
     TrashBinSolid,
   } from "flowbite-svelte-icons";
   import { createEventDispatcher } from "svelte";
@@ -101,6 +102,16 @@ bind:inputValue={searchTerm}
         <TableBodyCell>{item.employment_status}</TableBodyCell>
         <TableBodyCell>{item.field_specialization}</TableBodyCell>
         <TableBodyCell class="text-center">
+          <Button 
+            icon={true} 
+            tag="a" 
+            target="_blank" 
+            href={`#/scheduler/print/${semester.id}/${item.assigned_id}`}
+            class="!p-2 bg-green-500" 
+            title="Print Schedule"
+          >
+            <PrinterSolid class="w-5 h-5" />
+          </Button>
           <Button 
             href="#/scheduler/{semester.id}/{item.assigned_id}"
             class="!p-2 bg-yellow-500" 

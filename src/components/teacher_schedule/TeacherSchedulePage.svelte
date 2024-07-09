@@ -56,7 +56,7 @@
     },
     {
       href: "#/scheduler/" + semester_id,
-      label: "Semester",
+      label: "Faculty Program",
     },
     {
       href: `#/scheduler/${semester_id}/${teacher_id}`,
