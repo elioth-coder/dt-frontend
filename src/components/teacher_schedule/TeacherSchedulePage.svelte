@@ -577,5 +577,5 @@
 </Page>
 
 <style>
-  @import "./scheduler.v1.8.css";
+  @import "./scheduler.v1.9.css";
 </style>

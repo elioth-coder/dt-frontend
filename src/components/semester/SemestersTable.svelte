@@ -10,7 +10,7 @@
     TableSearch,
   } from "flowbite-svelte";
   import SemesterService from "../../services/SemesterService";
-  import { TrashBinSolid, PenSolid, UsersGroupSolid, } from "flowbite-svelte-icons";
+  import { TrashBinSolid, PenSolid, UsersSolid, UsersGroupSolid, PrinterSolid, } from "flowbite-svelte-icons";
   import { createEventDispatcher } from "svelte";
   export let hasUpdate;
 
@@ -69,20 +69,6 @@
           <TableBodyCell class="text-center">A.Y. {item.academic_year}</TableBodyCell>
           <TableBodyCell class="text-center">
             <Button
-              href="#/scheduler/{item.id}"
-              class="!p-2 bg-blue-500"
-              title="Faculty Program"
-            >
-              <UsersGroupSolid class="w-5 h-5" />
-            </Button>
-            <Button
-              href="#/scheduler/student_program/{item.id}"
-              class="!p-2 bg-green-500"
-              title="Student Program"
-            >
-              <UsersGroupSolid class="w-5 h-5" />
-            </Button>
-            <Button
               on:click={() => dispatch("edit", item)}
               class="!p-2 bg-blue-500"
               title="Edit"
@@ -95,6 +81,29 @@
               title="Delete"
             >
               <TrashBinSolid class="w-5 h-5" />
+            </Button>
+            <Button
+              tag="a" 
+              target="_blank"               
+              href="#/scheduler/teaching_load/{item.id}"
+              class="!p-2"
+              title="Print Summary"
+            >
+              <PrinterSolid class="w-5 h-5" />
+            </Button>
+            <Button
+              href="#/scheduler/{item.id}"
+              class="!p-2 bg-blue-500"
+              title="Faculty Program"
+            >
+              <UsersSolid class="w-5 h-5" />
+            </Button>
+            <Button
+              href="#/scheduler/student_program/{item.id}"
+              class="!p-2 bg-green-500"
+              title="Student Program"
+            >
+              <UsersGroupSolid class="w-5 h-5" />
             </Button>
           </TableBodyCell>
         </TableBodyRow>

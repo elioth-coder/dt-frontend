@@ -8,6 +8,7 @@
   import Signatories from "./Signatories.svelte";
   import TeacherDetails from "./TeacherDetails.svelte";
   import SignatoryService from "../../services/SignatoryService";
+  import schedule_times from "../../lib/schedule_times";
   export let params = {};
 
   const assets_url = CONFIG.ASSETS_URL;
@@ -18,37 +19,6 @@
   let personnelService = new PersonnelService();
   let teacherService = new SemesterTeacherService();
   let signatoryService = new SignatoryService();
-
-  let schedule_times = [
-    "",
-    "08:00AM-08:30AM",
-    "08:30AM-09:00AM",
-    "09:00AM-09:30AM",
-    "09:30AM-10:00AM",
-    "10:00AM-10:30AM",
-    "10:30AM-11:00AM",
-    "11:00AM-11:30AM",
-    "11:30AM-12:00NN",
-    "12:00NN-12:30PM",
-    "12:30PM-01:00PM",
-    "01:00PM-01:30PM",
-    "01:30PM-02:00PM",
-    "02:00PM-02:30PM",
-    "02:30PM-03:00PM",
-    "03:00PM-03:30PM",
-    "03:30PM-04:00PM",
-    "04:00PM-04:30PM",
-    "04:30PM-05:00PM",
-    "05:00PM-05:30PM",
-    "05:30PM-06:00PM",
-    "06:00PM-06:30PM",
-    "06:30PM-07:00PM",
-    "07:00PM-07:30PM",
-    "07:30PM-08:00PM",
-    "08:00PM-08:30PM",
-    "08:30PM-09:00PM",
-    "09:00PM-09:30PM",
-  ];
 
   let asyncSchedules;
   let ownSchedules = [];
@@ -127,7 +97,7 @@
 
 <div class="printable-area">
   <div id="header">
-    <img src={`${assets_url}/img/header.png`} alt="Header" />
+    <img src={`${assets_url}/img/header-vpaa.png`} alt="Header" />
   </div>
 
   <div id="content">
@@ -148,8 +118,8 @@
             >
               <div class="w-full">
                 <section class="text-center font-bold mb-3">
-                  <h2>OFF-CAMPUS PROGRAM - GENERAL TINIO (PAPAYA)</h2>
-                  <h2>FACULTY PROGRAM
+                  <h2 class="mb-1">OFF-CAMPUS PROGRAM - GENERAL TINIO (PAPAYA)</h2>
+                  <h2 style="line-height: 90%;">FACULTY PROGRAM
                     {#if semester}
                       <br class="m-0"><i>{semester.semester} Semester, Academic Year {semester.academic_year}</i>
                     {/if}
@@ -279,12 +249,12 @@
     Rev. 01 (06.17.2019)
   </span>
   <div id="footer">
-    <img src={`${assets_url}/img/footer.png`} alt="Footer" />
+    <img src={`${assets_url}/img/footer-vpaa.png`} alt="Footer" />
   </div>
 </div>
 
 <style>
-  @import "./scheduler.v1.8.css";
+  @import "./scheduler.v1.9.css";
   .schedules-container {
     --block-height: 20px;
     --margin-bottom: 0.85in;

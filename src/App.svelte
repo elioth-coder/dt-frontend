@@ -16,11 +16,13 @@
   import TeacherSchedulePage from './components/teacher_schedule/TeacherSchedulePage.svelte';
   import TeacherSchedulePrintPage from './components/teacher_schedule/TeacherSchedulePrintPage.svelte';
   import SignatoriesPage from './components/signatories/SignatoriesPage.svelte';
+  import TeachingLoadPage from './components/teaching_load/TeachingLoadPage.svelte';
 
   const routes = {
     '/login': LoginPage,
     '/signatories': SignatoriesPage,
     '/scheduler': SemestersPage,
+    '/scheduler/teaching_load/:id': TeachingLoadPage,
     '/scheduler/student_program/:id': StudentProgramPage,
     '/scheduler/student_program/:semester_id/:section': StudentProgramPrintPage,
     '/scheduler/:id': SemesterTeacherPage,

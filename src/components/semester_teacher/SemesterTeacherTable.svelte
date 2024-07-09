@@ -26,7 +26,7 @@
   let items = [];
   let asyncItems;
   let searchTerm = "";
-  let semesterService  = new SemesterTeacherService();
+  let semesterTeacherService  = new SemesterTeacherService();
   let recipientService = new RecipientService();
 
   $: filteredItems = items.filter((item) => {
@@ -44,7 +44,7 @@
   };
 
   const getTeachers = async () => {
-    let _items = await semesterService.getWhere('semester_id', semester.id);
+    let _items = await semesterTeacherService.getWhere('semester_id', semester.id);
     let teachers = [];
 
     for(let i=0; i<_items.length; i++) {

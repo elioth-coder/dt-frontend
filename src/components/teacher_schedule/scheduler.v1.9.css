@@ -65,7 +65,7 @@
   left: calc(var(--block-width) * 5);
 }
 .saturday {
-  left: calc((var(--block-width) * 6) - 6px);
+  left: calc(var(--block-width) * 6);
 }
 
 /* start */

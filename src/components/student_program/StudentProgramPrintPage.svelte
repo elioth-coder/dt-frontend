@@ -114,7 +114,7 @@
 
 <div class="printable-area">
   <div id="header">
-    <img src={`${assets_url}/img/header.png`} alt="Header" />
+    <img src={`${assets_url}/img/header-vpaa.png`} alt="Header" />
   </div>
 
   <div id="content">
@@ -135,8 +135,8 @@
             >
               <div class="w-full">
                 <section class="text-center font-bold mb-3">
-                  <h2>OFF-CAMPUS PROGRAM - GENERAL TINIO (PAPAYA)</h2>
-                  <h2>STUDENTS' PROGRAM
+                  <h2 class="mb-1">OFF-CAMPUS PROGRAM - GENERAL TINIO (PAPAYA)</h2>
+                  <h2 style="line-height:90%;">STUDENTS' PROGRAM
                     {#if semester}
                       <br class="m-0"><i>{semester.semester} Semester, Academic Year {semester.academic_year}</i>
                     {/if}
@@ -215,8 +215,7 @@
                     <section class="text-center bg-yellow-300 font-bold" style="border: 1px solid #000;">
                       SUMMARY
                     </section>
-                    <table class="w-full" style="border: 1px solid #000; border-top: none;">
-                      <thead>
+                    <table class="w-full" style="border: 1px solid #000; border-top: none; line-height: 90%;">
                         <tr>
                           <td class="px-2 font-bold text-center" style="border: 1px solid #000;">COURSE CODE</td>
                           <td class="px-2 font-bold text-center" style="border: 1px solid #000;" colspan="3">COURSE DESCRIPTION</td>
@@ -233,8 +232,6 @@
                           <td class="cell-width"></td>
                           <td class="cell-width"></td>
                         </tr>
-                      </thead>
-                      <tbody>
                         {#each ownSchedules as schedule}
                           <tr>
                             <td class="px-2">{schedule.subject.code}</td>
@@ -244,8 +241,6 @@
                             <td class="px-2 text-center">{schedule.subject.hours_week}</td>
                           </tr>
                         {/each}
-                      </tbody>
-                      <tfoot>
                         <tr>
                           <td class="cell-width"></td>
                           <td class="cell-width"></td>
@@ -255,7 +250,6 @@
                           <td class="cell-width text-center font-bold">TOTAL</td>
                           <td class="cell-width text-center">{totalHoursPerWeek}</td>
                         </tr>
-                      </tfoot>
                     </table>
                   </div>
                   {#if signatory}
@@ -282,12 +276,12 @@
     Rev. 01 (01.10.2019)
   </span>
   <div id="footer">
-    <img src={`${assets_url}/img/footer.png`} alt="Footer" />
+    <img src={`${assets_url}/img/header-vpaa.png`} alt="Footer" />
   </div>
 </div>
 
 <style>
-  @import "../teacher_schedule/scheduler.v1.8.css";
+  @import "../teacher_schedule/scheduler.v1.9.css";
   .schedules-container {
     --block-height: 20px;
     --margin-bottom: 0.85in;
