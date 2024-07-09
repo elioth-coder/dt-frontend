@@ -7,10 +7,11 @@
   import PersonnelService from "../../services/RecipientService";
   import SignatoryService from "../../services/SignatoryService";
   import schedule_times from "../../lib/schedule_times";
+  import Signatories from "../teacher_schedule/Signatories.svelte";
   export let params = {};
 
   const assets_url = CONFIG.ASSETS_URL;
-  let { section, semester_id } = params;
+  let { room, id: semester_id } = params;
   let scheduleService = new ScheduleService();
   let subjectService = new SubjectService();
   let semesterService = new SemesterService();
@@ -19,7 +20,7 @@
   let signatoryService = new SignatoryService();
 
   let asyncSchedules;
-  let ownSchedules = [];
+  let roomSchedules = [];
 
   const getInitials = (name) => {
     let names = name.split(' ');
@@ -32,9 +33,9 @@
     return initials.join('');
   }
 
-  const getSchedules = async (section, semester_id) => {
+  const getSchedules = async (room, semester_id) => {
     let formData = new FormData();
-    formData.set("section", section);
+    formData.set("room", room);
     formData.set("semester_id", semester_id);
     let schedules = await scheduleService.getByForm(formData);
     let schedulesWithSubject = [];
@@ -54,12 +55,12 @@
   };
 
   let printed = false;
-  $: if (ownSchedules?.length)
+  $: if (roomSchedules?.length)
     (() => {
       if (!printed) {
         setTimeout(() => {
-            window.print();
-            window.close();
+          window.print();
+          window.close();
         }, 2000);
         printed = true;
       }
@@ -67,31 +68,18 @@
 
   let semester;
   let signatory;
-  let totalHoursPerWeek = 0;
   onMount(async () => {
-    if (section && semester_id) {
-      let [program] = section.split(' - '); 
-      let colleges = {
-        'BSIT': 'CICT',
-        'BSBA': 'CMBT',
-        'BEED': 'COED',
-        'BSED': 'COED',
-      }
-
-      asyncSchedules = getSchedules(section, semester_id);
-      ownSchedules = await asyncSchedules;
+    if (room && semester_id) {
+      asyncSchedules = getSchedules(room, semester_id);
+      roomSchedules = await asyncSchedules;
       semester = await semesterService.get(semester_id);
       let formData = new FormData();
-      formData.set('college', colleges[program]);
-      formData.set('document', 'STUDENT PROGRAM');
+      formData.set('college', 'NONE');
+      formData.set('document', 'ROOM UTILIZATION');
       let signatories = await signatoryService.getByForm(formData);
-      signatory = signatories[0];
+      signatory = signatories[0] ?? {};
 
-      console.log({signatory});
-
-      totalHoursPerWeek = ownSchedules.reduce((prev, current) => {
-        return (prev += Number.parseInt(current.subject.hours_week));
-      }, 0);
+      console.log({signatory, roomSchedules});
     }
   });
 
@@ -136,17 +124,17 @@
               <div class="w-full">
                 <section class="text-center font-bold mb-3">
                   <h2 class="mb-1">OFF-CAMPUS PROGRAM - GENERAL TINIO (PAPAYA)</h2>
-                  <h2 style="line-height:90%;">STUDENTS' PROGRAM
+                  <h2 style="line-height:90%;">ROOM UTILIZATION
                     {#if semester}
                       <br class="m-0"><i>{semester.semester} Semester, Academic Year {semester.academic_year}</i>
                     {/if}
                   </h2>
                 </section>
-                {#if section}
+                {#if room}
                   <table class="w-full text-xs">
                     <tr>
-                      <td class="px-1 w-1/3 leading-none">Course / Year and Section: </td>
-                      <td class="w-2/3 leading-none font-bold">{section}</td>
+                      <td class="px-1 w-1/3 leading-none">ROOM NUMBER: </td>
+                      <td class="w-2/3 leading-none font-bold">{room}</td>
                     </tr>
                   </table>
                 {/if}
@@ -186,8 +174,8 @@
                         Loading schedules...
                       </h1>
                     {:then}
-                      {#if ownSchedules}
-                        {#each ownSchedules as item}
+                      {#if roomSchedules}
+                        {#each roomSchedules as item}
                           {@const day_of_week = item.day_of_week.toLowerCase()}
                           {@const start_time = item.start_time
                             .toLowerCase()
@@ -203,7 +191,7 @@
                           >
                             <p>{item.subject.code}</p>
                             <p>{getInitials(item.teacher.first_name)} {item.teacher.last_name}</p>
-                            <p>({item.room})</p>
+                            <p>({item.section})</p>
                           </div>
                         {:else}
                           <h1 class="text-center">No schedules found.</h1>
@@ -217,11 +205,11 @@
                     </section>
                     <table class="w-full" style="border: 1px solid #000; border-top: none; line-height: 90%;">
                         <tr>
-                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">COURSE CODE</td>
-                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;" colspan="3">COURSE DESCRIPTION</td>
-                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">ROOM</td>
+                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;" colspan="2">DAY & TIME</td>
+                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">COURSE/YR/SEC</td>
                           <td class="px-2 font-bold text-center" style="border: 1px solid #000;">FACULTY</td>
-                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">NO. OF<br>UNITS/HRS</td>
+                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">COURSE CODE</td>
+                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;" colspan="2">COURSE DESCRIPTION</td>
                         </tr>
                         <tr>
                           <td class="cell-width"></td>
@@ -232,26 +220,18 @@
                           <td class="cell-width"></td>
                           <td class="cell-width"></td>
                         </tr>
-                        {#each ownSchedules as schedule}
+                        {#each roomSchedules as schedule}
                           <tr>
-                            <td class="px-2">{schedule.subject.code}</td>
-                            <td class="px-2 capitalize" colspan="3">{schedule.subject.title.toLowerCase()}</td>
-                            <td class="px-2 text-center capitalize">{schedule.room.toLowerCase()}</td>
-                            <td class="px-2">{getInitials(schedule.teacher.first_name).toUpperCase()} {schedule.teacher.last_name.toUpperCase()}</td>
-                            <td class="px-2 text-center">{schedule.subject.hours_week}</td>
+                            <td class="align-top px-2 text-center capitalize" colspan="2">{schedule.day_of_week.substring(0,3)}. {schedule.start_time}-{schedule.end_time}</td>
+                            <td class="align-top px-2 text-center">{schedule.section}</td>
+                            <td class="align-top px-2 text-center">{getInitials(schedule.teacher.first_name)} {schedule.teacher.last_name}</td>
+                            <td class="align-top px-2 text-center">{schedule.subject.code}</td>
+                            <td class="align-top px-2 text-center capitalize" colspan="2">{schedule.subject.title.toLowerCase()}</td>
                           </tr>
                         {/each}
-                        <tr>
-                          <td class="cell-width"></td>
-                          <td class="cell-width"></td>
-                          <td class="cell-width"></td>
-                          <td class="cell-width"></td>
-                          <td class="cell-width"></td>
-                          <td class="cell-width text-center font-bold">TOTAL</td>
-                          <td class="cell-width text-center">{totalHoursPerWeek}</td>
-                        </tr>
                     </table>
                   </div>
+                  <br>
                   {#if signatory}
                     {@html signatory.content}
                   {/if}
@@ -272,7 +252,7 @@
     </table>
   </div>
   <span id="document_version">
-    NEUST-AAF-F013<br>
+    NEUST-AAF-F012<br>
     Rev. 01 (01.10.2019)
   </span>
   <div id="footer">

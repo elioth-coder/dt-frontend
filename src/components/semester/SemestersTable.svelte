@@ -10,7 +10,7 @@
     TableSearch,
   } from "flowbite-svelte";
   import SemesterService from "../../services/SemesterService";
-  import { TrashBinSolid, PenSolid, UsersSolid, UsersGroupSolid, PrinterSolid, } from "flowbite-svelte-icons";
+  import { TrashBinSolid, PenSolid, UsersSolid, UsersGroupSolid, PrinterSolid, BuildingSolid, } from "flowbite-svelte-icons";
   import { createEventDispatcher } from "svelte";
   export let hasUpdate;
 
@@ -90,6 +90,13 @@
               title="Print Summary"
             >
               <PrinterSolid class="w-5 h-5" />
+            </Button>
+            <Button
+              href="#/scheduler/room_utilization/{item.id}"
+              class="!p-2 bg-gray-500"
+              title="Room Utilization"
+            >
+              <BuildingSolid class="w-5 h-5" />
             </Button>
             <Button
               href="#/scheduler/{item.id}"

@@ -17,12 +17,16 @@
   import TeacherSchedulePrintPage from './components/teacher_schedule/TeacherSchedulePrintPage.svelte';
   import SignatoriesPage from './components/signatories/SignatoriesPage.svelte';
   import TeachingLoadPage from './components/teaching_load/TeachingLoadPage.svelte';
+  import RoomUtilizationPage from './components/room_utilization/RoomUtilizationPage.svelte';
+  import RoomUtilizationPrintPage from './components/room_utilization/RoomUtilizationPrintPage.svelte';
 
   const routes = {
     '/login': LoginPage,
     '/signatories': SignatoriesPage,
     '/scheduler': SemestersPage,
     '/scheduler/teaching_load/:id': TeachingLoadPage,
+    '/scheduler/room_utilization/:id': RoomUtilizationPage,
+    '/scheduler/room_utilization/:id/:room': RoomUtilizationPrintPage,
     '/scheduler/student_program/:id': StudentProgramPage,
     '/scheduler/student_program/:semester_id/:section': StudentProgramPrintPage,
     '/scheduler/:id': SemesterTeacherPage,

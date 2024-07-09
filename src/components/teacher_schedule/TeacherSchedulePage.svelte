@@ -576,6 +576,6 @@
   />
 </Page>
 
-<style>
+<style lang="postcss">
   @import "./scheduler.v1.9.css";
 </style>

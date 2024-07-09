@@ -45,7 +45,7 @@
   <Breadcrumb items={breadCrumbItems} />
   <br />
   <Heading tag="h2" class="text-left">
-    Select Semester
+    All Semesters
     <Button on:click={() => (addItem = true)} class="float-right"
       >Add new</Button
     >
@@ -56,7 +56,7 @@
       {#await asyncDelete}
         <p>
           <Spinner />
-          Deleting document...
+          Deleting semester...
         </p>
       {:then}
         <Alert color="green" class="m-0" dismissable>
