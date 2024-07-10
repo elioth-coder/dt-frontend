@@ -1,7 +1,7 @@
 <script>
   import { Button, Modal, Label, Input, Spinner, Alert } from "flowbite-svelte";
   import { createEventDispatcher } from "svelte";
-  import RecipientService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   import {
     ExclamationCircleSolid,
     InfoCircleSolid,
@@ -15,7 +15,7 @@
   let photoSrc = "";
   let processing = false;
   let message = null;
-  let service = new RecipientService();
+  let service = new FacultyService();
 
   const handlePhotoChange = (e) => {
     let files = e.target.files;
@@ -47,13 +47,13 @@
         await service.update(formData);
         message = {
           type: "success",
-          text: "Successfully updated personnel",
+          text: "Successfully updated faculty",
         };
       } else {
         await service.add(formData);
         message = {
           type: "success",
-          text: "Successfully added personnel",
+          text: "Successfully added faculty",
         };
       }
 
@@ -93,7 +93,7 @@
 <Modal
   bind:open
   size="xs"
-  title="PERSONNEL"
+  title="FACULTY"
   placement="top-center"
   dismissable={false}
   autoclose={false}
@@ -111,7 +111,7 @@
     <input type="submit" id="submit" class="hidden" />
     {#if photoSrc}
       <!-- svelte-ignore a11y-img-redundant-alt -->
-      <img class="mx-auto h-32" src={photoSrc} alt="Personnel photo" />
+      <img class="mx-auto h-32" src={photoSrc} alt="Faculty photo" />
     {/if}
     <Label class="space-y-2">
       <span>Photo</span>
@@ -146,6 +146,19 @@
         />
       </Label>
       <Label class="space-y-1">
+        <span>Middle name</span>
+        <Input
+          disabled={processing}
+          type="text"
+          name="middle_name"
+          value={item?.middle_name ?? ""}
+          placeholder="Enter middle name"
+          required
+        />
+      </Label>
+    </div>
+    <div class="flex gap-1">
+      <Label class="space-y-1">
         <span>Last name</span>
         <Input
           disabled={processing}
@@ -154,6 +167,16 @@
           value={item?.last_name ?? ""}
           placeholder="Enter last name"
           required
+        />
+      </Label>
+      <Label class="space-y-1">
+        <span>Degree</span>
+        <Input
+          disabled={processing}
+          type="text"
+          name="degree"
+          value={item?.degree ?? ""}
+          placeholder="Enter degree"
         />
       </Label>
     </div>

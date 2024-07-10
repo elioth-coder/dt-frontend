@@ -25,7 +25,7 @@
   import { onMount } from "svelte";
   import Breadcrumb from "../Breadcrumb.svelte";
   import SemesterTeacherService from "../../services/SemesterTeacherService";
-  import RecipientService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   import TeacherScheduleForm from "./TeacherScheduleForm.svelte";
   import ScheduleService from "../../services/ScheduleService";
   import SubjectService from "../../services/SubjectService";
@@ -39,7 +39,7 @@
   let teacher_id = params.teacher_id;
   let semesterService = new SemesterService();
   let teacherService = new SemesterTeacherService();
-  let recipientService = new RecipientService();
+  let facultyService = new FacultyService();
   let scheduleService = new ScheduleService();
   let subjectService = new SubjectService();
   let hasUpdate = Date.now();
@@ -48,7 +48,7 @@
   let asyncDelete = null;
   let semester;
   let teacher;
-  let recipient;
+  let faculty;
   let breadCrumbItems = [
     {
       href: "#/scheduler",
@@ -140,8 +140,8 @@
   onMount(async () => {
     semester = await semesterService.get(semester_id);
     teacher = await teacherService.get(teacher_id);
-    recipient = await recipientService.get(teacher.personnel_id);
-    teacher.recipient = { ...recipient };
+    faculty = await facultyService.get(teacher.personnel_id);
+    teacher.faculty = { ...faculty };
     subjects = await subjectService.getAll();
     sections = await generateSections();
 
@@ -281,15 +281,15 @@
 
   <Heading tag="h5" class="text-left align-middle my-0">
     {#if teacher}
-      {@const photo = teacher.recipient?.photo
-        ? teacher.recipient.photo
+      {@const photo = teacher.faculty?.photo
+        ? teacher.faculty.photo
         : "profile.png"}
       <Avatar
         src={`${HOST_URL}/uploads/${photo}`}
         size="md"
         class="inline mx-3"
       />
-      {teacher.recipient?.name}
+      {teacher.faculty?.name}
     {:else}
       Loading...
     {/if}

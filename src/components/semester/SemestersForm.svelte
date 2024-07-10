@@ -18,7 +18,7 @@
     ExclamationCircleSolid,
     InfoCircleSolid,
   } from "flowbite-svelte-icons";
-  import RecipientService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   import SemesterTeacherService from "../../services/SemesterTeacherService";
   export let open;
   export let item = null;
@@ -29,7 +29,7 @@
   let assigned = [];
   let semesterTeacherService = new SemesterTeacherService();
   let semesterService = new SemesterService();
-  let recipientService = new RecipientService();
+  let facultyService = new FacultyService();
   let teachers = [];
 
   let semesters = [
@@ -169,11 +169,11 @@
   };
 
   onMount(async () => {
-    let recipients = await recipientService.getAll();
+    let faculties = await facultyService.getAll();
 
-    teachers = recipients.map((recipient) => ({
-      value: recipient.id,
-      name: recipient.name,
+    teachers = faculties.map((faculty) => ({
+      value: faculty.id,
+      name: faculty.name,
     }));
   });
 </script>

@@ -381,9 +381,6 @@
         color="red"
         on:click={() => dispatch('cancel')}
       >
-        {#if processing}
-          <Spinner size={4} class="mr-2" />
-        {/if}
         Cancel
       </Button>
     </div>

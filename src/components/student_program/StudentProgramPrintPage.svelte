@@ -4,17 +4,17 @@
   import SubjectService from "../../services/SubjectService";
   import SemesterService from "../../services/SemesterService";
   import SemesterTeacherService from "../../services/SemesterTeacherService";
-  import PersonnelService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   import SignatoryService from "../../services/SignatoryService";
   import schedule_times from "../../lib/schedule_times";
   export let params = {};
 
-  const assets_url = CONFIG.ASSETS_URL;
+  const { ASSETS_URL } = CONFIG;
   let { section, semester_id } = params;
   let scheduleService = new ScheduleService();
   let subjectService = new SubjectService();
   let semesterService = new SemesterService();
-  let personnelService = new PersonnelService();
+  let facultyService = new FacultyService();
   let teacherService = new SemesterTeacherService();
   let signatoryService = new SignatoryService();
 
@@ -43,7 +43,7 @@
       let schedule = schedules[i];
       let subject = await subjectService.get(schedule.subject_id);
       let semester_teacher = await teacherService.get(schedule.teacher_id);
-      let teacher = await personnelService.get(semester_teacher.personnel_id);
+      let teacher = await facultyService.get(semester_teacher.personnel_id);
 
       schedule.subject = subject;
       schedule.teacher = teacher;
@@ -114,7 +114,7 @@
 
 <div class="printable-area">
   <div id="header">
-    <img src={`${assets_url}/img/header-vpaa.png`} alt="Header" />
+    <img src={`${ASSETS_URL}/img/header-vpaa.png`} alt="Header" />
   </div>
 
   <div id="content">
@@ -276,7 +276,7 @@
     Rev. 01 (01.10.2019)
   </span>
   <div id="footer">
-    <img src={`${assets_url}/img/footer-vpaa.png`} alt="Footer" />
+    <img src={`${ASSETS_URL}/img/footer-vpaa.png`} alt="Footer" />
   </div>
 </div>
 

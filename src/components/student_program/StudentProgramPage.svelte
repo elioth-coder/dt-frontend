@@ -10,7 +10,6 @@
   let semester_id = params.id;
   let semesterService = new SemesterService();
   let hasUpdate = Date.now();
-  let deleteItem = false;
   let semester;
   let breadCrumbItems = [
     {
@@ -18,7 +17,7 @@
       label: "Scheduler",
     },
     {
-      href: "#/scheduler/" + semester_id,
+      href: "#/scheduler/student_program/" + semester_id,
       label: "Student Program",
     },
   ];

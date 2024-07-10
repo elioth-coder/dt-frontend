@@ -1,8 +1,8 @@
 <script>
   import { Heading, Button, Spinner, Alert } from "flowbite-svelte";
   import Page from "../Page.svelte";
-  import SubmissionsTable from "./SubmissionsTable.svelte";
-  import SubmissionsForm from "./SubmissionsForm.svelte";
+  import FilesTable from "./FilesTable.svelte";
+  import FilesForm from "./FilesForm.svelte";
   import ConfirmModal from "../ConfirmModal.svelte";
   import SubmissionService from "../../services/SubmissionService";
   import { ExclamationCircleSolid } from "flowbite-svelte-icons";
@@ -16,8 +16,8 @@
   let asyncDelete = null;
   let breadCrumbItems = [
     {
-      href: "#/submissions",
-      label: "Submissions",
+      href: "#/files",
+      label: "Files",
     },
   ];
 
@@ -45,7 +45,7 @@
   <Breadcrumb items={breadCrumbItems} />
   <br />
   <Heading tag="h2" class="text-left">
-    All Submissions
+    Campus Files
     <Button on:click={() => (addItem = true)} class="float-right"
       >Add new</Button
     >
@@ -56,12 +56,12 @@
       {#await asyncDelete}
         <p>
           <Spinner />
-          Deleting document...
+          Deleting file...
         </p>
       {:then}
         <Alert color="green" class="m-0" dismissable>
           <ExclamationCircleSolid slot="icon" class="w-4 h-4" />
-          Successfully deleted the submission
+          Successfully deleted the file
         </Alert>
       {:catch error}
         <Alert color="red" class="m-0" dismissable>
@@ -72,13 +72,13 @@
     {/if}
   </div>
   <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left">
-    <SubmissionsTable
+    <FilesTable
       {hasUpdate}
       on:edit={({ detail: item }) => handleEdit(item)}
       on:delete={({ detail: item }) => confirmDelete(item)}
     />
   </div>
-  <SubmissionsForm
+  <FilesForm
     open={addItem || editItem}
     item={editItem ? editItem : null}
     on:update={() => (hasUpdate = Date.now())}
@@ -90,7 +90,7 @@
   <ConfirmModal
     on:continue={handleDelete}
     on:cancel={() => (deleteItem = false)}
-    message="Delete this submission now?"
+    message="Delete this file now?"
     open={deleteItem}
   />
 </Page>

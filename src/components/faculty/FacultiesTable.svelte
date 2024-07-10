@@ -10,14 +10,14 @@
       TableHeadCell,
       TableSearch,
     } from "flowbite-svelte";
-    import RecipientService from "../../services/RecipientService";
+    import FacultyService from "../../services/FacultyService";
     import { TrashBinSolid, PenSolid } from "flowbite-svelte-icons";
     import { createEventDispatcher } from "svelte";
     export let hasUpdate;
   
     const dispatch = createEventDispatcher();
     let { HOST_URL } = CONFIG;
-    let service = new RecipientService();
+    let service = new FacultyService();
     let searchTerm = "";
     let items = [];
     let asyncItems;
@@ -30,6 +30,17 @@
       updateItems();
     })()
   
+    const getInitials = (name) => {
+      let names = name.split(' ');
+      let initials = [];
+
+      for(let i=0; i<names.length; i++) {
+        initials.push(names[i].charAt(0) + '.');
+      }
+
+      return initials.join('');
+    }
+
     const updateItems = async () => {
       asyncItems = service.getAll();
       items = await asyncItems;
@@ -52,14 +63,14 @@
     <TableBody>
       {#await asyncItems}
         <TableBodyRow>
-          <TableBodyCell colspan={5} class="text-center">
+          <TableBodyCell colspan={6} class="text-center">
             <Spinner size={4} class="me-1" />
             Fetching items...
           </TableBodyCell>
         </TableBodyRow>
       {:catch error}
         <TableBodyRow>
-          <TableBodyCell colspan={5} class="text-center text-red-600">
+          <TableBodyCell colspan={6} class="text-center text-red-600">
             {error.message}
           </TableBodyCell>
         </TableBodyRow>
@@ -76,9 +87,21 @@
                 />
               {/if}
             </TableBodyCell>
-            <TableBodyCell>{item.name}</TableBodyCell>
-            <TableBodyCell>{item.employment_status}</TableBodyCell>
-            <TableBodyCell>{item.field_specialization}</TableBodyCell>
+            <TableBodyCell>
+              {item.first_name} 
+              {getInitials(item.middle_name)} 
+              {item.last_name}
+            </TableBodyCell>
+            <TableBodyCell title={item.employment_status} 
+              class="max-w-40 overflow-hidden text-ellipsis"
+            >
+              {item.employment_status}
+            </TableBodyCell>
+            <TableBodyCell title={item.field_specialization} 
+              class="max-w-40 overflow-hidden text-ellipsis"
+            >
+              {item.field_specialization}
+            </TableBodyCell>
             <TableBodyCell>{item.college}</TableBodyCell>
             <TableBodyCell class="text-center">
               <Button 
@@ -99,7 +122,7 @@
           </TableBodyRow>
         {:else}
           <TableBodyRow>
-            <TableBodyCell colspan={5} class="text-center">
+            <TableBodyCell colspan={6} class="text-center">
               No items found.
             </TableBodyCell>
           </TableBodyRow>

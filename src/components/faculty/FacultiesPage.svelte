@@ -1,15 +1,15 @@
 <script>
   import { Heading, Button, Spinner, Alert } from "flowbite-svelte";
   import Page from "../Page.svelte";
-  import RecipientsTable from "./RecipientsTable.svelte";
-  import RecipientsForm from "./RecipientsForm.svelte";
+  import FacultiesTable from "./FacultiesTable.svelte";
+  import FacultiesForm from "./FacultiesForm.svelte";
   import ConfirmModal from "../ConfirmModal.svelte";
-  import RecipientService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   import { ExclamationCircleSolid } from "flowbite-svelte-icons";
   import Breadcrumb from "../Breadcrumb.svelte";
   import { onMount } from "svelte";
 
-  let service = new RecipientService();
+  let service = new FacultyService();
   let hasUpdate = Date.now();
   let addItem = false;
   let deleteItem = false;
@@ -17,12 +17,8 @@
   let asyncDelete = null;
   let breadCrumbItems = [
     {
-      href: "#/records",
-      label: "Records",
-    },
-    {
-      href: "#/records/recipients",
-      label: "Personnels",
+      href: "#/faculties",
+      label: "Faculties",
     },
   ];
 
@@ -54,7 +50,7 @@
   <Breadcrumb items={breadCrumbItems} />
   <br>
   <Heading tag="h2" class="text-left">
-    All personnels
+    All Faculties
     <Button on:click={() => (addItem = true)} class="float-right"
       >Add new</Button
     >
@@ -65,12 +61,12 @@
       {#await asyncDelete}
         <p>
           <Spinner />
-          Deleting personnel...
+          Deleting faculty...
         </p>
       {:then}
         <Alert color="green" class="m-0" dismissable>
           <ExclamationCircleSolid slot="icon" class="w-4 h-4" />
-          Successfully deleted the personnel
+          Successfully deleted the faculty
         </Alert>
       {:catch error}
         <Alert color="red" class="m-0" dismissable>
@@ -81,13 +77,13 @@
     {/if}
   </div>
   <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left">
-    <RecipientsTable
+    <FacultiesTable
       {hasUpdate}
       on:edit={({ detail: item }) => handleEdit(item)}
       on:delete={({ detail: item }) => confirmDelete(item)}
     />
   </div>
-  <RecipientsForm
+  <FacultiesForm
     open={addItem || editItem}
     item={editItem ? editItem : null}
     on:update={() => (hasUpdate = Date.now())}
@@ -99,7 +95,7 @@
   <ConfirmModal
     on:continue={handleDelete}
     on:cancel={() => (deleteItem = false)}
-    message="Delete this recipient now?"
+    message="Delete this faculty now?"
     open={deleteItem}
   />
 </Page>

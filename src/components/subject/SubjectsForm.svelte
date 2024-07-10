@@ -7,6 +7,7 @@
     Alert,
     Input,
     Select,
+    Hr,
   } from "flowbite-svelte";
   import { afterUpdate, createEventDispatcher, onMount } from "svelte";
   import {
@@ -20,7 +21,7 @@
   let processing = false;
   let message = null;
 
-  let lec_selected, lab_selected;
+  let lec_selected, lab_selected, units_selected;
 
   $: hours_week = (lec_selected + lab_selected) + '';
 
@@ -93,11 +94,15 @@
   };
 
   afterUpdate(() => {
-    // @ts-ignore
-    lec_selected = parseInt(item?.lec ?? "");
-    lab_selected = parseInt(item?.lab ?? "");
-
-    console.log(item);
+    if(item) {
+      // @ts-ignore
+      lec_selected = parseInt(item?.lec ?? "");
+      // @ts-ignore
+      lab_selected = parseInt(item?.lab ?? "");
+      // @ts-ignore
+      units_selected = parseInt(item?.units ?? "");
+      console.log(item);
+    }
   });
 
   onMount(async () => {
@@ -231,7 +236,7 @@
           <Select
             disabled={processing}
             name="units"
-            value={parseInt(item.units ?? "")}
+            bind:value={units_selected}
             items={[
               {value: 1, name: 1},
               {value: 2, name: 2},
@@ -307,8 +312,8 @@
         </Label>  
       </div>
     </section>
-    <br />
-    <div>
+    <hr class="my-5"/>
+    <div class="text-right">
       <Button
         disabled={processing}
         on:click={() => document.getElementById("submit").click()}

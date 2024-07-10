@@ -17,7 +17,7 @@
   } from "flowbite-svelte-icons";
   import { createEventDispatcher } from "svelte";
   import SemesterTeacherService from "../../services/SemesterTeacherService";
-  import RecipientService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   export let hasUpdate;
   export let semester;
 
@@ -27,7 +27,7 @@
   let asyncItems;
   let searchTerm = "";
   let semesterTeacherService  = new SemesterTeacherService();
-  let recipientService = new RecipientService();
+  let facultyService = new FacultyService();
 
   $: filteredItems = items.filter((item) => {
     return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
@@ -49,7 +49,7 @@
 
     for(let i=0; i<_items.length; i++) {
       let item = _items[i];
-      let teacher = await recipientService.get(item.personnel_id);
+      let teacher = await facultyService.get(item.personnel_id);
       teacher.assigned_id = item.id;
 
       teachers.push(teacher);
@@ -99,8 +99,8 @@ bind:inputValue={searchTerm}
           {/if}
         </TableBodyCell>
         <TableBodyCell>{item.name}</TableBodyCell>
-        <TableBodyCell>{item.employment_status}</TableBodyCell>
-        <TableBodyCell>{item.field_specialization}</TableBodyCell>
+        <TableBodyCell class="max-w-40 overflow-hidden text-ellipsis">{item.employment_status}</TableBodyCell>
+        <TableBodyCell class="max-w-40 overflow-hidden text-ellipsis">{item.field_specialization}</TableBodyCell>
         <TableBodyCell class="text-center">
           <Button 
             icon={true} 

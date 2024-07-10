@@ -15,7 +15,7 @@
     ExclamationCircleSolid,
     InfoCircleSolid,
   } from "flowbite-svelte-icons";
-  import RecipientService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   import SubmissionFileService from "../../services/SubmissionFileService";
   import SubmissionAssignedService from "../../services/SubmissionAssignedService";
   import SubmissionFileStatusService from "../../services/SubmissionFileStatusService";
@@ -30,7 +30,7 @@
   let submissionFileService = new SubmissionFileService();
   let submissionFileStatusService = new SubmissionFileStatusService();
   let submissionService = new SubmissionService();
-  let recipientService = new RecipientService();
+  let facultyService = new FacultyService();
   let employees = [];
 
   const handleClose = () => {
@@ -51,7 +51,7 @@
     }
 
     if(!assigned.length) {
-      return alert("Enter assigned personnels!");
+      return alert("Enter assigned faculties!");
     }
 
     try {
@@ -132,11 +132,11 @@
   };
 
   onMount(async () => {
-    let recipients = await recipientService.getAll();
+    let faculties = await facultyService.getAll();
 
-    employees = recipients.map((recipient) => ({
-      value: recipient.id,
-      name: recipient.name,
+    employees = faculties.map((faculty) => ({
+      value: faculty.id,
+      name: faculty.name,
     }));
   });
 </script>

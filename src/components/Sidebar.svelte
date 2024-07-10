@@ -14,6 +14,8 @@
     HomeSolid,
     CalendarMonthSolid,
     PenNibSolid,
+    UsersSolid,
+    BookSolid,
   } from "flowbite-svelte-icons";
   import { replace } from "svelte-spa-router";
   import UserService from "../services/UserService";
@@ -21,19 +23,28 @@
   $: activeUrl = $location;
   let service = new UserService();
 
-  const logout = async () => {
-    let { status, message } = await service.logout();
+  const logout = async (e) => {
+    e.preventDefault();
+    let confirm_logout = confirm('Are you sure you want to log out?');
+    
+    if(confirm_logout) {
+      let { status, message } = await service.logout();
 
-    if(status == 'success') replace('/login');
+      if(status == 'success') {
+        replace('/login');
+      }
+    }
   }
 
   const items = [
     { label: 'Home', 'icon': HomeSolid, href: '#/' },
-    { label: 'Document Trail', 'icon': FileCloneSolid, href: '#/document_trail' },
-    { label: 'Submitted Files', 'icon': ArrowUpRightFromSquareSolid, href: '#/submissions' },
+    { label: 'Files', 'icon': ArrowUpRightFromSquareSolid, href: '#/files' },
     { label: 'Scheduler', 'icon': CalendarMonthSolid, href: '#/scheduler' },
+    { label: 'Subjects', 'icon': BookSolid, href: '#/subjects' },
+    { label: 'Faculties', 'icon': UsersSolid, href: '#/faculties' },
     { label: 'Signatories', 'icon': PenNibSolid, href: '#/signatories' },
-    { label: 'Basic Records', 'icon': RectangleListSolid, href: '#/records' },
+    // { label: 'Document Trail', 'icon': FileCloneSolid, href: '#/document_trail' },
+    // { label: 'Basic Records', 'icon': RectangleListSolid, href: '#/records' },
   ];
 </script>
 

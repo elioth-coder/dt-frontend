@@ -16,11 +16,7 @@
   let asyncDelete = null;
   let breadCrumbItems = [
     {
-      href: "#/records",
-      label: "Records",
-    },
-    {
-      href: "#/records/subjects",
+      href: "#/subjects",
       label: "Subjects",
     },
   ];

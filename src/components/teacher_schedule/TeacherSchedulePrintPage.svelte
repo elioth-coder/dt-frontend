@@ -4,7 +4,7 @@
   import SubjectService from "../../services/SubjectService";
   import SemesterService from "../../services/SemesterService";
   import SemesterTeacherService from "../../services/SemesterTeacherService";
-  import PersonnelService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   import Signatories from "./Signatories.svelte";
   import TeacherDetails from "./TeacherDetails.svelte";
   import SignatoryService from "../../services/SignatoryService";
@@ -16,7 +16,7 @@
   let scheduleService = new ScheduleService();
   let subjectService = new SubjectService();
   let semesterService = new SemesterService();
-  let personnelService = new PersonnelService();
+  let facultyService = new FacultyService();
   let teacherService = new SemesterTeacherService();
   let signatoryService = new SignatoryService();
 
@@ -55,7 +55,7 @@
 
   let semester;
   let teacher;
-  let personnel;
+  let faculty;
   let signatory;
   let totalHoursPerWeek = 0;
   onMount(async () => {
@@ -64,10 +64,9 @@
       ownSchedules = await asyncSchedules;
       semester = await semesterService.get(semester_id);
       teacher = await teacherService.get(teacher_id);
-      personnel = await personnelService.get(teacher.personnel_id);
-      // let signatories = await signatoryService.getWhere('college', personnel.college);
+      faculty = await facultyService.get(teacher.personnel_id);
       let formData = new FormData();
-      formData.set('college', personnel.college);
+      formData.set('college', faculty.college);
       formData.set('document', 'FACULTY PROGRAM');
       let signatories = await signatoryService.getByForm(formData);
       signatory = signatories[0];
@@ -125,8 +124,8 @@
                     {/if}
                   </h2>
                 </section>
-                {#if personnel}
-                  <TeacherDetails teacher={personnel} />
+                {#if faculty}
+                  <TeacherDetails teacher={faculty} />
                 {/if}
                 <div class="schedules-container w-full text-xs">
                   <div class="w-full overflow-visible relative">

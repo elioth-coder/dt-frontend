@@ -116,7 +116,7 @@
         </TableBodyRow>
       {:else}
         <TableBodyRow>
-          <TableBodyCell colspan={3} class="text-center">
+          <TableBodyCell colspan={4} class="text-center">
             No items found.
           </TableBodyCell>
         </TableBodyRow>

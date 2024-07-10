@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import SemesterService from "../../services/SemesterService";
   import SemesterTeacherService from "../../services/SemesterTeacherService";
-  import PersonnelService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   import ScheduleService from "../../services/ScheduleService";
   import SubjectService from "../../services/SubjectService";
   import { sumBy, uniqBy } from "lodash-es";
@@ -12,7 +12,7 @@
   let semester_id = params.id;
   let semesterService = new SemesterService();
   let semesterTeacherService = new SemesterTeacherService();
-  let personnelService = new PersonnelService();
+  let facultyService = new FacultyService();
   let scheduleService = new ScheduleService();
   let subjectService = new SubjectService();
   let semester;
@@ -41,7 +41,7 @@
 
     for(let i=0; i<_items.length; i++) {
       let item = _items[i];
-      let teacher = await personnelService.get(item.personnel_id);
+      let teacher = await facultyService.get(item.personnel_id);
       teacher.assigned_id = item.id;
 
       teachers.push(teacher);

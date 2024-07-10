@@ -8,10 +8,10 @@
   import { maxBy } from "lodash-es";
   import SubmissionAssignedService from "../../services/SubmissionAssignedService";
   import SubmissionFileService from "../../services/SubmissionFileService";
-  import RecipientService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   import SubmissionFileStatusService from "../../services/SubmissionFileStatusService";
-  import SubmissionStatusTable from "./SubmissionStatusTable.svelte";
-  import { CheckOutline, FileCheckOutline, FileOutline } from "flowbite-svelte-icons";
+  import SubmissionStatusTable from "./FileStatusTable.svelte";
+  import { CheckOutline, } from "flowbite-svelte-icons";
   export let params = {};
 
   let submission_id = params.id;
@@ -23,7 +23,7 @@
   let submissionFileStatusService = new SubmissionFileStatusService();
   let submissionFileService = new SubmissionFileService();
   let submissionService = new SubmissionService();
-  let recipientService = new RecipientService();
+  let facultyService = new FacultyService();
   let hasUpdate = Date.now();
   let deleteItem = false;
   let asyncDelete = null;
@@ -84,7 +84,7 @@
     for (let i = 0; i < assigned.length; i++) {
       let item = {};
 
-      item.person = recipientService.get(assigned[i].personnel_id);
+      item.person = facultyService.get(assigned[i].personnel_id);
       let fileArray = [];
       for (let j = 0; j < files.length; j++) {
         let formData = new FormData();

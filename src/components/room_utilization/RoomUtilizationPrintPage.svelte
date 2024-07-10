@@ -4,7 +4,7 @@
   import SubjectService from "../../services/SubjectService";
   import SemesterService from "../../services/SemesterService";
   import SemesterTeacherService from "../../services/SemesterTeacherService";
-  import PersonnelService from "../../services/RecipientService";
+  import FacultyService from "../../services/FacultyService";
   import SignatoryService from "../../services/SignatoryService";
   import schedule_times from "../../lib/schedule_times";
   import Signatories from "../teacher_schedule/Signatories.svelte";
@@ -15,7 +15,7 @@
   let scheduleService = new ScheduleService();
   let subjectService = new SubjectService();
   let semesterService = new SemesterService();
-  let personnelService = new PersonnelService();
+  let facultyService = new FacultyService();
   let teacherService = new SemesterTeacherService();
   let signatoryService = new SignatoryService();
 
@@ -44,7 +44,7 @@
       let schedule = schedules[i];
       let subject = await subjectService.get(schedule.subject_id);
       let semester_teacher = await teacherService.get(schedule.teacher_id);
-      let teacher = await personnelService.get(semester_teacher.personnel_id);
+      let teacher = await facultyService.get(semester_teacher.personnel_id);
 
       schedule.subject = subject;
       schedule.teacher = teacher;
