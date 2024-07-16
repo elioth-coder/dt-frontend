@@ -1,14 +1,14 @@
 <script>
   import { Heading, Button, Spinner, Alert } from "flowbite-svelte";
   import Page from "../Page.svelte";
-  import LocationsTable from "./LocationsTable.svelte";
-  import LocationsForm from "./LocationsForm.svelte";
+  import RoomsTable from "./RoomsTable.svelte";
+  import RoomsForm from "./RoomsForm.svelte";
   import ConfirmModal from "../ConfirmModal.svelte";
-  import LocationService from "../../services/LocationService";
+  import RoomService from "../../services/RoomService";
   import { ExclamationCircleSolid } from "flowbite-svelte-icons";
   import Breadcrumb from "../Breadcrumb.svelte";
 
-  let service = new LocationService();
+  let service = new RoomService();
   let hasUpdate = Date.now();
   let addItem = false;
   let deleteItem = false;
@@ -20,8 +20,8 @@
       label: "Records",
     },
     {
-      href: '#/records/locations',
-      label: 'Locations'
+      href: '#/records/rooms',
+      label: 'Rooms'
     }
   ];
 
@@ -50,7 +50,7 @@
   <Breadcrumb items={breadCrumbItems} />
   <br>
   <Heading tag="h2" class="text-left">
-    All locations
+    All Rooms
     <Button on:click={() => (addItem = true)} class="float-right"
       >Add new</Button
     >
@@ -61,12 +61,12 @@
       {#await asyncDelete}
         <p>
           <Spinner />
-          Deleting location...
+          Deleting room...
         </p>
       {:then}
         <Alert color="green" class="m-0" dismissable>
           <ExclamationCircleSolid slot="icon" class="w-4 h-4" />
-          Successfully deleted the location
+          Successfully deleted the room
         </Alert>
       {:catch error}
         <Alert color="red" class="m-0" dismissable>
@@ -77,13 +77,13 @@
     {/if}
   </div>
   <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left">
-    <LocationsTable
+    <RoomsTable
       {hasUpdate}
       on:edit={({ detail: item }) => handleEdit(item)}
       on:delete={({ detail: item }) => confirmDelete(item)}
     />
   </div>
-  <LocationsForm
+  <RoomsForm
     open={addItem || editItem}
     item={(editItem) ? editItem : null}
     on:update={() => (hasUpdate = Date.now())}
@@ -95,7 +95,7 @@
   <ConfirmModal
     on:continue={handleDelete}
     on:cancel={() => (deleteItem = false)}
-    message="Delete this location now?"
+    message="Delete this room now?"
     open={deleteItem}
   />
 </Page>

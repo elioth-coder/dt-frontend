@@ -5,11 +5,11 @@
     ExclamationCircleSolid,
     InfoCircleSolid,
   } from "flowbite-svelte-icons";
-  import SubjectService from "../../services/SubjectService";
   import ScheduleService from "../../services/ScheduleService";
   import ComboBox from "../ComboBox.svelte";
+  import RoomService from "../../services/RoomService";
   export let teacher_id;
-  export let semester_id;
+  export let semester;
   export let item = null;
   export let sections = [];
   export let subjects = [];
@@ -51,30 +51,7 @@
     "09:30 PM",
   ];
 
-  let rooms = [
-    "COMLAB 1",
-    "COMLAB 2",
-    "GYMNASIUM",
-    "ROOM 1",
-    "ROOM 2",
-    "ROOM 3",
-    "ROOM 4",
-    "ROOM 5",
-    "ROOM 6",
-    "ROOM 7",
-    "ROOM 8",
-    "ROOM 9",
-    "ROOM A",
-    "ROOM B",
-    "ROOM C",
-    "ROOM D",
-    "ROOM E",
-    "ROOM F",
-    "ROOM G",
-    "ROOM H",
-    "ROOM I",
-  ].map((room) => ({ name: room, value: room }));
-
+  let rooms = [];
   let days = [
     "MONDAY",
     "TUESDAY",
@@ -136,7 +113,7 @@
           let [program, year_level] = _section.split(' - ');
           year_level = parseInt(year_level);
 
-          return (subject.year_level==year_level && subject.program==program);
+          return (subject.year_level==year_level && subject.program==program && subject.semester==semester.semester);
         }).map((subject) => ({
           value: subject.id,
           name: `${subject.code} - ${subject.title}`,
@@ -245,6 +222,7 @@
     end_time = "";
   }
 
+  let roomService = new RoomService();
   onMount(async () => {
     if (subjects.length) {
       subject_options = subjects.map((subject) => ({
@@ -252,6 +230,9 @@
         name: `${subject.code} - ${subject.title}`,
       }));
     }
+
+    let _rooms = await roomService.getAll();
+    rooms = _rooms.map(room=> ({ name: room.name, value: room.name }));
   });
 </script>
 
@@ -261,7 +242,7 @@
   action="#"
 >
   <input type="hidden" name="teacher_id" value={teacher_id} />
-  <input type="hidden" name="semester_id" value={semester_id} />
+  <input type="hidden" name="semester_id" value={semester.id} />
   {#if item}
     <input type="hidden" name="id" value={item?.id} />
   {/if}

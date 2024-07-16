@@ -17,6 +17,7 @@
   import TeachingLoadPage from './components/teaching_load/TeachingLoadPage.svelte';
   import RoomUtilizationPage from './components/room_utilization/RoomUtilizationPage.svelte';
   import RoomUtilizationPrintPage from './components/room_utilization/RoomUtilizationPrintPage.svelte';
+  import RoomsPage from './components/room/RoomsPage.svelte';
 
   const routes = {
     '/login': LoginPage,
@@ -32,6 +33,7 @@
     '/scheduler/print/:id/:teacher_id': TeacherSchedulePrintPage,
     '/faculties': FacultiesPage,
     '/subjects': SubjectsPage,
+    '/rooms': RoomsPage,
     '/files': FilesPage,
     '/files/:id': FileStatusPage,
     '/document_trail': DocumentTrailPage,

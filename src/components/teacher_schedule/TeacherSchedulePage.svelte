@@ -13,6 +13,8 @@
     Drawer,
     CloseButton,
     Avatar,
+    Label,
+    Input,
   } from "flowbite-svelte";
   import Page from "../Page.svelte";
   import ConfirmModal from "../ConfirmModal.svelte";
@@ -31,6 +33,7 @@
   import SubjectService from "../../services/SubjectService";
   import { sineIn } from "svelte/easing";
   import { uniqBy } from "lodash-es";
+  import ResearchExtensionForm from "./ResearchExtensionForm.svelte";
   export let params = {};
 
   let { HOST_URL } = CONFIG;
@@ -299,8 +302,7 @@
       </Button>
     {/if}
   </Heading>
-
-  <div class="mb-4">
+  <div class="my-1">
     {#if asyncDelete}
       {#await asyncDelete}
         <p>
@@ -344,7 +346,7 @@
         {#if subjects.length && sections.length}
           <TeacherScheduleForm
             {teacher_id}
-            {semester_id}
+            {semester}
             {subjects}
             {sections}
             item={editItem ?? null}
@@ -393,12 +395,13 @@
                   .replace(" ", "")
                   .replace(":", "-")}
                 {@const trigger_id =
-                  item.subject.code.replace(" ", "_").replace("-", "_") +
+                  item.subject.code.split(" ").join("_").split("-").join("_") +
                   "_" +
                   item.id}                
-                <div id={trigger_id}
+                <div 
+                  id={trigger_id}
                   style="margin-top: 25px;"
-                  class="absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{item.color}-500"
+                  class="cursor-pointer absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{item.color}-500"
                 >
                   <p>{item.subject.code}</p>
                   <p>{item.section.split(' - ').join(' ')}</p>
@@ -448,13 +451,13 @@
                 .replace(" ", "")
                 .replace(":", "-")}
               {@const trigger_id =
-                item.subject.code.replace(" ", "_").replace("-", "_") +
+                item.subject.code.split(" ").join("_").split("-").join("_") +
                 "_" +
                 item.id}
               <div
                 id={trigger_id}
                 style="margin-top: 25px;"
-                class="absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} opacity-75 bg-slate-400 !border-red-600 !border-8"
+                class="cursor-pointer absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} opacity-75 bg-slate-400 !border-red-600 !border-8"
               >
                   <p>{item.subject.code}</p>
                   <p>{item.section.split(' - ').join(' ')}</p>
@@ -487,13 +490,18 @@
               .replace(":", "-")}
             <div
               style="margin-top: 25px;"
-              class="absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{color}-400 !border-green-600 !border-8"
+              class="cursor-pointer absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{color}-400 !border-green-600 !border-8"
             >
               <Heading tag="h6" class="text-center">NEW</Heading>
             </div>
           {/if}
         </div>
       </div>
+      {#if teacher}
+        <ResearchExtensionForm 
+          semester_teacher={teacher} 
+        />
+      {/if}
       <br />
       <div class="flex flex-col max-w-4xl">
         <Table striped={true} border={true}>
@@ -558,6 +566,7 @@
           {/if}
         </Table>
       </div>
+
       {#if hideDrawer}
         <section class="w-full text-center my-3">
           <Button icon={true} tag="a" target="_blank" href={`#/scheduler/print/${semester_id}/${teacher_id}`}>

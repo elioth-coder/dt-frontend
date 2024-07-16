@@ -16,6 +16,7 @@
     PenNibSolid,
     UsersSolid,
     BookSolid,
+    BuildingSolid,
   } from "flowbite-svelte-icons";
   import { replace } from "svelte-spa-router";
   import UserService from "../services/UserService";
@@ -40,11 +41,10 @@
     { label: 'Home', 'icon': HomeSolid, href: '#/' },
     { label: 'Files', 'icon': ArrowUpRightFromSquareSolid, href: '#/files' },
     { label: 'Scheduler', 'icon': CalendarMonthSolid, href: '#/scheduler' },
+    { label: 'Rooms', 'icon': BuildingSolid, href: '#/rooms' },
     { label: 'Subjects', 'icon': BookSolid, href: '#/subjects' },
     { label: 'Faculties', 'icon': UsersSolid, href: '#/faculties' },
     { label: 'Signatories', 'icon': PenNibSolid, href: '#/signatories' },
-    // { label: 'Document Trail', 'icon': FileCloneSolid, href: '#/document_trail' },
-    // { label: 'Basic Records', 'icon': RectangleListSolid, href: '#/records' },
   ];
 </script>
 

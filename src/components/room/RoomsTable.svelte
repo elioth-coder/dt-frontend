@@ -10,20 +10,23 @@
     TableHeadCell,
     TableSearch,
   } from "flowbite-svelte";
-  import LocationService from "../../services/LocationService";
+  import RoomService from "../../services/RoomService";
   import { TrashBinSolid, PenSolid } from "flowbite-svelte-icons";
   import { createEventDispatcher } from "svelte";
   export let hasUpdate;
 
   const dispatch = createEventDispatcher();
   let { HOST_URL } = CONFIG;
-  let service = new LocationService();
+  let service = new RoomService();
   let searchTerm = "";
   let items = [];
   let asyncItems;
 
   $: filteredItems = items.filter((item) => {
-    return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1;
+    return (
+      item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+      item.building.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+    );
   });
 
   $: hasUpdate,
@@ -45,19 +48,20 @@
   <TableHead>
     <TableHeadCell class="text-center">Photo</TableHeadCell>
     <TableHeadCell>Name</TableHeadCell>
+    <TableHeadCell>Building</TableHeadCell>
     <TableHeadCell class="text-center">Action</TableHeadCell>
   </TableHead>
   <TableBody>
     {#await asyncItems}
       <TableBodyRow>
-        <TableBodyCell colspan={3} class="text-center">
+        <TableBodyCell colspan={4} class="text-center">
           <Spinner size={4} class="me-1" />
           Fetching items...
         </TableBodyCell>
       </TableBodyRow>
     {:catch error}
       <TableBodyRow>
-        <TableBodyCell colspan={3} class="text-center text-red-600">
+        <TableBodyCell colspan={4} class="text-center text-red-600">
           {error.message}
         </TableBodyCell>
       </TableBodyRow>
@@ -75,6 +79,7 @@
             {/if}
           </TableBodyCell>
           <TableBodyCell>{item.name}</TableBodyCell>
+          <TableBodyCell>{item.building}</TableBodyCell>
           <TableBodyCell class="text-center">
             <Button
               on:click={() => dispatch("edit", item)}
@@ -94,7 +99,7 @@
         </TableBodyRow>
       {:else}
         <TableBodyRow>
-          <TableBodyCell colspan={3} class="text-center">
+          <TableBodyCell colspan={4} class="text-center">
             No items found.
           </TableBodyCell>
         </TableBodyRow>

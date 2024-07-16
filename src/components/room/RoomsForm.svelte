@@ -8,7 +8,7 @@
     Alert,
   } from "flowbite-svelte";
   import { createEventDispatcher } from "svelte";
-  import LocationService from "../../services/LocationService";
+  import RoomService from "../../services/RoomService";
   import { ExclamationCircleSolid, InfoCircleSolid } from "flowbite-svelte-icons";
   export let open;
   export let item = null;
@@ -18,7 +18,7 @@
   let photoSrc = "";
   let processing = false;
   let message = null;
-  let service = new LocationService();
+  let service = new RoomService();
 
   const handlePhotoChange = (e) => {
     let files = e.target.files;
@@ -46,13 +46,13 @@
         await service.update(formData);
         message = {
           type: "success",
-          text: "Successfully updated location",
+          text: "Successfully updated room",
         };
       } else {
         await service.add(formData);
         message = {
           type: "success",
-          text: "Successfully added location",
+          text: "Successfully added room",
         };
       }
 
@@ -85,7 +85,7 @@
 <Modal
   bind:open={open}
   size="xs" 
-  title="LOCATION"
+  title="ROOM"
   placement="top-center"
   dismissable={false}
   autoclose={false}
@@ -106,7 +106,7 @@
       <img
         class="mx-auto h-32"
         src={photoSrc}
-        alt="Location photo"
+        alt="Room photo"
       />
     {/if}
     <Label class="space-y-2">
@@ -126,7 +126,18 @@
         type="text"
         name="name"
         value={item?.name ?? ''}
-        placeholder="Enter location name"
+        placeholder="Enter room name"
+        required
+      />
+    </Label>
+    <Label class="space-y-2">
+      <span>Building</span>
+      <Input
+        disabled={processing}
+        type="text"
+        name="building"
+        value={item?.building ?? ''}
+        placeholder="Enter building name"
         required
       />
     </Label>

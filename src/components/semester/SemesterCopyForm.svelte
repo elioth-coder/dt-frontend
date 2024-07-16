@@ -9,14 +9,14 @@
     MultiSelect,
     Select,
   } from "flowbite-svelte";
-  import { createEventDispatcher, onMount } from "svelte";
+  import { afterUpdate, createEventDispatcher, onMount } from "svelte";
   import SemesterService from "../../services/SemesterService";
   import {
     ExclamationCircleSolid,
     InfoCircleSolid,
   } from "flowbite-svelte-icons";
-  import FacultyService from "../../services/FacultyService";
   import SemesterTeacherService from "../../services/SemesterTeacherService";
+  import ScheduleService from "../../services/ScheduleService";
   export let open;
   export let item = null;
   export let teachers = [];
@@ -27,6 +27,7 @@
   let assigned = [];
   let semesterTeacherService = new SemesterTeacherService();
   let semesterService = new SemesterService();
+  let scheduleService = new ScheduleService();
 
   let semesters = [
     { value: "1st", name: "1st semester" },
@@ -58,75 +59,57 @@
     let form = e.target;
     let formData = new FormData(form);
 
-    let formTeachers = formData.getAll('teachers');
-
-    console.log(formTeachers);
-    console.log(formData.get('title'));
-
-    if (!formTeachers.length && !formData.get("id")) {
-      processing = false;
-      return alert("Enter assigned teachers!");
-    }
-
     try {
-      if (formData.get("id")) {
-        let semesterFormData = new FormData();
-        semesterFormData.set("id", formData.get("id"));
-        semesterFormData.set("title", formData.get("title"));
-        semesterFormData.set("semester", formData.get("semester"));
-        semesterFormData.set("academic_year", formData.get("academic_year"));
-        // @ts-ignore
-        let semester = await semesterService.update(semesterFormData);
-        let deleteTeachers = assigned.filter(item => {
-          return !formTeachers.includes(item)
-        });
+      let semesterFormData = new FormData();
+      semesterFormData.set("title", formData.get("title"));
+      semesterFormData.set("semester", formData.get("semester"));
+      semesterFormData.set("academic_year", formData.get("academic_year"));
+      let semester = await semesterService.add(semesterFormData);
+      let copiedTeachers = item?.teachers;
+      let newTeachers = [];
+      
+      for (let i = 0; i < copiedTeachers.length; i++) {
+        let copiedTeacher = copiedTeachers[i];
+        let semesterTeacherFormData = new FormData();
+        semesterTeacherFormData.set("semester_id", semester.id);
+        semesterTeacherFormData.set("personnel_id", copiedTeacher.semester_details.personnel_id);
+        semesterTeacherFormData.set("research", copiedTeacher.semester_details.research ?? "");
+        semesterTeacherFormData.set("extension", copiedTeacher.semester_details.extension ?? "");
+        semesterTeacherFormData.set("consultation", copiedTeacher.semester_details.consultation ?? "");
 
-        for (let i = 0; i < deleteTeachers.length; i++) {
-          let semesterTeacherFormData = new FormData();
-          semesterTeacherFormData.set("semester_id", semester.id);
-          semesterTeacherFormData.set("personnel_id", deleteTeachers[i]);
-
-          await semesterTeacherService.deleteByForm(semesterTeacherFormData);
+        let semesterTeacher = await semesterTeacherService.add(semesterTeacherFormData);
+        let newTeacher = {
+          ...copiedTeacher,
+          semester_details: {...semesterTeacher},
         }
 
-        let addTeachers = formTeachers.filter(item => {
-          return !assigned.includes(item)
-        });
-
-        console.log({addTeachers});
-
-        for (let i = 0; i < addTeachers.length; i++) {
-          let semesterTeacherFormData = new FormData();
-          semesterTeacherFormData.set("semester_id", semester.id);
-          semesterTeacherFormData.set("personnel_id", addTeachers[i]);
-
-          await semesterTeacherService.add(semesterTeacherFormData);
-        }
-
-        message = {
-          type: "success",
-          text: "Successfully updated semester",
-        };
-      } else {
-        let semesterFormData = new FormData();
-        semesterFormData.set("title", formData.get("title"));
-        semesterFormData.set("semester", formData.get("semester"));
-        semesterFormData.set("academic_year", formData.get("academic_year"));
-        let semester = await semesterService.add(semesterFormData);
-
-        for (let i = 0; i < formTeachers.length; i++) {
-          let semesterTeacherFormData = new FormData();
-          semesterTeacherFormData.set("semester_id", semester.id);
-          semesterTeacherFormData.set("personnel_id", formTeachers[i]);
-
-          await semesterTeacherService.add(semesterTeacherFormData);
-        }
-
-        message = {
-          type: "success",
-          text: "Successfully added semester",
-        };
+        newTeachers.push(newTeacher);
       }
+
+      for(let i=0; i<newTeachers.length; i++) {
+        let teacher = newTeachers[i];
+
+        if(teacher.schedules.length) {
+          for(let j=0; j<teacher.schedules.length; j++) {
+            let schedule = teacher.schedules[j];
+            let scheduleFormData = new FormData();
+            delete schedule.id;
+
+            for (const property in schedule) {
+              scheduleFormData.set(property, schedule[property]);
+            }
+            scheduleFormData.set('teacher_id', teacher.semester_details.id);
+            scheduleFormData.set('semester_id', teacher.semester_details.semester_id);
+
+            await scheduleService.add(scheduleFormData);
+          }
+        }
+      }
+
+      message = {
+        type: "success",
+        text: "Successfully added semester",
+      };
 
       setTimeout(() => {
         processing = false;
@@ -147,21 +130,16 @@
     message = null;
   };
 
-  $: if (item) {
-    populateAssigned(item);
-  } else {
-    assigned = [];
-  }
+  afterUpdate(() => {
+    if(item) populateAssigned(item);
+  });
 
   const populateAssigned = async (item) => {
     // @ts-ignore
-    let semester_teachers = await semesterTeacherService.getWhere(
-      "semester_id",
-      item.id
-    );
+    let semester_teachers = [ ...item.teachers ];
     let items = [];
     for (let i = 0; i < semester_teachers.length; i++) {
-      items.push(semester_teachers[i].personnel_id);
+      items.push(semester_teachers[i].id);
     }
     assigned = [...items];
   };
@@ -172,7 +150,7 @@
 <Modal
   bind:open
   size="xs"
-  title="SEMESTER"
+  title="COPY SEMESTER"
   placement="top-center"
   dismissable={false}
   autoclose={false}
@@ -180,41 +158,41 @@
   on:close={handleClose}
 >
   <form
+    bind:this={htmlForm}
     on:submit|preventDefault={handleSubmit}
     class="flex flex-col text-left hover:overflow-y-scroll overflow-x-hidden max-h-96"
     action="#"
-    bind:this={htmlForm}
   >
-    {#if item}
-      <input type="hidden" name="id" value={item.id} />
-    {/if}
+    <input type="hidden" name="semester" value={item?.semester ?? ""} />
+    <input type="hidden" name="academic_year" value={item?.academic_year ?? ""} />
     <input type="submit" id="submit" class="hidden" />
     <Label class="space-y-2 mb-2">
       <span>Title</span>
       <Input
         disabled={processing}
-        name="title" 
+        name="title"
         value={item?.title ?? ""}
         placeholder="Enter a title for this semester"
         required
       />
     </Label>
-    <Label class="space-y-2 mb-2">
+    <Label class="space-y-2 mb-2 relative">
       <span>Assigned teachers</span>
       <MultiSelect
         placeholder="Select teacher"
+        disabled={true}
         items={teachers}
-        value={assigned}
+        bind:value={assigned}
         name="teachers"
       />
+      <div class="absolute w-full h-full top-0 left-0 right-0 bottom-0 z-10 bg-gray-200/50"></div>
     </Label>
     <section class="flex mb-2">
       <div class="w-full me-1">
         <Label class="space-y-2">
           <span>Semester</span>
           <Select
-            disabled={processing}
-            name="semester"
+            disabled={true}
             items={semesters}
             value={item?.semester ?? ""}
             placeholder="Select semester"
@@ -226,8 +204,7 @@
         <Label class="space-y-2">
           <span>Academic year</span>
           <Select
-            disabled={processing}
-            name="academic_year"
+            disabled={true}
             items={academic_years}
             value={item?.academic_year ?? ""}
             placeholder="Select academic year"
@@ -242,7 +219,7 @@
       disabled={processing}
       on:click={() => {
         htmlForm.querySelector('#submit').click();
-      }}
+      }}    
     >
       {#if processing}
         <Spinner size={4} class="mr-2" />
