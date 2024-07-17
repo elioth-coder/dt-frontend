@@ -166,7 +166,7 @@
   }
 
   const resetSchedulePreview = () => {
-    newSchedule = null;
+    newSchedules = [];
   };
 
   let asyncSchedules;
@@ -241,11 +241,9 @@
     roomSchedules = [...schedulesWithSubject];
   };
 
-  let newSchedule;
-  const handleSetSchedule = async (e) => {
-    let schedule = e.detail;
-
-    newSchedule = schedule;
+  let newSchedules = [];
+  const handleSetSchedule = async ({detail:schedules}) => {
+    newSchedules = [...schedules];
   };
 
   let occupiedSchedules = [];
@@ -477,23 +475,25 @@
               </Popover>
             {/each}
           {/if}
-          {#if newSchedule}
-            {@const color = newSchedule.color}
-            {@const day_of_week = newSchedule.day_of_week.toLowerCase()}
-            {@const start_time = newSchedule.start_time
-              .toLowerCase()
-              .replace(" ", "")
-              .replace(":", "-")}
-            {@const end_time = newSchedule.end_time
-              .toLowerCase()
-              .replace(" ", "")
-              .replace(":", "-")}
-            <div
-              style="margin-top: 25px;"
-              class="cursor-pointer absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{color}-400 !border-green-600 !border-8"
-            >
-              <Heading tag="h6" class="text-center">NEW</Heading>
-            </div>
+          {#if newSchedules.length}
+            {#each newSchedules as newSchedule}
+              {@const color = newSchedule.color}
+              {@const day_of_week = newSchedule.day_of_week.toLowerCase()}
+              {@const start_time = newSchedule.start_time
+                .toLowerCase()
+                .replace(" ", "")
+                .replace(":", "-")}
+              {@const end_time = newSchedule.end_time
+                .toLowerCase()
+                .replace(" ", "")
+                .replace(":", "-")}
+              <div
+                style="margin-top: 25px;"
+                class="cursor-pointer absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{color}-400 !border-green-600 !border-8"
+              >
+                <Heading tag="h6" class="text-center">---</Heading>
+              </div>
+            {/each}
           {/if}
         </div>
       </div>

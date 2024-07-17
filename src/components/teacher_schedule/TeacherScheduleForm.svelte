@@ -8,6 +8,7 @@
   import ScheduleService from "../../services/ScheduleService";
   import ComboBox from "../ComboBox.svelte";
   import RoomService from "../../services/RoomService";
+  import MultiCheckbox from "./MultiCheckbox.svelte";
   export let teacher_id;
   export let semester;
   export let item = null;
@@ -60,7 +61,7 @@
     "FRIDAY",
     "SATURDAY",
   ];
-  let days_of_week = days.map((day) => ({ name: day, value: day }));
+  let days_of_week = days.map((day) => ({ name: day.substring(0,3), value: day }));
   let hour_options = hours.map((hour) => ({ name: hour, value: hour }));
 
   let start_times = [...hour_options];
@@ -76,7 +77,7 @@
   }));
   let color_preview;
 
-  let _day_of_week, _start_time, _end_time, _color, _section;
+  let _days_of_week, _start_time, _end_time, _color, _section;
 
   const onChangeSection = (value) => {
     _section = value;
@@ -93,8 +94,8 @@
     color_preview = value;
   };
 
-  const onChangeDayOfWeek = async (value) => {
-    _day_of_week = value;
+  const onChangeDayOfWeek = async ({detail:selected_days}) => {
+    _days_of_week = [...selected_days];
   };
 
   const onChangeStart = (value) => {
@@ -134,13 +135,21 @@
   }
 
   $: {
-    if (_day_of_week && _start_time && _end_time) {
-      dispatch("set-schedule", {
-        day_of_week: _day_of_week,
-        start_time: _start_time,
-        end_time: _end_time,
-        color: _color ?? "white",
-      });
+    if (_days_of_week && _start_time && _end_time) {
+      let schedules = [];
+
+      for(let i=0; i<_days_of_week.length; i++) {
+        let day_of_week = _days_of_week[i];
+
+        schedules.push({
+          day_of_week,
+          start_time: _start_time,
+          end_time: _end_time,
+          color: _color ?? "white",
+        })
+      }
+
+      dispatch("set-schedule", schedules);
     }
   }
 
@@ -148,17 +157,51 @@
     processing = true;
     let form = e.target;
     let formData = new FormData(form);
+    let days = formData.getAll('day_of_week');
 
     try {
       if (formData.get("id")) {
-        await scheduleService.update(formData);
+        for(let i=0; i<days.length; i++) {
+          let day = days[i];
+          let scheduleFormData = new FormData();
+          scheduleFormData.set('day_of_week', day);
+          scheduleFormData.set('section', formData.get('section'));
+          scheduleFormData.set('room', formData.get('room'));
+          scheduleFormData.set('start_time', formData.get('start_time'));
+          scheduleFormData.set('end_time', formData.get('end_time'));
+          scheduleFormData.set('subject_id', formData.get('subject_id'));
+          scheduleFormData.set('teacher_id', formData.get('teacher_id'));
+          scheduleFormData.set('semester_id', formData.get('semester_id'));
+          scheduleFormData.set('color', formData.get('color'));
+          
+          if(i==0) {
+            scheduleFormData.set('id', formData.get('id'));
+            await scheduleService.update(scheduleFormData);
+          } else {
+            await scheduleService.add(scheduleFormData);
+          }
+        }
 
         message = {
           type: "success",
           text: "Successfully updated schedule",
         };
       } else {
-        await scheduleService.add(formData);
+        for(let i=0; i<days.length; i++) {
+          let day = days[i];
+          let scheduleFormData = new FormData();
+          scheduleFormData.set('day_of_week', day);
+          scheduleFormData.set('section', formData.get('section'));
+          scheduleFormData.set('room', formData.get('room'));
+          scheduleFormData.set('start_time', formData.get('start_time'));
+          scheduleFormData.set('end_time', formData.get('end_time'));
+          scheduleFormData.set('subject_id', formData.get('subject_id'));
+          scheduleFormData.set('teacher_id', formData.get('teacher_id'));
+          scheduleFormData.set('semester_id', formData.get('semester_id'));
+          scheduleFormData.set('color', formData.get('color'));
+
+          await scheduleService.add(scheduleFormData);
+        }
 
         message = {
           type: "success",
@@ -202,7 +245,7 @@
     // @ts-ignore
     day_of_week = item.day_of_week;
     // @ts-ignore
-    _day_of_week = item.day_of_week;
+    _days_of_week = [item.day_of_week];
     // @ts-ignore
     start_time = item.start_time;
     // @ts-ignore
@@ -313,7 +356,15 @@
         />
       </Label>
     </div>
-    <div class="w-full">
+    <div class="col-span-2">
+      <MultiCheckbox 
+        items={days_of_week} 
+        name="day_of_week" 
+        on:change={onChangeDayOfWeek}
+        required={true}
+      />
+    </div>
+    <!-- <div class="w-full">
       <Label class="space-y-2">
         <span>Day of week</span>
         <ComboBox 
@@ -325,7 +376,7 @@
           required={true} 
         />
       </Label>
-    </div>
+    </div> -->
     <div class="w-full">
       <Label class="space-y-2">
         <span>Color</span>
@@ -339,11 +390,14 @@
         />
       </Label>
     </div>
-    <div class="col-span-2">
-      <div
-        class="border-gray-300 mt-4 w-full h-10 border rounded bg-{color_preview ??
-          (color ? color : 'white')}-500"
-      ></div>
+    <div class="w-full">
+      <Label class="space-y-2">
+        <span>Preview</span>
+        <div
+          class="border-gray-300 mt-4 w-full h-10 border rounded bg-{color_preview ??
+            (color ? color : 'white')}-500"
+        ></div>
+      </Label>
     </div>
     <div class="pt-7 col-span-2 grid grid-cols-2 gap-2">
       <Button

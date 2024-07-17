@@ -23,7 +23,7 @@
 
   let lec_selected, lab_selected, units_selected;
 
-  $: hours_week = (lec_selected + lab_selected) + '';
+  $: hours_week = ((lec_selected + lab_selected) == 0) ? "" : (lec_selected + lab_selected) + "";
 
   let year_levels = [
     { value: '1', name: '1st year'},
@@ -46,6 +46,13 @@
     { value: 'BEED', name: 'Bachelor of Elementary Education (BEED)'},
   ];
 
+  let majors = [
+    'ENGLISH',
+    'GENERAL EDUCATION',
+    'MARKETING MANAGEMENT',
+    'WEB SYSTEMS TECHNOLOGY'
+  ].map(major => ({ value:major, name:major}));
+            
   const dispatch = createEventDispatcher();
   let service = new SubjectService();
 
@@ -203,13 +210,7 @@
           <Select
             disabled={processing}
             name="major"
-            items={[
-                'ENGLISH',
-                'ELEMENTARY EDUCATION',
-                'SERVICE MANAGEMENT',
-                'WEB SYSTEMS TECHNOLOGY'
-              ].map(major => ({ value:major, name:major}))
-            }
+            items={majors}
             placeholder="-- major --"
             required
           />
@@ -224,7 +225,6 @@
             name="pre_req"
             value={item?.pre_req ?? ""}
             placeholder="-- pre-requisites --"
-            required
           />
         </Label>
       </div>
@@ -238,6 +238,7 @@
             name="units"
             bind:value={units_selected}
             items={[
+              {value: 0, name: ""},
               {value: 1, name: 1},
               {value: 2, name: 2},
               {value: 3, name: 3},
@@ -260,6 +261,7 @@
           <Input name="hours_week"
             placeholder="-- hrs/week --"
             bind:value={hours_week}
+            required
           />
         </Label>  
       </div>
@@ -271,6 +273,7 @@
             name="lec"
             bind:value={lec_selected}
             items={[
+              {value: 0, name: ""},
               {value: 1, name: 1},
               {value: 2, name: 2},
               {value: 3, name: 3},
@@ -283,7 +286,6 @@
               {value: 10, name: 10},
             ]}
             placeholder="-- lec --"
-            required
           />
         </Label>  
       </div>
@@ -295,6 +297,7 @@
             name="lab"
             bind:value={lab_selected}
             items={[
+              {value: 0, name: ""},
               {value: 1, name: 1},
               {value: 2, name: 2},
               {value: 3, name: 3},
@@ -307,7 +310,6 @@
               {value: 10, name: 10},
             ]}
             placeholder="-- lab --"
-            required
           />
         </Label>  
       </div>
