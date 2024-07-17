@@ -8,6 +8,7 @@
   import SignatoryService from "../../services/SignatoryService";
   import schedule_times from "../../lib/schedule_times";
   import Signatories from "../teacher_schedule/Signatories.svelte";
+  import { uniq, uniqBy } from "lodash-es";
   export let params = {};
 
   const assets_url = CONFIG.ASSETS_URL;
@@ -68,6 +69,7 @@
 
   let semester;
   let signatory;
+  let summarizedSchedules = [];
   onMount(async () => {
     if (room && semester_id) {
       asyncSchedules = getSchedules(room, semester_id);
@@ -79,7 +81,29 @@
       let signatories = await signatoryService.getByForm(formData);
       signatory = signatories[0] ?? {};
 
-      console.log({signatory, roomSchedules});
+      summarizedSchedules = uniqBy(roomSchedules, schedule => schedule.subject_id);
+      summarizedSchedules = summarizedSchedules.map(schedule => {
+        let duplicates = roomSchedules.filter(sched => sched.subject_id==schedule.subject_id);
+        let days  = duplicates.map(dup => dup.day_of_week.toUpperCase());
+        let times = duplicates.map(dup => `${dup.start_time}-${dup.end_time}`);
+        let sched_day, sched_time;
+
+        if(days.length > 1) {
+          sched_day = days.map(day => {
+            return (day=='THURSDAY') ? 'TH' : day.charAt(0);
+          }).join('');
+        } else {
+          sched_day = days[0].substring(0,3)
+        }
+
+        sched_time = uniq(times).join(' / ');
+
+        return {
+          ...schedule,
+          sched_day,
+          sched_time,
+        }
+      });
     }
   });
 
@@ -220,9 +244,12 @@
                           <td class="cell-width"></td>
                           <td class="cell-width"></td>
                         </tr>
-                        {#each roomSchedules as schedule}
+                        {#each summarizedSchedules as schedule}
                           <tr>
-                            <td class="align-top px-2 text-center capitalize" colspan="2">{schedule.day_of_week.substring(0,3)}. {schedule.start_time}-{schedule.end_time}</td>
+                            <td class="align-top px-2 text-center capitalize" colspan="2">
+                              {schedule.sched_day}
+                              {schedule.sched_time}
+                            </td>
                             <td class="align-top px-2 text-center">{schedule.section}</td>
                             <td class="align-top px-2 text-center">{getInitials(schedule.teacher.first_name)} {schedule.teacher.last_name}</td>
                             <td class="align-top px-2 text-center">{schedule.subject.code}</td>

@@ -14,6 +14,7 @@
   export let item = null;
   export let sections = [];
   export let subjects = [];
+  export let rooms = [];
 
   const dispatch = createEventDispatcher();
   let scheduleService = new ScheduleService();
@@ -52,7 +53,6 @@
     "09:30 PM",
   ];
 
-  let rooms = [];
   let days = [
     "MONDAY",
     "TUESDAY",
@@ -258,6 +258,7 @@
   } else {
     id =
     section =
+    room =
     day_of_week =
     color =
     subject_id =
@@ -274,8 +275,6 @@
       }));
     }
 
-    let _rooms = await roomService.getAll();
-    rooms = _rooms.map(room=> ({ name: room.name, value: room.name }));
   });
 </script>
 
@@ -359,24 +358,12 @@
     <div class="col-span-2">
       <MultiCheckbox 
         items={days_of_week} 
+        selected={[..._days_of_week]}
         name="day_of_week" 
         on:change={onChangeDayOfWeek}
         required={true}
       />
     </div>
-    <!-- <div class="w-full">
-      <Label class="space-y-2">
-        <span>Day of week</span>
-        <ComboBox 
-          on:change={({detail}) => onChangeDayOfWeek(detail)}
-          name="day_of_week" 
-          value={day_of_week ?? ""}
-          items={days_of_week} 
-          placeholder="-- weekday --"
-          required={true} 
-        />
-      </Label>
-    </div> -->
     <div class="w-full">
       <Label class="space-y-2">
         <span>Color</span>

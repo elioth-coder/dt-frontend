@@ -34,6 +34,7 @@
   import { sineIn } from "svelte/easing";
   import { uniqBy } from "lodash-es";
   import ResearchExtensionForm from "./ResearchExtensionForm.svelte";
+  import RoomService from "../../services/RoomService";
   export let params = {};
 
   let { HOST_URL } = CONFIG;
@@ -45,6 +46,7 @@
   let facultyService = new FacultyService();
   let scheduleService = new ScheduleService();
   let subjectService = new SubjectService();
+  let roomService = new RoomService();
   let hasUpdate = Date.now();
   let deleteItem = false;
   let editItem = false;
@@ -139,6 +141,7 @@
 
   let subjects = [];
   let sections = [];
+  let rooms = [];
 
   onMount(async () => {
     semester = await semesterService.get(semester_id);
@@ -147,6 +150,8 @@
     teacher.faculty = { ...faculty };
     subjects = await subjectService.getAll();
     sections = await generateSections();
+    let _rooms = await roomService.getAll();
+    rooms = _rooms.map(room=> ({ name: room.name, value: room.name }));
 
     updateSchedules();
   });
@@ -347,6 +352,7 @@
             {semester}
             {subjects}
             {sections}
+            {rooms}
             item={editItem ?? null}
             on:update={() => (hasUpdate = Date.now())}
             on:cancel={handleCancel}
