@@ -7,6 +7,7 @@
   import FacultyService from "../../services/FacultyService";
   import SignatoryService from "../../services/SignatoryService";
   import schedule_times from "../../lib/schedule_times";
+  import { uniqBy } from "lodash-es";
   export let params = {};
 
   const { ASSETS_URL } = CONFIG;
@@ -19,7 +20,7 @@
   let signatoryService = new SignatoryService();
 
   let asyncSchedules;
-  let ownSchedules = [];
+  let sectionSchedules = [];
 
   const getInitials = (name) => {
     let names = name.split(' ');
@@ -54,7 +55,7 @@
   };
 
   let printed = false;
-  $: if (ownSchedules?.length)
+  $: if (sectionSchedules?.length)
     (() => {
       if (!printed) {
         setTimeout(() => {
@@ -68,6 +69,7 @@
   let semester;
   let signatory;
   let totalHoursPerWeek = 0;
+  let summarizedSchedules = [];
   onMount(async () => {
     if (section && semester_id) {
       let [program] = section.split(' - '); 
@@ -79,7 +81,7 @@
       }
 
       asyncSchedules = getSchedules(section, semester_id);
-      ownSchedules = await asyncSchedules;
+      sectionSchedules = await asyncSchedules;
       semester = await semesterService.get(semester_id);
       let formData = new FormData();
       formData.set('college', colleges[program]);
@@ -87,9 +89,9 @@
       let signatories = await signatoryService.getByForm(formData);
       signatory = signatories[0];
 
-      console.log({signatory});
+      summarizedSchedules = uniqBy(sectionSchedules, schedule => schedule.subject_id)
 
-      totalHoursPerWeek = ownSchedules.reduce((prev, current) => {
+      totalHoursPerWeek = summarizedSchedules.reduce((prev, current) => {
         return (prev += Number.parseInt(current.subject.hours_week));
       }, 0);
     }
@@ -186,8 +188,8 @@
                         Loading schedules...
                       </h1>
                     {:then}
-                      {#if ownSchedules}
-                        {#each ownSchedules as item}
+                      {#if sectionSchedules}
+                        {#each sectionSchedules as item}
                           {@const day_of_week = item.day_of_week.toLowerCase()}
                           {@const start_time = item.start_time
                             .toLowerCase()
@@ -232,7 +234,7 @@
                           <td class="cell-width"></td>
                           <td class="cell-width"></td>
                         </tr>
-                        {#each ownSchedules as schedule}
+                        {#each summarizedSchedules as schedule}
                           <tr>
                             <td class="px-2">{schedule.subject.code}</td>
                             <td class="px-2 capitalize" colspan="3">{schedule.subject.title.toLowerCase()}</td>
