@@ -1,14 +1,14 @@
 <script>
   import { Heading, Button, Spinner, Alert } from "flowbite-svelte";
   import Page from "../Page.svelte";
-  import RoomsTable from "./RoomsTable.svelte";
-  import RoomsForm from "./RoomsForm.svelte";
+  import ProgramCoursesTable from "./ProgramCoursesTable.svelte";
+  import ProgramCoursesForm from "./ProgramCoursesForm.svelte";
   import ConfirmModal from "../ConfirmModal.svelte";
-  import RoomService from "../../services/RoomService";
+  import ProgramCourseService from "../../services/ProgramCourseService";
   import { ExclamationCircleSolid } from "flowbite-svelte-icons";
   import Breadcrumb from "../Breadcrumb.svelte";
 
-  let service = new RoomService();
+  let service = new ProgramCourseService();
   let hasUpdate = Date.now();
   let addItem = false;
   let deleteItem = false;
@@ -16,9 +16,9 @@
   let asyncDelete = null;
   let breadCrumbItems = [
     {
-      href: '#/rooms',
-      label: 'Rooms'
-    }
+      href: "#/program_courses",
+      label: "Program Courses",
+    },
   ];
 
   const confirmDelete = (item) => {
@@ -46,7 +46,7 @@
   <Breadcrumb items={breadCrumbItems} />
   <br>
   <Heading tag="h2" class="text-left">
-    All Rooms
+    All Program Courses
     <Button on:click={() => (addItem = true)} class="float-right"
       >Add new</Button
     >
@@ -57,12 +57,12 @@
       {#await asyncDelete}
         <p>
           <Spinner />
-          Deleting room...
+          Deleting program course...
         </p>
       {:then}
         <Alert color="green" class="m-0" dismissable>
           <ExclamationCircleSolid slot="icon" class="w-4 h-4" />
-          Successfully deleted the room
+          Successfully deleted the program course
         </Alert>
       {:catch error}
         <Alert color="red" class="m-0" dismissable>
@@ -73,13 +73,13 @@
     {/if}
   </div>
   <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left">
-    <RoomsTable
+    <ProgramCoursesTable
       {hasUpdate}
       on:edit={({ detail: item }) => handleEdit(item)}
       on:delete={({ detail: item }) => confirmDelete(item)}
     />
   </div>
-  <RoomsForm
+  <ProgramCoursesForm
     open={addItem || editItem}
     item={(editItem) ? editItem : null}
     on:update={() => (hasUpdate = Date.now())}
@@ -91,7 +91,7 @@
   <ConfirmModal
     on:continue={handleDelete}
     on:cancel={() => (deleteItem = false)}
-    message="Delete this room now?"
+    message="Delete this program course now?"
     open={deleteItem}
   />
 </Page>

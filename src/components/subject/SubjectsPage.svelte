@@ -7,6 +7,8 @@
   import Breadcrumb from "../Breadcrumb.svelte";
   import SubjectsForm from "./SubjectsForm.svelte";
   import SubjectsTable from "./SubjectsTable.svelte";
+  import { onMount } from "svelte";
+  import ProgramCourseService from "../../services/ProgramCourseService";
 
   let service = new SubjectService();
   let hasUpdate = Date.now();
@@ -40,6 +42,28 @@
   const handleEdit = (item) => {
     editItem = item;
   };
+
+  let programs = [];
+  let program_courses = [];
+  let majors = {};
+
+  onMount(async () => {
+    let programCourseService = new ProgramCourseService();
+    programs = await programCourseService.getAll();
+
+    program_courses = programs.map(program => {
+      return {
+        name: `${program.degree} (${program.code}) - Major in ${program.major}`,
+        value: program.code,
+      }
+    });
+
+    for(let i=0; i<programs.length; i++) {
+      let { code, major } = programs[i];
+
+      majors[code] = major;
+    }
+  });
 </script>
 
 <Page>
@@ -73,21 +97,25 @@
     {/if}
   </div>
   <div class="w-full h-96 overflow-y-scroll overflow-x-hidden text-left">
-    <SubjectsTable
-      {hasUpdate}
-      on:edit={({ detail: item }) => handleEdit(item)}
-      on:delete={({ detail: item }) => confirmDelete(item)}
-    />
-  </div>
-  <SubjectsForm
-    open={addItem || editItem}
-    item={editItem ? editItem : null}
-    on:update={() => (hasUpdate = Date.now())}
-    on:cancel={() => {
-      addItem = false;
-      editItem = false;
-    }}
+  <SubjectsTable
+    {hasUpdate}
+    on:edit={({ detail: item }) => handleEdit(item)}
+    on:delete={({ detail: item }) => confirmDelete(item)}
   />
+  </div>
+  {#if program_courses.length}
+    <SubjectsForm 
+      {majors}
+      programs={program_courses}
+      open={addItem || editItem}
+      item={editItem ? editItem : null}
+      on:update={() => (hasUpdate = Date.now())}
+      on:cancel={() => {
+        addItem = false;
+        editItem = false;
+      }}
+    />
+  {/if}
   <ConfirmModal
     on:continue={handleDelete}
     on:cancel={() => (deleteItem = false)}

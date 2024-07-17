@@ -7,7 +7,6 @@
     Alert,
     Input,
     Select,
-    Hr,
   } from "flowbite-svelte";
   import { afterUpdate, createEventDispatcher, onMount } from "svelte";
   import {
@@ -17,11 +16,14 @@
   import SubjectService from "../../services/SubjectService";
   export let open;
   export let item = null;
+  export let programs;
+  export let majors = {};
 
   let processing = false;
   let message = null;
+  let major = "";
 
-  let lec_selected, lab_selected, units_selected;
+  let lec_selected = 0, lab_selected = 0, units_selected = 0;
 
   $: hours_week = ((lec_selected + lab_selected) == 0) ? "" : (lec_selected + lab_selected) + "";
 
@@ -38,20 +40,6 @@
     { value: '2nd', name: '2nd semester'},
     { value: 'Summer', name: 'Summer semester'},
   ];
-
-  let programs = [
-    { value: 'BSBA', name: 'Bachelor of Science in Business Administration (BSBA)'},
-    { value: 'BSIT', name: 'Bachelor of Science in Information Technology (BSIT)'},
-    { value: 'BSED', name: 'Bachelor of Secondary Education (BSED)'},
-    { value: 'BEED', name: 'Bachelor of Elementary Education (BEED)'},
-  ];
-
-  let majors = [
-    'ENGLISH',
-    'GENERAL EDUCATION',
-    'MARKETING MANAGEMENT',
-    'WEB SYSTEMS TECHNOLOGY'
-  ].map(major => ({ value:major, name:major}));
             
   const dispatch = createEventDispatcher();
   let service = new SubjectService();
@@ -112,9 +100,11 @@
     }
   });
 
-  onMount(async () => {
+  const onChangeProgramCourse = (e) => {
+    let code = e.target.value;
 
-  });
+    major = majors[code];
+  }
 </script>
 
 <Modal
@@ -135,6 +125,8 @@
     {#if item}
       <input type="hidden" name="id" value={item.id} />
     {/if}
+
+    <input type="hidden" name="major" value={major} />
     <input type="submit" id="submit" class="hidden" />
     <section class="flex mb-2">
       <div class="w-full me-1">
@@ -175,7 +167,7 @@
         required
       />
     </Label>
-    <section class="flex">
+    <section class="flex mb-2">
       <div class="w-full me-1">
         <Label class="space-y-2">
           <span>Year level</span>
@@ -191,33 +183,6 @@
       </div>
       <div class="w-full ms-1">
         <Label class="space-y-2">
-          <span>Program course</span>
-          <Select
-            disabled={processing}
-            name="program"
-            items={programs}
-            value={item?.program ?? ""}
-            placeholder="-- program course --"
-            required
-          />
-        </Label>  
-      </div>
-    </section>
-    <section class="flex">
-      <div class="w-full me-1">
-        <Label class="space-y-2">
-          <span>Major</span>
-          <Select
-            disabled={processing}
-            name="major"
-            items={majors}
-            placeholder="-- major --"
-            required
-          />
-        </Label>
-      </div>
-      <div class="w-full ms-1">
-        <Label class="space-y-2">
           <span>Pre-requisites</span>
           <Input
             disabled={processing}
@@ -229,6 +194,18 @@
         </Label>
       </div>
     </section>
+    <Label class="space-y-2 mb-2">
+      <span>Program course</span>
+      <Select
+        disabled={processing}
+        name="program"
+        items={programs}
+        value={item?.program ?? ""}
+        placeholder="-- program course --"
+        on:change={onChangeProgramCourse}
+        required
+      />
+    </Label>  
     <section class="flex">
       <div class="w-full me-1">
         <Label class="space-y-2">
@@ -238,7 +215,7 @@
             name="units"
             bind:value={units_selected}
             items={[
-              {value: 0, name: ""},
+              {value: 0, name: 0},
               {value: 1, name: 1},
               {value: 2, name: 2},
               {value: 3, name: 3},
@@ -273,7 +250,7 @@
             name="lec"
             bind:value={lec_selected}
             items={[
-              {value: 0, name: ""},
+              {value: 0, name: 0},
               {value: 1, name: 1},
               {value: 2, name: 2},
               {value: 3, name: 3},
@@ -297,7 +274,7 @@
             name="lab"
             bind:value={lab_selected}
             items={[
-              {value: 0, name: ""},
+              {value: 0, name: 0},
               {value: 1, name: 1},
               {value: 2, name: 2},
               {value: 3, name: 3},
