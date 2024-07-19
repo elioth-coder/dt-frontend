@@ -358,7 +358,7 @@
     <div class="col-span-2">
       <MultiCheckbox 
         items={days_of_week} 
-        selected={[..._days_of_week]}
+        selected={(_days_of_week?.length) ? [..._days_of_week] : []}
         name="day_of_week" 
         on:change={onChangeDayOfWeek}
         required={true}

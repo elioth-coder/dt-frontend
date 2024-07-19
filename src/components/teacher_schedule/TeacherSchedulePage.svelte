@@ -248,7 +248,7 @@
 
   let newSchedules = [];
   const handleSetSchedule = async ({detail:schedules}) => {
-    newSchedules = [...schedules];
+    newSchedules = (schedules?.length) ? [...schedules] : [];
   };
 
   let occupiedSchedules = [];
@@ -481,6 +481,7 @@
               </Popover>
             {/each}
           {/if}
+          {@debug newSchedules}
           {#if newSchedules.length}
             {#each newSchedules as newSchedule}
               {@const color = newSchedule.color}

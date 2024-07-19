@@ -5,6 +5,8 @@
   import FacultyService from "../../services/FacultyService";
   import ScheduleService from "../../services/ScheduleService";
   import SubjectService from "../../services/SubjectService";
+  import SignatoryService from "../../services/SignatoryService";
+  import Signatories from "../teacher_schedule/Signatories.svelte";
   import { sumBy, uniqBy } from "lodash-es";
   export let params = {};
 
@@ -15,6 +17,7 @@
   let facultyService = new FacultyService();
   let scheduleService = new ScheduleService();
   let subjectService = new SubjectService();
+  let signatoryService = new SignatoryService();
   let semester;
 
   const getSchedules = async (teacher_id, semester_id) => {
@@ -80,12 +83,17 @@
     })();
 
   let items = [];
-
+  let signatory;
   onMount(async () => {
     semester = await semesterService.get(semester_id);
     items = await getTeachersWithSchedules(semester_id);
 
-    console.log({items});
+    let formData = new FormData();
+    formData.set('college', 'NONE');
+    formData.set('document', 'TEACHING LOAD');
+    let signatories = await signatoryService.getByForm(formData);
+    signatory = signatories[0];
+
   });
 </script>
 
@@ -179,6 +187,10 @@
                   </tbody>
                 </table>
               </div>
+              {#if signatory}
+                {@html signatory.content}
+              {/if}
+              <!-- <Signatories /> -->
             </div>
           </td>
         </tr>

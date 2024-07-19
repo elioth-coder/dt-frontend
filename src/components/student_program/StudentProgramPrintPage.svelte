@@ -8,6 +8,7 @@
   import SignatoryService from "../../services/SignatoryService";
   import schedule_times from "../../lib/schedule_times";
   import { uniqBy } from "lodash-es";
+  import SubjectsTable from "../subject/SubjectsTable.svelte";
   export let params = {};
 
   const { ASSETS_URL } = CONFIG;
@@ -94,6 +95,12 @@
       totalHoursPerWeek = summarizedSchedules.reduce((prev, current) => {
         return (prev += Number.parseInt(current.subject.hours_week));
       }, 0);
+
+      let nstp = summarizedSchedules.filter(schedule => (['NSTP 11','NSTP 12'].includes(schedule.subject.code)))[0];
+
+      if(nstp) {
+        totalHoursPerWeek -= Number.parseInt(nstp.subject.hours_week);
+      }
     }
   });
 
@@ -240,7 +247,13 @@
                             <td class="px-2 capitalize" colspan="3">{schedule.subject.title.toLowerCase()}</td>
                             <td class="px-2 text-center capitalize">{schedule.room.toLowerCase()}</td>
                             <td class="px-2">{getInitials(schedule.teacher.first_name).toUpperCase()} {schedule.teacher.last_name.toUpperCase()}</td>
-                            <td class="px-2 text-center">{schedule.subject.hours_week}</td>
+                            <td class="px-2 text-center">
+                              {#if ['NSTP 11','NSTP 12'].includes(schedule.subject.code) }
+                                ({schedule.subject.hours_week})
+                              {:else}
+                                {schedule.subject.hours_week}
+                              {/if}
+                            </td>
                           </tr>
                         {/each}
                         <tr>
