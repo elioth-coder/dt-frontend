@@ -96,6 +96,7 @@
       lab_selected = parseInt(item?.lab ?? "");
       // @ts-ignore
       units_selected = parseInt(item?.units ?? "");
+      major = majors[item?.program] ?? ""; 
       console.log(item);
     }
   });

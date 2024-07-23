@@ -7,7 +7,8 @@
   import SubjectService from "../../services/SubjectService";
   import SignatoryService from "../../services/SignatoryService";
   import Signatories from "../teacher_schedule/Signatories.svelte";
-  import { sumBy, uniqBy } from "lodash-es";
+  import { sumBy, uniq, uniqBy } from "lodash-es";
+  import LoadingScreen from "../LoadingScreen.svelte";
   export let params = {};
 
   const assets_url = CONFIG.ASSETS_URL;
@@ -61,7 +62,33 @@
       let teacher = teachers[i];
       teacher.schedules = await getSchedules(teacher.assigned_id, semester_id);
       if(teacher.schedules.length > 0) {
-        teacher.schedules = uniqBy(teacher.schedules, (schedule) => schedule.subject_id);
+        // teacher.schedules = uniqBy(teacher.schedules, (schedule) => schedule.subject_id);
+        let teacherSchedules = teacher.schedules;
+        let summarizedSchedules = uniqBy(teacherSchedules, schedule => `${schedule.subject_id}-${schedule.section}`);
+        summarizedSchedules = summarizedSchedules.map(schedule => {
+          let duplicates = teacherSchedules.filter(sched => (sched.subject_id==schedule.subject_id && sched.section==schedule.section));
+          let days  = duplicates.map(dup => dup.day_of_week.toUpperCase());
+          let times = duplicates.map(dup => `${dup.start_time}-${dup.end_time}`);
+          let sched_day, sched_time;
+
+          if(days.length > 1) {
+            sched_day = days.map(day => {
+              return (day=='THURSDAY') ? 'TH' : day.charAt(0);
+            }).join('');
+          } else {
+            sched_day = days[0].substring(0,3)
+          }
+
+          sched_time = uniq(times).join(' / ');
+
+          return {
+            ...schedule,
+            sched_day,
+            sched_time,
+          }
+        });
+
+        teacher.schedules = [...summarizedSchedules];
       }
 
       teachersWithSchedules.push(teacher);
@@ -75,8 +102,8 @@
     (() => {
       if (!printed) {
         setTimeout(() => {
-            window.print();
-            window.close();
+            // window.print();
+            // window.close();
         }, 2000);
         printed = true;
       }
@@ -84,7 +111,9 @@
 
   let items = [];
   let signatory;
+  let processing = false;
   onMount(async () => {
+    processing = true;
     semester = await semesterService.get(semester_id);
     items = await getTeachersWithSchedules(semester_id);
 
@@ -94,6 +123,9 @@
     let signatories = await signatoryService.getByForm(formData);
     signatory = signatories[0];
 
+    console.log({items});
+
+    processing = false;
   });
 </script>
 
@@ -154,8 +186,8 @@
                               <td class="border border-stone-900 text-center">{schedule.subject.code}</td>
                               <td class="border border-stone-900 text-center">{schedule.subject.title}</td>
                               <td class="border border-stone-900 text-center">{schedule.subject.hours_week}</td>
-                              <td class="border border-stone-900 text-center"></td>
-                              <td class="border border-stone-900 text-center"></td>
+                              <td class="border border-stone-900 text-center">{schedule.sched_day}</td>
+                              <td class="border border-stone-900 text-center">{schedule.sched_time}</td>
                               <td class="border border-stone-900 text-center">{schedule.section}</td>
                               <td class="border border-stone-900 text-center">{schedule.room}</td>
                               {#if i==0}
@@ -175,8 +207,8 @@
                             <td class="border border-stone-900 text-center">{schedule.subject.code}</td>
                             <td class="border border-stone-900 text-center">{schedule.subject.title}</td>
                             <td class="border border-stone-900 text-center">{schedule.subject.hours_week}</td>
-                            <td class="border border-stone-900 text-center"></td>
-                            <td class="border border-stone-900 text-center"></td>
+                            <td class="border border-stone-900 text-center">{schedule.sched_day}</td>
+                            <td class="border border-stone-900 text-center">{schedule.sched_time}</td>
                             <td class="border border-stone-900 text-center">{schedule.section}</td>
                             <td class="border border-stone-900 text-center">{schedule.room}</td>
                             <td class="border border-stone-900 text-center">{schedule.subject.hours_week}</td>
@@ -208,6 +240,10 @@
     <img src={`${assets_url}/img/footer-landscape-neust-papaya.png`} alt="Footer" />
   </div>
 </div>
+
+{#if processing}
+  <LoadingScreen />
+{/if}
 
 <svelte:head>
   <style>

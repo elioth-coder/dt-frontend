@@ -81,9 +81,9 @@
       let signatories = await signatoryService.getByForm(formData);
       signatory = signatories[0] ?? {};
 
-      summarizedSchedules = uniqBy(roomSchedules, schedule => schedule.subject_id);
+      summarizedSchedules = uniqBy(roomSchedules, schedule => `${schedule.subject_id}-${schedule.section}`);
       summarizedSchedules = summarizedSchedules.map(schedule => {
-        let duplicates = roomSchedules.filter(sched => sched.subject_id==schedule.subject_id);
+        let duplicates = roomSchedules.filter(sched => (sched.subject_id==schedule.subject_id && sched.section==schedule.section));
         let days  = duplicates.map(dup => dup.day_of_week.toUpperCase());
         let times = duplicates.map(dup => `${dup.start_time}-${dup.end_time}`);
         let sched_day, sched_time;

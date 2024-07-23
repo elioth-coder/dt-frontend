@@ -44,7 +44,7 @@
 <div class="w-100 relative">
   <Heading tag="h1" class="text-center mt-5">
     <FileCopyOutline class="w-16 h-16 inline-block -ml-16" />
-    DocsTracking
+    NeustSys v1.0.0
   </Heading>
   <Card class="mx-auto mt-5">
     <form
