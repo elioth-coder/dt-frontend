@@ -7,7 +7,7 @@
   import SubjectService from "../../services/SubjectService";
   import SignatoryService from "../../services/SignatoryService";
   import Signatories from "../teacher_schedule/Signatories.svelte";
-  import { sumBy, uniq, uniqBy } from "lodash-es";
+  import { sortBy, sumBy, uniq, uniqBy } from "lodash-es";
   import LoadingScreen from "../LoadingScreen.svelte";
   export let params = {};
 
@@ -116,6 +116,7 @@
     processing = true;
     semester = await semesterService.get(semester_id);
     items = await getTeachersWithSchedules(semester_id);
+    items = sortBy(items, item => `${item.last_name} ${item.first_name}`);
 
     let formData = new FormData();
     formData.set('college', 'NONE');
