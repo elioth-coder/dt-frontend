@@ -8,8 +8,6 @@
   } from "flowbite-svelte";
   import {
     ArrowRightToBracketSolid,
-    FileCloneSolid,
-    RectangleListSolid,
     BookmarkSolid,
     ArrowUpRightFromSquareSolid,
     HomeSolid,

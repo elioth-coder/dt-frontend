@@ -72,9 +72,9 @@
           let sched_day, sched_time;
 
           if(days.length > 1) {
-            sched_day = days.map(day => {
+            sched_day = uniq(days.map(day => {
               return (day=='THURSDAY') ? 'TH' : day.charAt(0);
-            }).join('');
+            })).join('');
           } else {
             sched_day = days[0].substring(0,3)
           }
