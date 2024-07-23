@@ -60,8 +60,8 @@
     (() => {
       if (!printed) {
         setTimeout(() => {
-            window.print();
-            window.close();
+            // window.print();
+            // window.close();
         }, 2000);
         printed = true;
       }

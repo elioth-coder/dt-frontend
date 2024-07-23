@@ -9,6 +9,7 @@
   import TeacherDetails from "./TeacherDetails.svelte";
   import SignatoryService from "../../services/SignatoryService";
   import schedule_times from "../../lib/schedule_times";
+  import { uniqBy } from "lodash-es";
   export let params = {};
 
   const assets_url = CONFIG.ASSETS_URL;
@@ -46,8 +47,8 @@
     (() => {
       if (!printed) {
         setTimeout(() => {
-            window.print();
-            window.close();
+            // window.print();
+            // window.close();
         }, 2000);
         printed = true;
       }
@@ -71,7 +72,8 @@
       let signatories = await signatoryService.getByForm(formData);
       signatory = signatories[0];
 
-      totalHoursPerWeek = ownSchedules.reduce((prev, current) => {
+      let uniqueSchedules = uniqBy(ownSchedules, schedule => `${schedule.subject_id}-${schedule.section}`);
+      totalHoursPerWeek = uniqueSchedules.reduce((prev, current) => {
         return (prev += Number.parseInt(current.subject.hours_week));
       }, 0);
     }
