@@ -9,6 +9,7 @@
   import schedule_times from "../../lib/schedule_times";
   import Signatories from "../teacher_schedule/Signatories.svelte";
   import { uniq, uniqBy } from "lodash-es";
+  import { addMinutes, differenceInMinutes, format } from "date-fns";
   export let params = {};
 
   const assets_url = CONFIG.ASSETS_URL;
@@ -55,6 +56,46 @@
     return schedulesWithSubject;
   };
 
+  const renderSchedules = async (schedules) => {
+    schedules.forEach(sched => {
+      let end_time   = [format(new Date(), 'yyyy-MM-dd'), sched.end_time].join(' ');
+      let start_time = [format(new Date(), 'yyyy-MM-dd'), sched.start_time].join(' ');
+      let start_time_p_30 = format(addMinutes(start_time, 30), 'yyyy-MM-dd hh:mm a');
+      let start_time_range = [
+        start_time.split(' ').slice(1).join(''),
+        start_time_p_30.split(' ').slice(1).join(''),
+      ].join('-');
+      let query = `[data-schedule="${sched.day_of_week}|${start_time_range}"]`;
+      let td = document.querySelector(`${query}`);
+      let tr = td.parentElement;
+      let difference = differenceInMinutes(new Date(end_time), new Date(start_time)) / 30;
+
+      td.setAttribute('rowspan', difference + '');
+      td.innerHTML = `
+        <p class="font-bold text-center">${sched.subject.code}</p>
+        <p class="font-bold text-center my-2 keep-all capitalize">${sched.subject.title.toLowerCase()}</p>
+        <p class="text-center">${sched.section}</p>
+        <p class="text-center">${getInitials(sched.teacher.first_name)} ${sched.teacher.last_name}</p>
+      `;
+
+      let currentTr = tr;
+      for(let i=1; i<difference; i++) {
+        // @ts-ignore
+        currentTr = currentTr.nextElementSibling;
+        let node = currentTr.querySelector(`[data-day="${sched.day_of_week}"]`);
+        // @ts-ignore
+        // console.log(node.dataset.day);
+        node.remove();
+        // console.log({node});
+      }
+      console.log({
+        tr,
+        schedule: `${sched.start_time.split(' ').join('')}-${sched.end_time.split(' ').join('')}`, 
+        difference
+      });
+    });
+  }
+
   let printed = false;
   $: if (roomSchedules?.length)
     (() => {
@@ -80,6 +121,8 @@
       formData.set('document', 'ROOM UTILIZATION');
       let signatories = await signatoryService.getByForm(formData);
       signatory = signatories[0] ?? {};
+
+      renderSchedules(roomSchedules);
 
       summarizedSchedules = uniqBy(roomSchedules, schedule => `${schedule.subject_id}-${schedule.section}`);
       summarizedSchedules = summarizedSchedules.map(schedule => {
@@ -163,97 +206,46 @@
                   </table>
                 {/if}
                 <div class="schedules-container w-full text-xs">
-                  <div class="w-full overflow-visible relative">
-                    {#each columns as column}
-                      {#each rows as row}
-                        <div class="cell float-left"></div>
-                      {/each}
-                    {/each}
-                    <div
-                      class="header-row w-full absolute top-0 left-0 right-0"
-                    >
-                      {#each headers as header}
-                        <div
-                          class="cell capitalize float-left text-center leading-none font-bold"
-                        >
-                          {header.toLowerCase()}
-                        </div>
-                      {/each}
-                    </div>
-                    <div
-                      class="time-column h-fit cell-width absolute top-0 left-0"
-                    >
-                      {#each schedule_times as time}
-                        <div
-                          style="font-size: 10px;"
-                          class="cell-height pt-1 box-border w-full text-center leading-none m-0 p-0"
-                        >
-                          {time}
-                        </div>
-                      {/each}
-                    </div>
-
-                    {#await asyncSchedules}
-                      <h1 class="text-center w-full absolute top-32">
-                        Loading schedules...
-                      </h1>
-                    {:then}
-                      {#if roomSchedules}
-                        {#each roomSchedules as item}
-                          {@const day_of_week = item.day_of_week.toLowerCase()}
-                          {@const start_time = item.start_time
-                            .toLowerCase()
-                            .replace(" ", "")
-                            .replace(":", "-")}
-                          {@const end_time = item.end_time
-                            .toLowerCase()
-                            .replace(" ", "")
-                            .replace(":", "-")}
-                          <div
-                            style="margin-top: 20px;"
-                            class="text-xs absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{item.color}-500"
-                          >
-                            <p>{item.subject.code}</p>
-                            <p>{getInitials(item.teacher.first_name)} {item.teacher.last_name}</p>
-                            <p>({item.section})</p>
-                          </div>
-                        {:else}
-                          <h1 class="text-center">No schedules found.</h1>
-                        {/each}
-                      {/if}
-                    {/await}
-                  </div>
                   <div class="w-full flex flex-col text-xs">
-                    <section class="text-center bg-yellow-300 font-bold" style="border: 1px solid #000;">
-                      SUMMARY
-                    </section>
-                    <table class="w-full" style="border: 1px solid #000; border-top: none; line-height: 90%;">
+                    <table class="table-fixed border border-black">
+                      <tr>
+                      {#each headers as header}
+                        <th class="text-center capitalize border border-black" style="width:14.2857%;">{ header.toLowerCase() }</th>
+                      {/each}
+                      </tr>
+                      {#each schedule_times as time, h}
+                        {#if h>0}
+                          <tr>
+                            {#each headers as header, i}
+                              {#if i==0}
+                                <th class="overflow-hidden text-center border border-black" style="font-size: 10px; width:14.2857%;">{ time }</th>
+                              {:else}
+                                <td class="overflow-hidden border border-black" data-day="{header}" data-time="{time}" data-schedule="{header}|{time}" style="width:14.2857%;"></td>
+                              {/if}
+                            {/each}  
+                          </tr>
+                        {/if}
+                      {/each}
                         <tr>
-                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;" colspan="2">DAY & TIME</td>
-                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">COURSE/YR/SEC</td>
-                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">FACULTY</td>
-                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">COURSE CODE</td>
-                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;" colspan="2">COURSE DESCRIPTION</td>
+                          <th colspan="7" class="text-center font-bold border border-black" style="background-color: yellow;">SUMMARY</th>
                         </tr>
                         <tr>
-                          <td class="cell-width"></td>
-                          <td class="cell-width"></td>
-                          <td class="cell-width"></td>
-                          <td class="cell-width"></td>
-                          <td class="cell-width"></td>
-                          <td class="cell-width"></td>
-                          <td class="cell-width"></td>
+                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;" colspan="2">DAY & TIME</td>
+                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">COURSE/<br>YR/SEC</td>
+                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">FACULTY</td>
+                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;">COURSE<br>CODE</td>
+                          <td class="px-2 font-bold text-center" style="border: 1px solid #000;" colspan="2">COURSE DESCRIPTION</td>
                         </tr>
                         {#each summarizedSchedules as schedule}
                           <tr>
-                            <td class="align-top px-2 text-center capitalize" colspan="2">
+                            <td class="align-top px-2 capitalize" colspan="2">
                               {schedule.sched_day}
                               {schedule.sched_time}
                             </td>
-                            <td class="align-top px-2 text-center">{schedule.section}</td>
-                            <td class="align-top px-2 text-center">{getInitials(schedule.teacher.first_name)} {schedule.teacher.last_name}</td>
-                            <td class="align-top px-2 text-center">{schedule.subject.code}</td>
-                            <td class="align-top px-2 text-center capitalize" colspan="2">{schedule.subject.title.toLowerCase()}</td>
+                            <td class="align-top px-2">{schedule.section}</td>
+                            <td class="align-top px-2">{getInitials(schedule.teacher.first_name)} {schedule.teacher.last_name}</td>
+                            <td class="align-top px-2">{schedule.subject.code}</td>
+                            <td class="align-top px-2 capitalize" colspan="2">{schedule.subject.title.toLowerCase()}</td>
                           </tr>
                         {/each}
                     </table>
