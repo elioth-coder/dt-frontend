@@ -10,6 +10,7 @@
   import SignatoryService from "../../services/SignatoryService";
   import schedule_times from "../../lib/schedule_times";
   import { uniqBy } from "lodash-es";
+  import LoadingScreen from "../LoadingScreen.svelte";
   export let params = {};
 
   const assets_url = CONFIG.ASSETS_URL;
@@ -59,8 +60,12 @@
   let faculty;
   let signatory;
   let totalHoursPerWeek = 0;
+  let processing = false;
+
   onMount(async () => {
     if (teacher_id && semester_id) {
+      processing = true;
+
       asyncSchedules = getSchedules(teacher_id, semester_id);
       ownSchedules = await asyncSchedules;
       semester = await semesterService.get(semester_id);
@@ -76,6 +81,8 @@
       totalHoursPerWeek = uniqueSchedules.reduce((prev, current) => {
         return (prev += Number.parseInt(current.subject.hours_week));
       }, 0);
+
+      processing = false;
     }
   });
 
@@ -253,6 +260,10 @@
     <img src={`${assets_url}/img/footer-vpaa.png`} alt="Footer" />
   </div>
 </div>
+
+{#if processing}
+  <LoadingScreen />
+{/if}
 
 <style>
   @import "./scheduler.v1.9.css";

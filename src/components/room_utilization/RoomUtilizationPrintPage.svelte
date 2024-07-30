@@ -8,7 +8,8 @@
   import SignatoryService from "../../services/SignatoryService";
   import schedule_times from "../../lib/schedule_times";
   import Signatories from "../teacher_schedule/Signatories.svelte";
-  import { uniq, uniqBy } from "lodash-es";
+  import LoadingScreen from "../LoadingScreen.svelte";
+  import { sortBy, uniq, uniqBy } from "lodash-es";
   import { addMinutes, differenceInMinutes, format } from "date-fns";
   export let params = {};
 
@@ -56,43 +57,68 @@
     return schedulesWithSubject;
   };
 
+  let conflictingSchedules = [];
   const renderSchedules = async (schedules) => {
-    schedules.forEach(sched => {
-      let end_time   = [format(new Date(), 'yyyy-MM-dd'), sched.end_time].join(' ');
-      let start_time = [format(new Date(), 'yyyy-MM-dd'), sched.start_time].join(' ');
-      let start_time_p_30 = format(addMinutes(start_time, 30), 'yyyy-MM-dd hh:mm a');
-      let start_time_range = [
-        start_time.split(' ').slice(1).join(''),
-        start_time_p_30.split(' ').slice(1).join(''),
-      ].join('-');
-      let query = `[data-schedule="${sched.day_of_week}|${start_time_range}"]`;
-      let td = document.querySelector(`${query}`);
-      let tr = td.parentElement;
-      let difference = differenceInMinutes(new Date(end_time), new Date(start_time)) / 30;
-
-      td.setAttribute('rowspan', difference + '');
-      td.innerHTML = `
-        <p class="font-bold text-center">${sched.subject.code}</p>
-        <p class="font-bold text-center my-2 keep-all capitalize">${sched.subject.title.toLowerCase()}</p>
-        <p class="text-center">${sched.section}</p>
-        <p class="text-center">${getInitials(sched.teacher.first_name)} ${sched.teacher.last_name}</p>
-      `;
-
-      let currentTr = tr;
-      for(let i=1; i<difference; i++) {
-        // @ts-ignore
-        currentTr = currentTr.nextElementSibling;
-        let node = currentTr.querySelector(`[data-day="${sched.day_of_week}"]`);
-        // @ts-ignore
-        // console.log(node.dataset.day);
-        node.remove();
-        // console.log({node});
+    let sortedSchedules = sortBy([...schedules], sched => {
+      let days = {
+        'MONDAY': 1,
+        'TUESDAY': 2,
+        'WEDNESDAY': 3,
+        'THURSDAY': 4,
+        'FRIDAY': 5,
+        'SATURDAY': 6,
       }
-      console.log({
-        tr,
-        schedule: `${sched.start_time.split(' ').join('')}-${sched.end_time.split(' ').join('')}`, 
-        difference
-      });
+
+      return days[sched.day_of_week] + sched.start_time;
+    });
+
+    console.log({sortedSchedules});
+    
+    sortedSchedules.forEach((sched, index) => {
+      try {
+        let end_time   = [format(new Date(), 'yyyy-MM-dd'), sched.end_time.replace('NN','PM')].join(' ');
+        let start_time = [format(new Date(), 'yyyy-MM-dd'), sched.start_time.replace('NN','PM')].join(' ');
+        let start_time_p_30 = format(addMinutes(start_time, 30), 'yyyy-MM-dd hh:mm a');
+        let start_time_range = [
+          start_time.split(' ').slice(1).join(''),
+          start_time_p_30.split(' ').slice(1).join(''),
+        ].join('-');
+        let query = `[data-schedule="${sched.day_of_week}|${start_time_range}"]`;
+        let td = document.querySelector(`${query}`);
+        let tr = td.parentElement;
+        let difference = differenceInMinutes(new Date(end_time), new Date(start_time)) / 30;
+
+        td.setAttribute('rowspan', difference + '');
+        td.innerHTML = `
+          <p class="font-bold text-center">${sched.subject.code}</p>
+          <p class="font-bold text-center my-2 keep-all capitalize">${sched.subject.title.toLowerCase()}</p>
+          <p class="text-center">${sched.section}</p>
+          <p class="text-center">${getInitials(sched.teacher.first_name)} ${sched.teacher.last_name}</p>
+        `;
+
+        let currentTr = tr;
+
+        for(let i=1; i<difference; i++) {
+          // @ts-ignore
+          currentTr = currentTr.nextElementSibling;
+          let node = currentTr.querySelector(`[data-day="${sched.day_of_week}"]`);
+          node.remove();
+        }
+
+        console.log({
+          schedule: `${sched.start_time.split(' ').join('')}-${sched.end_time.split(' ').join('')}`, 
+          difference,
+          sched,
+        });
+      } catch(e) {
+        conflictingSchedules = [
+          ...conflictingSchedules, 
+          sortedSchedules[index-1],
+          sched, 
+        ];
+
+        throw e;
+      }
     });
   }
 
@@ -110,9 +136,12 @@
 
   let semester;
   let signatory;
+  let processing = false;
   let summarizedSchedules = [];
   onMount(async () => {
     if (room && semester_id) {
+      processing = true;
+
       asyncSchedules = getSchedules(room, semester_id);
       roomSchedules = await asyncSchedules;
       semester = await semesterService.get(semester_id);
@@ -147,6 +176,8 @@
           sched_time,
         }
       });
+
+      processing = false;
     }
   });
 
@@ -197,6 +228,24 @@
                     {/if}
                   </h2>
                 </section>
+                {#if conflictingSchedules.length}
+                  <h1 class="text-lg my-0 text-red-700">POSSIBLE CONFLICTING SCHEDULES</h1>
+                  <table class="mb-5 w-full border border-red-600 rounded bg-red-400 p-5">
+                  {#each conflictingSchedules as conflict}
+                    {#if conflict}
+                      <tr>
+                        <td>{conflict.day_of_week}</td>
+                        <td>{conflict.start_time} - {conflict.end_time}</td>
+                        <td class="align-top px-2">{conflict.section}</td>
+                        <td class="align-top px-2">{getInitials(conflict.teacher.first_name)} {conflict.teacher.last_name}</td>
+                        <td class="align-top px-2">{conflict.subject.code}</td>
+                        <td class="align-top px-2 capitalize">{conflict.subject.title.toLowerCase()}</td>
+                      </tr>
+                    {/if}
+                  {/each}
+                  </table>
+                {/if}
+
                 {#if room}
                   <table class="w-full text-xs">
                     <tr>
@@ -278,6 +327,10 @@
     <img src={`${assets_url}/img/footer-vpaa.png`} alt="Footer" />
   </div>
 </div>
+
+{#if processing}
+  <LoadingScreen />
+{/if}
 
 <style>
   @import "../teacher_schedule/scheduler.v1.9.css";

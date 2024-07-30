@@ -9,6 +9,7 @@
   import schedule_times from "../../lib/schedule_times";
   import { uniqBy } from "lodash-es";
   import SubjectsTable from "../subject/SubjectsTable.svelte";
+  import LoadingScreen from "../LoadingScreen.svelte";
   export let params = {};
 
   const { ASSETS_URL } = CONFIG;
@@ -71,8 +72,12 @@
   let signatory;
   let totalHoursPerWeek = 0;
   let summarizedSchedules = [];
+  let processing = false;
+
   onMount(async () => {
     if (section && semester_id) {
+      processing = true;
+
       let [program] = section.split(' - '); 
       let colleges = {
         'BSIT': 'CICT',
@@ -96,11 +101,13 @@
         return (prev += Number.parseInt(current.subject.hours_week));
       }, 0);
 
-      let nstp = summarizedSchedules.filter(schedule => (['NSTP 11','NSTP 12'].includes(schedule.subject.code)))[0];
+      let nstp = summarizedSchedules.filter(schedule => (['NSTP 1','NSTP 11','NSTP 2','NSTP 12'].includes(schedule.subject.code)))[0];
 
       if(nstp) {
         totalHoursPerWeek -= Number.parseInt(nstp.subject.hours_week);
       }
+
+      processing = false;
     }
   });
 
@@ -294,6 +301,10 @@
     <img src={`${ASSETS_URL}/img/footer-vpaa.png`} alt="Footer" />
   </div>
 </div>
+
+{#if processing}
+  <LoadingScreen />
+{/if}
 
 <style>
   @import "../teacher_schedule/scheduler.v1.9.css";
