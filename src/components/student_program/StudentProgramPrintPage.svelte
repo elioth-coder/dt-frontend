@@ -10,6 +10,7 @@
   import { uniqBy } from "lodash-es";
   import SubjectsTable from "../subject/SubjectsTable.svelte";
   import LoadingScreen from "../LoadingScreen.svelte";
+  import ProgramCourseService from "../../services/ProgramCourseService";
   export let params = {};
 
   const { ASSETS_URL } = CONFIG;
@@ -20,6 +21,7 @@
   let facultyService = new FacultyService();
   let teacherService = new SemesterTeacherService();
   let signatoryService = new SignatoryService();
+  let programCourseService = new ProgramCourseService();
 
   let asyncSchedules;
   let sectionSchedules = [];
@@ -79,11 +81,13 @@
       processing = true;
 
       let [program] = section.split(' - '); 
-      let colleges = {
-        'BSIT': 'CICT',
-        'BSBA': 'CMBT',
-        'BEED': 'COED',
-        'BSED': 'COED',
+      let colleges = {};
+      let programs = await programCourseService.getAll();
+      
+      for(let i=0; i<programs.length; i++) {
+        let {code, program} = programs[i];
+
+        colleges[code] = program;
       }
 
       asyncSchedules = getSchedules(section, semester_id);

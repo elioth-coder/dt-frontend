@@ -26,6 +26,7 @@
     return (
       item.code.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
       item.degree.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
+      item.program.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 ||
       item.major.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
     );
   });
@@ -50,19 +51,20 @@
     <TableHeadCell>Code</TableHeadCell>
     <TableHeadCell>Degree</TableHeadCell>
     <TableHeadCell>Major</TableHeadCell>
+    <TableHeadCell>Program</TableHeadCell>
     <TableHeadCell class="text-center">Action</TableHeadCell>
   </TableHead>
   <TableBody>
     {#await asyncItems}
       <TableBodyRow>
-        <TableBodyCell colspan={4} class="text-center">
+        <TableBodyCell colspan={5} class="text-center">
           <Spinner size={4} class="me-1" />
           Fetching items...
         </TableBodyCell>
       </TableBodyRow>
     {:catch error}
       <TableBodyRow>
-        <TableBodyCell colspan={4} class="text-center text-red-600">
+        <TableBodyCell colspan={5} class="text-center text-red-600">
           {error.message}
         </TableBodyCell>
       </TableBodyRow>
@@ -73,6 +75,7 @@
           <TableBodyCell>{item.code}</TableBodyCell>
           <TableBodyCell>{item.degree}</TableBodyCell>
           <TableBodyCell>{item.major}</TableBodyCell>
+          <TableBodyCell>{item.program}</TableBodyCell>
           <TableBodyCell class="text-center">
             <Button
               on:click={() => dispatch("edit", item)}
@@ -92,7 +95,7 @@
         </TableBodyRow>
       {:else}
         <TableBodyRow>
-          <TableBodyCell colspan={4} class="text-center">
+          <TableBodyCell colspan={5} class="text-center">
             No items found.
           </TableBodyCell>
         </TableBodyRow>

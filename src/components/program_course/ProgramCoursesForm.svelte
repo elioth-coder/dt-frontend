@@ -116,6 +116,17 @@
         required
       />
     </Label>
+    <Label class="space-y-2">
+      <span>Program</span>
+      <Input
+        disabled={processing}
+        type="text"
+        name="program"
+        value={item?.program ?? ''}
+        placeholder="Enter program"
+        required
+      />
+    </Label>
     <div>
       <Button
         disabled={processing}
