@@ -107,17 +107,27 @@
       </div>
       <div class="w-full ms-1">
         <Label class="space-y-2">
-          <span>Document</span>
+          <span>Program</span>
           <Input
             disabled={processing}
-            name="document"
-            value={item?.document ?? ""}
-            placeholder="Enter document"
+            name="program"
+            value={item?.program ?? ""}
+            placeholder="Enter program"
             required
           />
         </Label>
       </div>
     </section>
+    <Label class="space-y-2 mb-2">
+      <span>Document</span>
+      <Input
+        disabled={processing}
+        name="document"
+        value={item?.document ?? ""}
+        placeholder="Enter document"
+        required
+      />
+    </Label>
     <Label class="space-y-2 mb-2">
       <span>Content</span>
       <Textarea

@@ -360,7 +360,6 @@
       display: block;
     }
 
-
     #header {
       top: 0;
     }

@@ -95,6 +95,7 @@
       semester = await semesterService.get(semester_id);
       let formData = new FormData();
       formData.set('college', colleges[program]);
+      formData.set('program', program);
       formData.set('document', 'STUDENT PROGRAM');
       let signatories = await signatoryService.getByForm(formData);
       signatory = signatories[0];
