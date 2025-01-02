@@ -114,7 +114,7 @@
           let [program, year_level] = _section.split(' - ');
           year_level = parseInt(year_level);
 
-          return (subject.year_level==year_level && subject.program==program && subject.semester==semester.semester);
+          return (subject.year_level==year_level && subject.program==program && subject.semester==semester.semester) || subject.program=='--';
         }).map((subject) => ({
           value: subject.id,
           name: `${subject.code} - ${subject.title}`,

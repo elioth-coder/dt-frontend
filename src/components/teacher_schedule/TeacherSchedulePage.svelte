@@ -113,6 +113,8 @@
         }
       }
     }
+
+    blocks.unshift('--');
     let options = blocks.map((block) => ({ name: block, value: block }));
 
     return options;
@@ -405,11 +407,15 @@
                 <div 
                   id={trigger_id}
                   style="margin-top: 25px;"
-                  class="cursor-pointer absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{item.color}-500"
+                  class="text-center cursor-pointer absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{item.color}-500"
                 >
-                  <p>{item.subject.code}</p>
-                  <p>{item.section.split(' - ').join(' ')}</p>
-                  <p>({item.room})</p>
+                  {#if item.subject.program != '--'}
+                    <p>{item.subject.code}</p>
+                    <p>{item.section.split(' - ').join(' ')}</p>
+                    <p>({item.room})</p>
+                  {:else}
+                    <p>{item.subject.title}</p>
+                  {/if}
                 </div>
                 <Popover
                   trigger="click"

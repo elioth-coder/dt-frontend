@@ -60,6 +60,7 @@
   let faculty;
   let signatory;
   let totalHoursPerWeek = 0;
+  let totalConsultation = 0;
   let processing = false;
 
   onMount(async () => {
@@ -79,6 +80,10 @@
 
       let uniqueSchedules = uniqBy(ownSchedules, schedule => `${schedule.subject_id}-${schedule.section}`);
       totalHoursPerWeek = uniqueSchedules.reduce((prev, current) => {
+        return (prev += Number.parseInt(current.subject.hours_week));
+      }, 0);
+      let consultationSchedules = ownSchedules.filter(item => item.subject.code=='CONSULTATION');
+      totalConsultation = consultationSchedules.reduce((prev, current) => {
         return (prev += Number.parseInt(current.subject.hours_week));
       }, 0);
 
@@ -185,11 +190,15 @@
                             .replace(":", "-")}
                           <div
                             style="margin-top: 20px;"
-                            class="text-xs absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{item.color}-500"
+                            class="text-center text-xs absolute cell flex flex-col items-center justify-center {day_of_week} start-{start_time}_end-{end_time} bg-{item.color}-500"
                           >
-                            <p>{item.subject.code}</p>
-                            <p>{item.section.split(" - ").join(" ")}</p>
-                            <p>({item.room})</p>
+                            {#if item.subject.program != '--'}
+                              <p>{item.subject.code}</p>
+                              <p>{item.section.split(' - ').join(' ')}</p>
+                              <p>({item.room})</p>
+                            {:else}
+                              <p>{item.subject.title}</p>
+                            {/if}
                           </div>
                         {:else}
                           <h1 class="text-center">No schedules found.</h1>
@@ -205,7 +214,11 @@
                       <h3 class="text-center leading-none font-bold">
                         Others Assignment/s
                       </h3>
-                      <h3 class="leading-none font-bold">Designation:</h3>
+                      <h3 class="leading-none font-bold">Designation: 
+                        {#if teacher}
+                          <span class="font-normal">{teacher.designation}</span>
+                        {/if}
+                      </h3>
                       <h3 class="leading-none font-bold">
                         Overtime Services: <span class="font-normal"
                           >(Please Specify the Colleges, Subjects)</span
@@ -220,10 +233,10 @@
                         Summary<br />Number of Units/Hrs.
                       </h3>
                       <table class="w-full leading-none">
-                        <tr><td class="w-1/2">Course Code</td><td></td></tr>
+                        <tr><td class="w-1/2">Course Code</td><td>{totalHoursPerWeek - totalConsultation}</td></tr>
                         <tr><td class="w-1/2">Research</td><td></td></tr>
                         <tr><td class="w-1/2">Extension</td><td></td></tr>
-                        <tr><td class="w-1/2">Consultation</td><td></td></tr>
+                        <tr><td class="w-1/2">Consultation</td><td>{totalConsultation}</td></tr>
                         <tr><td class="w-1/2">PTM</td><td></td></tr>
                         <tr
                           ><td class="w-1/2">Total</td><td class="font-bold"
