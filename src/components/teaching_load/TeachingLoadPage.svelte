@@ -132,7 +132,8 @@
 
 <div class="printable-area">
   <div id="header">
-    <img src={`${assets_url}/img/header-landscape-neust-papaya.png`} alt="Header" />
+    <!-- <img src={`${assets_url}/img/header-landscape-neust-papaya.png`} alt="Header" /> -->
+    <img src={`${assets_url}/img/landscape_header.png`} alt="Header" />
   </div>
 
   <div id="content">
@@ -238,7 +239,8 @@
     </table>
   </div>
   <div id="footer">
-    <img src={`${assets_url}/img/footer-landscape-neust-papaya.png`} alt="Footer" />
+    <!-- <img src={`${assets_url}/img/footer-landscape-neust-papaya.png`} alt="Footer" /> -->
+    <img src={`${assets_url}/img/landscape_footer.png`} alt="Footer" />
   </div>
 </div>
 

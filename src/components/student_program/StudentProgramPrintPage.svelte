@@ -135,7 +135,8 @@
 
 <div class="printable-area">
   <div id="header">
-    <img src={`${ASSETS_URL}/img/header-vpaa.png`} alt="Header" />
+    <!-- <img src={`${ASSETS_URL}/img/header-vpaa.png`} alt="Header" /> -->
+    <img src={`${ASSETS_URL}/img/portrait_header.png`} alt="Header" />
   </div>
 
   <div id="content">
@@ -303,7 +304,8 @@
     Rev. 01 (01.10.2019)
   </span>
   <div id="footer">
-    <img src={`${ASSETS_URL}/img/footer-vpaa.png`} alt="Footer" />
+    <!-- <img src={`${ASSETS_URL}/img/footer-vpaa.png`} alt="Footer" /> -->
+    <img src={`${ASSETS_URL}/img/portrait_footer.png`} alt="Footer" />
   </div>
 </div>
 
