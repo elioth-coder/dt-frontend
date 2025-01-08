@@ -217,7 +217,7 @@
                       </h3>
                       <h3 class="leading-none font-bold">Designation: 
                         {#if teacher}
-                          <span class="font-normal">{teacher.designation}</span>
+                          <span class="font-normal">{teacher.designation ?? ''}</span>
                         {/if}
                       </h3>
                       <h3 class="leading-none font-bold">
@@ -268,7 +268,7 @@
   </div>
   <span id="document_version">
     NEUST-AAF-F002<br>
-    Rev. 01 (06.17.2019)
+    Rev. 02 (10.29.2024)
   </span>
   <div id="footer">
     <!-- <img src={`${assets_url}/img/footer-vpaa.png`} alt="Footer" /> -->
@@ -304,7 +304,7 @@
       font-size: 10px;
       position:fixed;
       left: 0.5in;
-      bottom: 0.75in;
+      bottom: 0.90in;
       display: block;
     }
 

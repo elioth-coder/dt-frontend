@@ -322,7 +322,7 @@
   </div>
   <span id="document_version">
     NEUST-AAF-F012<br>
-    Rev. 01 (01.10.2019)
+    Rev. 01 (10.29.2024)
   </span>
   <div id="footer">
     <!-- <img src={`${assets_url}/img/footer-vpaa.png`} alt="Footer" /> -->
@@ -358,7 +358,7 @@
       font-size: 10px;
       position:fixed;
       left: 0.5in;
-      bottom: 0.75in;
+      bottom: 0.90in;
       display: block;
     }
 
